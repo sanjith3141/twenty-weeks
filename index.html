@@ -236,7 +236,7 @@ input,select{font:inherit}
 
 nav{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
 .navin{max-width:640px;margin:0 auto;display:flex;padding:6px;border-radius:26px;position:relative}
-.navpill{position:absolute;top:6px;bottom:6px;left:6px;width:0;border-radius:20px;
+.navpill{position:absolute;top:6px;bottom:6px;left:0;width:0;border-radius:20px;
   background:var(--glassStrong);border:1px solid var(--glassEdge);
   box-shadow:0 1px 1px rgba(255,255,255,.5) inset, 0 6px 14px -4px rgba(20,20,25,.18);
   transition:transform .38s cubic-bezier(.22,.85,.3,1), width .38s cubic-bezier(.22,.85,.3,1);
@@ -311,6 +311,25 @@ nav button.on svg{transform:scale(1.08)}
 .res b{color:var(--ink);font-weight:700}
 .warn{color:var(--ember)}
 .fieldlbl{font-size:11.5px;font-weight:600;color:var(--ash);margin:16px 0 7px}
+.wk.future{pointer-events:none}
+.upday{padding:15px 16px;margin-bottom:9px}
+.upday .l{display:flex;align-items:baseline;gap:8px}
+.upday .d{font-size:11.5px;color:var(--ash);font-weight:600}
+.upday .n{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.upday .ulist{font-size:12px;color:var(--ash);line-height:1.55;margin-top:6px}
+.datelbl{cursor:pointer}
+.calnav{display:flex;align-items:center;justify-content:space-between;margin-top:22px}
+.calnav button{width:36px;height:36px;border-radius:50%;background:var(--mist1);color:var(--ash);font-size:18px}
+.calmonth{font-size:15px;font-weight:700}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:14px;text-align:center}
+.calgrid span{font-size:11px;color:var(--ash);font-weight:600;padding-bottom:4px}
+.calday{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:14px;font-weight:600;color:var(--ink);position:relative}
+.calday.blank{visibility:hidden}
+.calday.future{color:var(--dim);pointer-events:none}
+.calday.today{border:1.5px solid var(--ember)}
+.calday.sel{background:var(--pillOnBg);color:var(--pillOnText)}
+.calday .pip{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--ember)}
+.calday.sel .pip{background:var(--pillOnText)}
 
 @media (prefers-reduced-motion:no-preference){
   .screen.on > .wrap > *{animation:rise .45s cubic-bezier(.2,.7,.25,1) backwards}
@@ -355,19 +374,23 @@ nav button.on svg{transform:scale(1.08)}
 </div></section>
 
 <section class="screen" id="s-week"><div class="wrap">
-  <div class="top"><span style="font-size:22px;font-weight:800;letter-spacing:-.02em">This week</span><span class="phasepill">93 sets</span></div>
-  <p class="body" style="margin-bottom:18px">Tap any day to open its full workout — no need to wait for it to arrive.</p>
+  <div class="top"><span style="font-size:22px;font-weight:800;letter-spacing:-.02em">Recent &amp; up next</span><span class="phasepill">93 sets/week</span></div>
+  <p class="body" style="margin-bottom:18px">The rotation only locks in once a day actually arrives — so future days below aren't dated, just the order they'll come in.</p>
   <div class="wklist" id="w-list"></div>
+
+  <div class="sechead">Up next</div>
+  <p class="body" style="margin-bottom:12px;color:var(--dim);font-size:12.5px">Assumes each day before it gets finished on schedule — a preview, not a promise.</p>
+  <div id="w-upnext"></div>
 
   <div class="sechead">Why this split</div>
   <div class="glass" style="padding:17px 18px">
-    <p class="body" style="margin-bottom:11px">Five days: push, pull, legs, upper, lower+arms. 93 sets a week — past ~18 hard sets a session, extra volume mostly borrows from the next one instead of adding anything.</p>
+    <p class="body" style="margin-bottom:11px">Push, Pull, Legs, Rest, Upper, Lower — repeating. 93 sets a week — past ~18 hard sets a session, extra volume mostly borrows from the next one instead of adding anything.</p>
     <p class="body" style="margin-bottom:11px">Side delts get 10 sets across three days — the cheapest width for a V-taper, and your most under-trained muscle before.</p>
-    <p class="body">Pull-ups open Tuesday and Friday, first, fresh — not buried mid-session.</p>
+    <p class="body">Pull-ups open the Pull day and the Upper day, first, fresh — not buried mid-session.</p>
   </div>
   <div class="call">
     <div class="h">Deload weeks</div>
-    <p>Every sixth week, set counts are automatically halved — same weights, less volume. The app handles this on its own; you'll just notice fewer sets on the day.</p>
+    <p>Every sixth calendar week, set counts are automatically halved — same weights, less volume. This still follows the calendar, since it's tied to your January date, unlike the daily rotation above.</p>
   </div>
   <div class="foot"></div>
 </div></section>
@@ -571,6 +594,23 @@ nav button.on svg{transform:scale(1.08)}
   </div>
 </div>
 
+<div class="sheet" id="sh-cal">
+  <div class="shead"><button id="cal-back">Close</button><span></span></div>
+  <div class="sbody">
+    <h2 class="stitle">Jump to a date</h2>
+    <p class="snote" style="margin-top:8px">Only today and earlier — anything after today hasn't been decided yet.</p>
+    <div class="calnav">
+      <button id="cal-prev">‹</button>
+      <div class="calmonth" id="cal-month">—</div>
+      <button id="cal-next">›</button>
+    </div>
+    <div class="calgrid" id="cal-dow">
+      <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+    </div>
+    <div class="calgrid" id="cal-days"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast">Saved</div>
 
 <div class="resttimer glassStrong" id="rt">
@@ -594,8 +634,9 @@ nav button.on svg{transform:scale(1.08)}
 const START=new Date(2026,8,14);
 function yt(q){ return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' form technique shorts'); }
 
-const SESSIONS={
- 1:{t:'Push',f:'Chest · Shoulders · Triceps · Abs',
+const SEQUENCE=['push','pull','legs','rest','upper','lower']; // repeating rotation — advances only once a session is done
+const SESSIONS_BY_TYPE={
+ push:{t:'Push',f:'Chest · Shoulders · Triceps · Abs',
     primer:{h:'Pull-up primer — 3 min',b:'Scapular pulls 2×8 · Dead hang 2×max hold. Skill work, not fatigue — you have pressing to do.'},
     ex:[
      {n:'Incline Barbell Press',s:3,lo:6,hi:8,rest:150,note:'Bar to the upper chest, pause a beat at the bottom.'},
@@ -606,7 +647,7 @@ const SESSIONS={
      {n:'Overhead Cable Triceps Extension',s:3,lo:10,hi:15,rest:75,note:'Full reach behind the head — the only position that stretches the long head.'},
      {n:'Cable Crunch',s:3,lo:10,hi:15,rest:60,note:'Weighted. Round the spine, don\'t fold at the hips.'},
      {n:'Hanging Knee Raise',s:3,lo:8,hi:15,rest:60,note:'Curl the pelvis up. No swinging.'}]},
- 2:{t:'Pull',f:'Back · Lats · Rear delts · Biceps',
+ pull:{t:'Pull',f:'Back · Lats · Rear delts · Biceps',
     ex:[
      {n:'Pull-up work',s:4,pu:'tue',key:true,rest:120,note:'Open with this, fresh. Protocol changes by block — check the Pull-ups tab.'},
      {n:'Lat Pulldown',s:3,lo:5,hi:8,rest:120,note:'Your pull-up proxy. Target: bodyweight for 6 by December.'},
@@ -616,7 +657,7 @@ const SESSIONS={
      {n:'EZ-Bar Curl',s:3,lo:8,hi:12,rest:75,note:'Elbows pinned to the ribs. Log the total including the bar.'},
      {n:'Incline Dumbbell Curl',s:2,lo:10,hi:15,rest:60,note:'Bench 45–60°. Biggest biceps stretch available.'},
      {n:'Hammer Curl',s:2,lo:10,hi:15,rest:60,note:'Neutral grip — brachialis and forearm.'}]},
- 3:{t:'Legs',f:'Quads · Hamstrings · Glutes · Calves · Abs',
+ legs:{t:'Legs',f:'Quads · Hamstrings · Glutes · Calves · Abs',
     ex:[
      {n:'Barbell Squat',s:3,lo:5,hi:8,rest:150,note:'Below parallel. Controlled down, intent up.'},
      {n:'Romanian Deadlift',s:3,lo:8,hi:10,rest:120,note:'Hinge, don\'t squat. Bar close to the legs.'},
@@ -626,9 +667,9 @@ const SESSIONS={
      {n:'Standing Calf Raise',s:3,lo:8,hi:12,rest:60,note:'Two-second pause in the bottom stretch. That pause is the exercise.'},
      {n:'Ab Wheel Rollout',s:3,lo:8,hi:12,rest:60,note:'From the knees. Ribs down, glutes tight.'},
      {n:'Reverse Crunch',s:3,lo:10,hi:15,rest:60,note:'Lift the hips, don\'t just swing the knees.'}]},
- 5:{t:'Upper',f:'Chest · Back · Shoulders · Abs',
+ upper:{t:'Upper',f:'Chest · Back · Shoulders · Abs',
     ex:[
-     {n:'Pull-up work',s:4,pu:'fri',key:true,rest:120,note:'Second pull-up session — different protocol from Tuesday. Fresh, first.'},
+     {n:'Pull-up work',s:4,pu:'fri',key:true,rest:120,note:'Second weekly pull-up session — different protocol from the Pull day. Fresh, first.'},
      {n:'Incline Dumbbell Press',s:3,lo:8,hi:12,rest:120,note:'Upper chest — go heavier than feels comfortable for ten.'},
      {n:'Seated Cable Row',s:3,lo:8,hi:12,rest:100,note:'Neutral grip, torso still. Row to the navel.'},
      {n:'Dips',s:2,lo:8,hi:12,rest:100,note:'Assisted if needed. Stay upright to bias triceps.'},
@@ -636,18 +677,22 @@ const SESSIONS={
      {n:'Reverse Pec Deck',s:2,lo:12,hi:20,rest:60,note:'Rear delts, controlled squeeze.'},
      {n:'Ab Wheel Rollout',s:2,lo:8,hi:12,rest:60,note:'Also loads serratus — frames the V.'},
      {n:'Cable Crunch',s:3,lo:10,hi:15,rest:60,note:'Weighted, 10–15 reps.'}]},
- 6:{t:'Lower + Arms',f:'Quads · Hamstrings · Calves · Biceps · Triceps',
+ lower:{t:'Lower + Arms',f:'Quads · Hamstrings · Calves · Biceps · Triceps',
     ex:[
-     {n:'Hack Squat',s:3,lo:8,hi:12,rest:120,note:'Quad-dominant, less spinal load than Wednesday\'s squat.'},
+     {n:'Hack Squat',s:3,lo:8,hi:12,rest:120,note:'Quad-dominant, less spinal load than the Legs day squat.'},
      {n:'Seated Leg Curl',s:3,lo:10,hi:15,rest:75,note:'Second hamstring session. 3-second lowering.'},
      {n:'Walking Lunge',s:2,lo:10,hi:12,each:true,rest:75,note:'Long stride, loads the glutes.'},
      {n:'Seated Calf Raise',s:3,lo:12,hi:20,rest:60,note:'Bent knee — targets the soleus.'},
      {n:'Cable Lateral Raise',s:3,lo:12,hi:20,rest:60,note:'Third side-delt session — 10 sets/week total.'},
-     {n:'EZ-Bar Curl',s:3,lo:8,hi:12,rest:75,note:'Main biceps volume lives here and Tuesday.'},
+     {n:'EZ-Bar Curl',s:3,lo:8,hi:12,rest:75,note:'Main biceps volume lives here and the Pull day.'},
      {n:'Overhead Rope Triceps Extension',s:3,lo:10,hi:15,rest:75,note:'Full stretch overhead, fresh tissue.'},
      {n:'Triceps Pushdown',s:2,lo:10,hi:15,rest:60,note:'Elbows pinned — short head finisher.'}]}
 };
-const REST={0:'Full rest. Nothing today.',4:'Rest. Growth happens in the gap.'};
+const REST_MSG={
+ 'rest-sun':'Full rest. Sunday is always off, no matter where you are in the rotation.',
+ 'rest':'Rest. Growth happens in the gap — this one\'s part of the normal rotation.',
+ 'skipped':'Marked as skipped. The next workout picks up whenever you\'re back.'
+};
 
 const BLOCKS=[
  {w:'Sep–Oct',from:1,to:4,t:'Own the eccentric',target:2,
@@ -678,7 +723,7 @@ const FUEL={
   {k:'Steps',v:'8,000',u:'/day',n:'Only cardio requirement at first.'}]};
 
 const KEY='twentyweeks.v2';
-let state={logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false}};
+let state={logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{}};
 let storeMode='memory';
 function readRaw(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
 function writeRaw(s){try{localStorage.setItem(KEY,s);return true;}catch(e){return false;}}
@@ -727,25 +772,77 @@ const fmt=n=>{ n=Math.round(n*100)/100; return n.toString(); };
 function sameDay(a,b){ return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate(); }
 
 let viewDate=new Date(); viewDate.setHours(0,0,0,0);
+const REAL_TODAY_ISO=()=>{ const d=new Date(); d.setHours(0,0,0,0); return iso(d); };
+function addDaysIso(dstr,n){ const [y,m,dd]=dstr.split('-').map(Number); const d=new Date(y,m-1,dd); d.setDate(d.getDate()+n); return iso(d); }
+function isSundayIso(dstr){ const [y,m,dd]=dstr.split('-').map(Number); return new Date(y,m-1,dd).getDay()===0; }
+function typeAt(idx){ return SEQUENCE[((idx%6)+6)%6]; }
 
-function listFor(dow, dateKey){
-  const s=SESSIONS[dow]; if(!s) return [];
+function listForType(type,dateIso){
+  const s=SESSIONS_BY_TYPE[type]; if(!s) return [];
   const out=[];
   s.ex.forEach((e,i)=>{
-    const rk=dow+':'+i; if(state.removed[rk]) return;
-    const dsKey=dateKey+'|'+rk;
+    const rk=type+':'+i; if(state.removed[rk]) return;
+    const dsKey=dateIso+'|'+rk;
     const sw=state.swaps[dsKey];
     if(sw){ out.push(Object.assign({},e,sw,{swapped:true,ref:rk})); return; }
     const item=Object.assign({},e,{ref:rk});
     const sug=state.swapSuggest[rk];
-    if(sug && sug.lastDate!==dateKey && !state.suggestDismissed[dsKey]){
+    if(sug && sug.lastDate!==dateIso && !state.suggestDismissed[dsKey]){
       item.suggestion=sug.record; item.suggestDsKey=dsKey;
     }
     out.push(item);
   });
-  (state.extra[dow]||[]).forEach((e,i)=>out.push(Object.assign({},e,{custom:true,ref:'x'+dow+':'+i,idx:i})));
+  (state.extra[type]||[]).forEach((e,i)=>out.push(Object.assign({},e,{custom:true,ref:'x'+type+':'+i,idx:i})));
   return out;
 }
+function isTypeDayComplete(dateIso,type){
+  if(type==='rest'||type==='rest-sun'||type==='skipped') return true;
+  const items=listForType(type,dateIso); if(!items.length) return true;
+  const w=weekNum(new Date(dateIso+'T00:00:00'));
+  return items.every(e=>{ const lg=(state.logs[dateIso]||{})[slug(e.n)]; return lg && filledSets(lg).length>=setCount(e,w); });
+}
+// Walks forward, one real day at a time, from the last day we ever computed up
+// through `targetIso` (always real "today" in practice). Each day's workout
+// type gets assigned once and then never changes — only future days are ever
+// undetermined. The rotation only advances past a day once that day's session
+// was completed (or explicitly skipped); Sundays are a hard override that
+// never consumes a step either way.
+function ensureAssignedThrough(targetIso){
+  if(!state.lastSeenDate){
+    state.dayType[targetIso]=isSundayIso(targetIso)?'rest-sun':typeAt(state.seqIndex);
+    state.lastSeenDate=targetIso;
+    persist(); return;
+  }
+  if(state.lastSeenDate>=targetIso) return;
+  let cursor=addDaysIso(state.lastSeenDate,1);
+  while(cursor<=targetIso){
+    const lastIso=state.lastSeenDate, lastType=state.dayType[lastIso];
+    if(lastType!=='rest-sun'){
+      const completed = state.skippedManually[lastIso] || lastType==='rest' || isTypeDayComplete(lastIso,lastType);
+      if(completed) state.seqIndex=(state.seqIndex+1)%6;
+    }
+    state.dayType[cursor]=isSundayIso(cursor)?'rest-sun':typeAt(state.seqIndex);
+    state.lastSeenDate=cursor;
+    cursor=addDaysIso(cursor,1);
+  }
+  persist();
+}
+function skipToday(){
+  const t=REAL_TODAY_ISO(), cur=state.dayType[t];
+  if(!cur || cur==='rest'||cur==='rest-sun'||cur==='skipped') return;
+  state.preSkipType[t]=cur;
+  state.skippedManually[t]=true;
+  state.dayType[t]='skipped';
+  persist(); haptic(30); toast('Marked as skipped'); renderToday();
+}
+function undoSkip(){
+  const t=REAL_TODAY_ISO();
+  if(state.dayType[t]!=='skipped') return;
+  state.dayType[t]=state.preSkipType[t]||typeAt(state.seqIndex);
+  delete state.skippedManually[t]; delete state.preSkipType[t];
+  persist(); renderToday();
+}
+
 function prescr(e,w){
   if(e.pu){ const b=blockFor(w); return b[e.pu]; }
   const sets=isDeload(w)?Math.max(1,Math.round(e.s/2)):e.s;
@@ -779,31 +876,45 @@ function best1RMForDay(sets){
 
 let openRef=null;
 function renderToday(){
-  const dow=viewDate.getDay(), w=weekNum(viewDate), blk=blockFor(w), dl=isDeload(w), key=iso(viewDate);
+  ensureAssignedThrough(REAL_TODAY_ISO());
+  const key=iso(viewDate), w=weekNum(viewDate), blk=blockFor(w), dl=isDeload(w);
   const now=new Date(); now.setHours(0,0,0,0);
   const isToday=sameDay(viewDate,now);
+  const type=state.dayType[key];
 
-  $('#t-date').innerHTML=DAYS[dow]+'<span class="sub">'+viewDate.getDate()+' '+MON[viewDate.getMonth()]+(isToday?' · Today':'')+'</span>';
+  $('#t-date').innerHTML=DAYS[viewDate.getDay()]+'<span class="sub">'+viewDate.getDate()+' '+MON[viewDate.getMonth()]+(isToday?' · Today':'')+'</span>';
   $('#t-phase').textContent=dl?'Deload':blk.t;
   $('#t-phase').className='phasepill'+(dl?' dl':'');
   $('#d-today').style.display=isToday?'none':'block';
+  $('#d-next').disabled=(key>=REAL_TODAY_ISO());
+  $('#d-next').style.opacity=(key>=REAL_TODAY_ISO())?'.3':'';
 
-  const s=SESSIONS[dow];
   renderQuick(key);
 
-  if(!s){
-    $('#t-title').textContent='Rest day';
-    $('#t-focus').textContent=REST[dow]||'Rest day.';
+  if(type===undefined){
+    $('#t-title').textContent='Not yet decided';
+    $('#t-focus').textContent='This is beyond today — what lands here depends on what you finish between now and then.';
     $('#t-prog').style.display='none'; $('#t-primer').innerHTML=''; $('#t-list').innerHTML=''; $('#t-add').innerHTML='';
-    $('#t-finis').innerHTML='<div class="finis">Eat well. Sleep 7–9 hours. Walk if you feel like it.</div>';
+    $('#t-finis').innerHTML='';
     return;
   }
+  if(type==='rest'||type==='rest-sun'||type==='skipped'){
+    $('#t-title').textContent=type==='skipped'?'Skipped':'Rest day';
+    $('#t-focus').textContent=REST_MSG[type];
+    $('#t-prog').style.display='none'; $('#t-primer').innerHTML=''; $('#t-list').innerHTML=''; $('#t-add').innerHTML='';
+    $('#t-finis').innerHTML=(type==='skipped'&&isToday)
+      ?'<div class="finis"><button id="t-undoskip" style="text-decoration:underline">Undo — I am training today</button></div>'
+      :'<div class="finis">Eat well. Sleep 7–9 hours. Walk if you feel like it.</div>';
+    if(type==='skipped'&&isToday) $('#t-undoskip').onclick=undoSkip;
+    return;
+  }
+  const s=SESSIONS_BY_TYPE[type];
   $('#t-prog').style.display='';
   $('#t-title').textContent=s.t;
   $('#t-focus').textContent=s.f+(dl?' — deload: sets halved, weights the same.':'');
   $('#t-primer').innerHTML=s.primer?'<div class="glass primer"><div class="ic">i</div><div><div class="h">'+s.primer.h+'</div><div class="b">'+s.primer.b+'</div></div></div>':'';
 
-  const items=listFor(dow,key);
+  const items=listForType(type,key);
   let totalSets=0; items.forEach(e=>totalSets+=setCount(e,w));
   $('#t-sets').textContent=totalSets+' sets';
 
@@ -833,8 +944,10 @@ function renderToday(){
     el.querySelector('[data-act="no"]').onclick=(ev)=>{ ev.stopPropagation(); dismissSuggestion(el.dataset.dskey); };
   });
 
-  $('#t-add').innerHTML='<button class="addex" id="t-addbtn">+ Add an exercise to '+DAYS[dow]+'</button>';
-  $('#t-addbtn').onclick=()=>openEdit(null);
+  $('#t-add').innerHTML='<button class="addex" id="t-addbtn">+ Add an exercise to this day</button>'
+    +(isToday?'<button class="addex" id="t-skipbtn" style="margin-top:8px">Not training today — skip to next</button>':'');
+  $('#t-addbtn').onclick=()=>openEdit(null,type);
+  if(isToday) $('#t-skipbtn').onclick=skipToday;
 
   const doneN=items.filter(e=>{const lg=(state.logs[key]||{})[slug(e.n)];return lg&&filledSets(lg).length>=setCount(e,w);}).length;
   $('#t-fill').style.width=(items.length?Math.round(doneN/items.length*100):0)+'%';
@@ -853,12 +966,21 @@ function renderQuick(key){
   $('#qk-bw').addEventListener('change',e=>{ const v=parseFloat(e.target.value); if(isNaN(v)) delete state.bw[key]; else state.bw[key]=v; persist(); toast('Saved'); renderBW(); });
   $('#qk-sauna').onclick=()=>{ state.sauna[key]=!state.sauna[key]; if(!state.sauna[key]) delete state.sauna[key]; persist(); haptic(20); renderQuick(key); renderSauna(); renderSaunaHeat(); };
 }
-function shiftDay(n){ viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth(),viewDate.getDate()+n); renderToday(); }
+function shiftDay(n){
+  const next=new Date(viewDate.getFullYear(),viewDate.getMonth(),viewDate.getDate()+n);
+  if(n>0 && iso(next)>REAL_TODAY_ISO()) return; // can't browse into the undetermined future
+  viewDate=next; renderToday();
+}
 $('#d-prev').onclick=()=>shiftDay(-1);
 $('#d-next').onclick=()=>shiftDay(1);
 $('#d-today').onclick=()=>{ viewDate=new Date(); viewDate.setHours(0,0,0,0); renderToday(); };
+$('#t-date').onclick=()=>openCalendar();
 
-function findByRef(ref){ return listFor(viewDate.getDay(),iso(viewDate)).find(e=>e.ref===ref); }
+function findByRef(ref){
+  const key=iso(viewDate), type=state.dayType[key];
+  if(!type||type==='rest'||type==='rest-sun'||type==='skipped') return null;
+  return listForType(type,key).find(e=>e.ref===ref);
+}
 function openEx(ref){
   const e=findByRef(ref); if(!e) return;
   openRef=ref;
@@ -913,8 +1035,8 @@ $('#ex-addset').onclick=()=>{ const e=findByRef(openRef); if(!e) return; const k
 $('#ex-rmset').onclick=()=>{ const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n),arr=state.logs[key][ek]; if(arr.length>1){arr.pop();persist();refreshSheet();renderToday();} };
 $('#ex-clear').onclick=()=>{ const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n); delete state.logs[key][ek]; persist(); refreshSheet(); renderToday(); toast('Cleared'); };
 $('#ex-remove').onclick=()=>{
-  const e=findByRef(openRef); if(!e) return; const dow=viewDate.getDay();
-  if(e.custom){ (state.extra[dow]||[]).splice(e.idx,1); }
+  const e=findByRef(openRef); if(!e) return; const type=state.dayType[iso(viewDate)];
+  if(e.custom){ (state.extra[type]||[]).splice(e.idx,1); }
   else {
     const dsKey=iso(viewDate)+'|'+e.ref;
     delete state.swaps[dsKey];
@@ -933,7 +1055,7 @@ $('#ex-bump').onclick=()=>{
   persist(); refreshSheet(); haptic(30); toast('Applied +2.5 kg');
 };
 $('#ex-back').onclick=()=>{ renderToday(); dismiss(); };
-$('#ex-swap').onclick=()=>{ const e=findByRef(openRef); openEdit(e); };
+$('#ex-swap').onclick=()=>{ const e=findByRef(openRef); openEdit(e,null); };
 $('#ex-plate').onclick=()=>openSheet('sh-plate');
 $('#ex-hist').onclick=()=>{ const e=findByRef(openRef); if(e) openHist(e); };
 
@@ -1017,11 +1139,11 @@ function dismissSuggestion(dsKey){
   state.suggestDismissed[dsKey]=true;
   persist(); renderToday();
 }
-let editTarget=null;
-function openEdit(e){
-  editTarget=e||null;
+let editTarget=null, editType=null;
+function openEdit(e,type){
+  editTarget=e||null; editType=type||(state.dayType[iso(viewDate)]);
   $('#ed-title').textContent=e?'Swap this exercise':'Add an exercise';
-  $('#ed-help').textContent=e?'Applies to this date only. Next time this weekday comes around, you\'ll get a one-tap prompt to use it again.':'Stays on this weekday every week until removed.';
+  $('#ed-help').textContent=e?'Applies to this date only. Next time this workout type comes around in the rotation, you\'ll get a one-tap prompt to use it again.':'Stays on this workout type every time it comes up, until removed.';
   $('#ed-name').value=e&&e.swapped?e.n:'';
   $('#ed-sets').value=e?e.s:3;
   $('#ed-lo').value=e&&e.lo!=null?e.lo:'';
@@ -1035,13 +1157,12 @@ $('#ed-save').onclick=()=>{
   const s=Math.max(1,Math.min(10,parseInt($('#ed-sets').value,10)||3));
   const lo=parseInt($('#ed-lo').value,10), hi=parseInt($('#ed-hi').value,10);
   const rec={n,s,lo:isNaN(lo)?8:lo,hi:isNaN(hi)?(isNaN(lo)?12:lo+4):hi,rest:90};
-  const dow=viewDate.getDay();
   if(editTarget){
     const dateKey=iso(viewDate), dsKey=dateKey+'|'+editTarget.ref;
     state.swaps[dsKey]=rec;
     state.swapSuggest[editTarget.ref]={record:rec,lastDate:dateKey};
     delete state.suggestDismissed[dsKey];
-  } else { state.extra[dow]=state.extra[dow]||[]; state.extra[dow].push(rec); }
+  } else { state.extra[editType]=state.extra[editType]||[]; state.extra[editType].push(rec); }
   persist(); closeAll(); renderToday(); toast(editTarget?'Swapped':'Added');
 };
 $('#ed-reset').onclick=()=>{
@@ -1075,6 +1196,41 @@ function calcPlates(){
 $('#pl-target').addEventListener('input',calcPlates);
 $('#pl-back').onclick=()=>dismiss();
 
+let calMonth=new Date();
+function openCalendar(){
+  calMonth=new Date(viewDate.getFullYear(),viewDate.getMonth(),1);
+  drawCalendar();
+  openSheet('sh-cal');
+}
+function drawCalendar(){
+  const y=calMonth.getFullYear(), m=calMonth.getMonth();
+  $('#cal-month').textContent=MON[m]+' '+y;
+  const first=new Date(y,m,1), startBlank=first.getDay(), daysIn=new Date(y,m+1,0).getDate();
+  const todayIso=REAL_TODAY_ISO(), selIso=iso(viewDate);
+  let html='';
+  for(let i=0;i<startBlank;i++) html+='<span class="calday blank"></span>';
+  for(let d=1; d<=daysIn; d++){
+    const dIso=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const isFuture=dIso>todayIso, isToday=dIso===todayIso, isSel=dIso===selIso;
+    const hasData=state.dayType[dIso]!==undefined && !isFuture;
+    html+='<button class="calday'+(isFuture?' future':'')+(isToday?' today':'')+(isSel?' sel':'')+'" data-d="'+dIso+'">'+d+(hasData?'<span class="pip"></span>':'')+'</button>';
+  }
+  $('#cal-days').innerHTML=html;
+  $('#cal-days').querySelectorAll('.calday:not(.blank):not(.future)').forEach(el=>{
+    el.onclick=()=>{
+      const [yy,mm,dd]=el.dataset.d.split('-').map(Number);
+      viewDate=new Date(yy,mm-1,dd); renderToday(); dismiss();
+    };
+  });
+}
+$('#cal-prev').onclick=()=>{ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()-1,1); drawCalendar(); };
+$('#cal-next').onclick=()=>{
+  const next=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,1);
+  if(next.getFullYear()>new Date().getFullYear() || (next.getFullYear()===new Date().getFullYear() && next.getMonth()>new Date().getMonth())) return;
+  calMonth=next; drawCalendar();
+};
+$('#cal-back').onclick=()=>dismiss();
+
 const stack=[]; let sheetHist=0;
 function openSheet(id){
   const el=document.getElementById(id);
@@ -1090,20 +1246,35 @@ function closeAll(){ const n=sheetHist; sheetHist=0; while(stack.length) closeSh
 window.addEventListener('popstate',()=>{ if(sheetHist>0){ sheetHist--; closeSheet(); } });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&stack.length) dismiss(); });
 
+function typeLabel(type){
+  if(type==='rest'||type==='rest-sun') return 'Rest';
+  if(type==='skipped') return 'Skipped';
+  return SESSIONS_BY_TYPE[type]?SESSIONS_BY_TYPE[type].t:type;
+}
+function typeFocus(type){
+  if(type==='rest-sun') return 'Full recovery';
+  if(type==='rest') return 'Part of the normal rotation';
+  if(type==='skipped') return 'Marked as skipped';
+  return SESSIONS_BY_TYPE[type]?SESSIONS_BY_TYPE[type].f:'';
+}
 function renderWeek(){
-  const order=[1,2,3,4,5,6,0], today=new Date(); today.setHours(0,0,0,0);
-  const monday=new Date(today); monday.setDate(today.getDate()-((today.getDay()+6)%7));
-  $('#w-list').innerHTML=order.map(d=>{
-    const dateForDay=new Date(monday); dateForDay.setDate(monday.getDate()+((d+6)%7));
-    const w=weekNum(dateForDay), s=SESSIONS[d];
-    let n=0; if(s) listFor(d,iso(dateForDay)).forEach(e=>n+=setCount(e,w));
-    const isToday=sameDay(dateForDay,today);
-    return '<button class="glass wk'+(s?'':' rest')+(isToday?' today':'')+'" data-date="'+iso(dateForDay)+'"><span class="dot"></span><div class="l">'
-      +'<div class="d">'+DAYS[d]+(isToday?' · Today':'')+'</div>'
-      +'<div class="n">'+(s?s.t:'Rest')+'</div>'
-      +'<div class="f">'+(s?s.f:(d===0?'Full recovery':'Mid-week recovery'))+'</div></div>'
-      +'<div class="s">'+(s?n+' sets':'—')+'</div></button>';
-  }).join('');
+  ensureAssignedThrough(REAL_TODAY_ISO());
+  const today=new Date(); today.setHours(0,0,0,0);
+  const recent=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(today); d.setDate(today.getDate()-i);
+    const k=iso(d), type=state.dayType[k]; if(type===undefined) continue;
+    const w=weekNum(d);
+    let n=0; if(type!=='rest'&&type!=='rest-sun'&&type!=='skipped') listForType(type,k).forEach(e=>n+=setCount(e,w));
+    recent.push({date:d,k,type,n,isToday:sameDay(d,today)});
+  }
+  $('#w-list').innerHTML=recent.map(r=>
+    '<button class="glass wk'+(r.type.startsWith('rest')||r.type==='skipped'?' rest':'')+(r.isToday?' today':'')+'" data-date="'+r.k+'"><span class="dot"></span><div class="l">'
+    +'<div class="d">'+DAYS[r.date.getDay()]+(r.isToday?' · Today':'')+'</div>'
+    +'<div class="n">'+typeLabel(r.type)+'</div>'
+    +'<div class="f">'+typeFocus(r.type)+'</div></div>'
+    +'<div class="s">'+(r.n?r.n+' sets':'—')+'</div></button>'
+  ).join('');
   $('#w-list').querySelectorAll('.wk').forEach(el=>{
     el.onclick=()=>{
       const [y,m,dd]=el.dataset.date.split('-').map(Number);
@@ -1111,6 +1282,26 @@ function renderWeek(){
       goTo('today');
     };
   });
+
+  // "Up next" — order only, no dates, since future days aren't decided yet.
+  // Shows the full exercise list per day too, on the assumption each prior
+  // day in the chain gets finished on schedule — a preview, not a guarantee.
+  const todayType=state.dayType[iso(today)];
+  let startIdx=state.seqIndex;
+  if(todayType && todayType!=='rest-sun' && SEQUENCE[state.seqIndex]!==todayType){
+    // today's shown type may lag the pointer (e.g. mid-session) — align preview to what's actually showing
+    const idx=SEQUENCE.indexOf(todayType); if(idx>=0) startIdx=idx;
+  }
+  const upcoming=[];
+  for(let i=1;i<=6;i++) upcoming.push(SEQUENCE[(startIdx+i)%6]);
+  $('#w-upnext').innerHTML=upcoming.map((type,i)=>{
+    const s=SESSIONS_BY_TYPE[type];
+    const list=s?s.ex.map(e=>e.n).join(', '):'';
+    return '<div class="glass upday" style="opacity:'+(1-i*0.07).toFixed(2)+'">'
+      +'<div class="l"><div class="d">Day '+(i+1)+'</div><div class="n">'+typeLabel(type)+'</div></div>'
+      +(list?'<div class="ulist">'+list+'</div>':'<div class="ulist">'+typeFocus(type)+'</div>')
+    +'</div>';
+  }).join('');
 }
 
 function renderPull(){
@@ -1160,7 +1351,7 @@ function allLoggedExerciseNames(){
   const set=new Set();
   Object.values(state.logs).forEach(day=>Object.keys(day).forEach(ek=>{ if(filledSets(day[ek]).length) set.add(ek); }));
   const names={};
-  Object.values(SESSIONS).forEach(s=>s.ex.forEach(e=>names[slug(e.n)]=e.n));
+  Object.values(SESSIONS_BY_TYPE).forEach(s=>s.ex.forEach(e=>names[slug(e.n)]=e.n));
   Object.values(state.swaps).forEach(e=>names[slug(e.n)]=e.n);
   Object.values(state.extra).forEach(list=>(list||[]).forEach(e=>names[slug(e.n)]=e.n));
   return [...set].map(ek=>({ek,n:names[ek]||ek})).sort((a,b)=>a.n.localeCompare(b.n));
@@ -1215,12 +1406,12 @@ function renderHeat(){
   const cells=[];
   for(let i=69;i>=0;i--){
     const d=new Date(today); d.setDate(today.getDate()-i);
-    const dow=d.getDay(), k=iso(d), s=SESSIONS[dow];
-    if(!s){ cells.push({lvl:-1}); continue; }
-    const items=listFor(dow,k); const w=weekNum(d);
+    const k=iso(d), type=state.dayType[k];
+    if(d>today || type===undefined || type==='rest'||type==='rest-sun'||type==='skipped'){ cells.push({lvl:-1}); continue; }
+    const items=listForType(type,k); const w=weekNum(d);
     let n=0; items.forEach(e=>{ const lg=(state.logs[k]||{})[slug(e.n)]; if(lg&&filledSets(lg).length>=setCount(e,w)) n++; });
     const frac=items.length?n/items.length:0;
-    cells.push({lvl: d>today?-1: frac===0?0: frac<0.5?1: frac<1?2:3});
+    cells.push({lvl: frac===0?0: frac<0.5?1: frac<1?2:3});
   }
   $('#m-heat').innerHTML=cells.map(c=>'<div class="cell'+(c.lvl>0?' l'+c.lvl:'')+'" style="'+(c.lvl===-1?'visibility:hidden':'')+'"></div>').join('');
 }
@@ -1264,7 +1455,7 @@ $('#n-import').onclick=()=>{
     const f=inp.files&&inp.files[0]; if(!f) return;
     const r=new FileReader();
     r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d||typeof d!=='object') throw 0;
-      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false}},d);
+      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{}},d);
       persist(); applyTheme(); renderAll(); toast('Restored'); }catch(e){ toast('That file could not be read'); } };
     r.readAsText(f);
   };
