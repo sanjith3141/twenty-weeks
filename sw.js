@@ -1,0 +1,39 @@
+const CACHE = 'twentyweeks-v1';
+const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE)
+      .then((c) => c.addAll(ASSETS))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+// Cache-first for anything already stored, with a background refresh from the
+// network when it's available — so the app opens instantly offline, and
+// quietly picks up updates whenever you do have a signal.
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    caches.match(e.request).then((cached) => {
+      const fetchPromise = fetch(e.request)
+        .then((resp) => {
+          if (resp && resp.status === 200 && e.request.url.startsWith(self.location.origin)) {
+            const copy = resp.clone();
+            caches.open(CACHE).then((c) => c.put(e.request, copy));
+          }
+          return resp;
+        })
+        .catch(() => cached);
+      return cached || fetchPromise;
+    })
+  );
+});
