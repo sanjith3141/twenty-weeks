@@ -83,15 +83,15 @@ input,select{font:inherit}
 .screen.fade-in{opacity:0;transform:scale(1.02)}
 .screen.fade-in-active{opacity:1;transform:scale(1);transition:opacity .22s cubic-bezier(.2,.8,.25,1),transform .22s cubic-bezier(.2,.8,.25,1)}
 
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
-.datebar{display:flex;align-items:center;gap:4px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px;flex-wrap:nowrap}
+.datebar{display:flex;align-items:center;gap:2px;flex:none;min-width:0}
 .datebar button{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   color:var(--ash);font-size:18px;transition:.15s}
 .datebar button:active{background:var(--line)}
-.datelbl{font-size:15.5px;font-weight:600;letter-spacing:-.01em;min-width:150px;text-align:center}
+.datelbl{font-size:15.5px;font-weight:600;letter-spacing:-.01em;min-width:0;width:128px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .datelbl .sub{display:block;font-size:11.5px;color:var(--ash);font-weight:500;margin-top:1px}
 .todaybtn{font-size:12px;font-weight:600;color:var(--ember);padding:6px 11px;border-radius:100px;background:var(--emberSoft)}
-.phasepill{font-size:11.5px;font-weight:600;color:var(--ash);padding:6px 12px;border-radius:100px;background:rgba(0,0,0,.045)}
+.phasepill{font-size:11.5px;font-weight:600;color:var(--ash);padding:6px 12px;border-radius:100px;background:rgba(0,0,0,.045);flex:none;white-space:nowrap}
 .phasepill.dl{color:var(--ember);background:var(--emberSoft)}
 
 .hero{margin:6px 0 16px}
@@ -129,6 +129,8 @@ input,select{font:inherit}
 .nm{font-size:15px;font-weight:600;letter-spacing:-.008em;display:block;line-height:1.3}
 .nm .k{color:var(--ember)}
 .pr{font-size:12px;color:var(--ash);margin-top:3px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.restpill{color:var(--dim);font-weight:600}
+.sessdur{text-align:center;font-size:12px;color:var(--dim);margin-top:-6px;margin-bottom:16px}
 .pr .bump{color:var(--ember);font-weight:700}
 .last{font-size:11.5px;color:#9C9A94;margin-top:4px;display:block}
 .vidbtn{flex:none;width:32px;height:32px;border-radius:50%;background:var(--mist2);display:flex;align-items:center;justify-content:center;color:var(--ash)}
@@ -266,6 +268,10 @@ nav button.on svg{transform:scale(1.08)}
 
 .sets{margin-top:22px;display:flex;flex-direction:column;gap:8px}
 .setrow{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:14px;background:var(--mist1)}
+.setrow.warmup{opacity:.6}
+.setrow.warmup.filled{opacity:.75}
+.wubtn{flex:none;width:26px;height:26px;border-radius:8px;font-size:11px;font-weight:800;color:var(--dim);background:var(--mist2)}
+.wubtn.on{background:var(--emberSoft);color:var(--ember)}
 .setrow.filled{background:var(--goodSoft)}
 .sn{flex:none;width:20px;font-size:14px;font-weight:700;color:var(--dim);text-align:center}
 .setrow.filled .sn{color:var(--good)}
@@ -284,10 +290,16 @@ nav button.on svg{transform:scale(1.08)}
 .toast.on{opacity:1}
 
 .resttimer{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:55;
-  display:none;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;cursor:pointer}
+  display:none;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;cursor:pointer;
+  transition:left .28s cubic-bezier(.2,.8,.25,1),right .28s cubic-bezier(.2,.8,.25,1),width .28s cubic-bezier(.2,.8,.25,1),
+    border-radius .28s cubic-bezier(.2,.8,.25,1),padding .28s cubic-bezier(.2,.8,.25,1)}
 .resttimer.on{display:flex}
 .resttimer.paused .rt-num{opacity:.45}
 .resttimer.paused .rt-arc{opacity:.45}
+.resttimer.mini{left:auto;right:16px;width:60px;height:60px;padding:0;border-radius:50%;justify-content:center;gap:0}
+.resttimer.mini .rt-body,.resttimer.mini .rt-btns{display:none}
+.resttimer.mini .rt-ring{width:56px;height:56px}
+.resttimer.mini .rt-ring svg{width:56px;height:56px}
 @media (prefers-reduced-motion:no-preference){.resttimer.on{animation:slideup .3s cubic-bezier(.2,.8,.25,1)}}
 @keyframes slideup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .rt-ring{flex:none;width:44px;height:44px;position:relative}
@@ -325,7 +337,7 @@ nav button.on svg{transform:scale(1.08)}
 .calgrid span{font-size:11px;color:var(--ash);font-weight:600;padding-bottom:4px}
 .calday{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:12px;font-size:14px;font-weight:600;color:var(--ink);position:relative}
 .calday.blank{visibility:hidden}
-.calday.future{color:var(--dim);pointer-events:none}
+.calday.predicted .pip{opacity:.4}
 .calday.today{border:1.5px solid var(--ember)}
 .calday.sel{background:var(--pillOnBg);color:var(--pillOnText)}
 .calday .pip{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--ember)}
@@ -460,6 +472,13 @@ nav button.on svg{transform:scale(1.08)}
     <p class="h">From the weight field on the Today screen.</p>
     <svg id="bw-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg>
     <p class="snote" id="bw-note">Log your weight on Today to start this chart.</p>
+  </div>
+
+  <div class="pnl glass">
+    <h3>Session length</h3>
+    <p class="h">Minutes from your first logged set to session close, per day.</p>
+    <svg id="sd-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg>
+    <p class="snote" id="sd-note">Finish a full session to start this chart.</p>
   </div>
 
   <div class="pnl glass">
@@ -598,7 +617,7 @@ nav button.on svg{transform:scale(1.08)}
   <div class="shead"><button id="cal-back">Close</button><span></span></div>
   <div class="sbody">
     <h2 class="stitle">Jump to a date</h2>
-    <p class="snote" style="margin-top:8px">Only today and earlier — anything after today hasn't been decided yet.</p>
+    <p class="snote" style="margin-top:8px">Faint dots are predicted, not final — they shift if a day in between gets skipped.</p>
     <div class="calnav">
       <button id="cal-prev">‹</button>
       <div class="calmonth" id="cal-month">—</div>
@@ -642,9 +661,10 @@ const SESSIONS_BY_TYPE={
      {n:'Incline Barbell Press',s:3,lo:6,hi:8,rest:150,note:'Bar to the upper chest, pause a beat at the bottom.'},
      {n:'Flat Dumbbell Press',s:3,lo:8,hi:12,rest:120,note:'Deep stretch at the bottom — log the weight of ONE dumbbell.'},
      {n:'Seated Dumbbell Shoulder Press',s:3,lo:8,hi:12,rest:120,note:'Elbows ~30° forward of the torso, not flared straight out.'},
-     {n:'Cable Fly',s:3,lo:10,hi:15,rest:75,note:'Slight bend in the elbow throughout, squeeze at the midline.'},
+     {n:'Flat Bench Cable Fly',s:3,lo:10,hi:15,rest:75,note:'Bench between the two towers, lying flat. Pull the handles up and across like a fly — no swing, no momentum.'},
+     {n:'Pec Deck Machine',s:3,lo:10,hi:15,rest:60,note:'Fixed path — squeeze at the midpoint, control the stretch back out.'},
      {n:'Cable Lateral Raise',s:4,lo:12,hi:20,rest:60,note:'Lead with the elbow. Light enough that the last reps burn.'},
-     {n:'Overhead Cable Triceps Extension',s:3,lo:10,hi:15,rest:75,note:'Full reach behind the head — the only position that stretches the long head.'},
+     {n:'Skull Crushers',s:3,lo:8,hi:12,rest:75,note:'Lying, EZ-bar or dumbbell. Elbows stay pointed at the ceiling, only the forearm moves.'},
      {n:'Cable Crunch',s:3,lo:10,hi:15,rest:60,note:'Weighted. Round the spine, don\'t fold at the hips.'},
      {n:'Hanging Knee Raise',s:3,lo:8,hi:15,rest:60,note:'Curl the pelvis up. No swinging.'}]},
  pull:{t:'Pull',f:'Back · Lats · Rear delts · Biceps',
@@ -652,7 +672,7 @@ const SESSIONS_BY_TYPE={
      {n:'Pull-up work',s:4,pu:'tue',key:true,rest:120,note:'Open with this, fresh. Protocol changes by block — check the Pull-ups tab.'},
      {n:'Lat Pulldown',s:3,lo:5,hi:8,rest:120,note:'Your pull-up proxy. Target: bodyweight for 6 by December.'},
      {n:'Chest-Supported Row',s:3,lo:8,hi:12,rest:100,note:'Chest glued to the pad. Elbows back and down, hold the squeeze.'},
-     {n:'Single-Arm Lat Pulldown',s:2,lo:10,hi:15,rest:75,note:'Full stretch at the top, one side at a time.'},
+     {n:'Straight-Arm Pulldown',s:2,lo:10,hi:15,rest:75,note:'Arms stay straight the whole rep — pull down in an arc using just the lats, no elbow bend.'},
      {n:'Face Pull',s:3,lo:15,hi:20,rest:60,note:'Rear delts and rotator cuff — cheap shoulder insurance.'},
      {n:'EZ-Bar Curl',s:3,lo:8,hi:12,rest:75,note:'Elbows pinned to the ribs. Log the total including the bar.'},
      {n:'Incline Dumbbell Curl',s:2,lo:10,hi:15,rest:60,note:'Bench 45–60°. Biggest biceps stretch available.'},
@@ -672,12 +692,12 @@ const SESSIONS_BY_TYPE={
      {n:'Pull-up work',s:4,pu:'fri',key:true,rest:120,note:'Second weekly pull-up session — different protocol from the Pull day. Fresh, first.'},
      {n:'Incline Dumbbell Press',s:3,lo:8,hi:12,rest:120,note:'Upper chest — go heavier than feels comfortable for ten.'},
      {n:'Seated Cable Row',s:3,lo:8,hi:12,rest:100,note:'Neutral grip, torso still. Row to the navel.'},
-     {n:'Dips',s:2,lo:8,hi:12,rest:100,note:'Assisted if needed. Stay upright to bias triceps.'},
+     {n:'Weighted Push-Up',s:2,lo:8,hi:12,rest:100,note:'Plate on the back if you have one. Full range, no sag through the hips.'},
      {n:'Cable Lateral Raise',s:3,lo:12,hi:20,rest:60,note:'Second side-delt hit of the week.'},
      {n:'Reverse Pec Deck',s:2,lo:12,hi:20,rest:60,note:'Rear delts, controlled squeeze.'},
      {n:'Ab Wheel Rollout',s:2,lo:8,hi:12,rest:60,note:'Also loads serratus — frames the V.'},
      {n:'Cable Crunch',s:3,lo:10,hi:15,rest:60,note:'Weighted, 10–15 reps.'}]},
- lower:{t:'Lower + Arms',f:'Quads · Hamstrings · Calves · Biceps · Triceps',
+ lower:{t:'Light Legs + Arms',f:'Quads · Hamstrings · Calves · Biceps · Triceps',
     ex:[
      {n:'Hack Squat',s:3,lo:8,hi:12,rest:120,note:'Quad-dominant, less spinal load than the Legs day squat.'},
      {n:'Seated Leg Curl',s:3,lo:10,hi:15,rest:75,note:'Second hamstring session. 3-second lowering.'},
@@ -685,7 +705,7 @@ const SESSIONS_BY_TYPE={
      {n:'Seated Calf Raise',s:3,lo:12,hi:20,rest:60,note:'Bent knee — targets the soleus.'},
      {n:'Cable Lateral Raise',s:3,lo:12,hi:20,rest:60,note:'Third side-delt session — 10 sets/week total.'},
      {n:'EZ-Bar Curl',s:3,lo:8,hi:12,rest:75,note:'Main biceps volume lives here and the Pull day.'},
-     {n:'Overhead Rope Triceps Extension',s:3,lo:10,hi:15,rest:75,note:'Full stretch overhead, fresh tissue.'},
+     {n:'Skull Crushers',s:3,lo:10,hi:15,rest:75,note:'Different angle from the Push day version — lying, controlled, no overhead reach needed.'},
      {n:'Triceps Pushdown',s:2,lo:10,hi:15,rest:60,note:'Elbows pinned — short head finisher.'}]}
 };
 const REST_MSG={
@@ -723,7 +743,36 @@ const FUEL={
   {k:'Steps',v:'8,000',u:'/day',n:'Only cardio requirement at first.'}]};
 
 const KEY='twentyweeks.v2';
-let state={logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{}};
+let state={
+ logs:{
+  "2026-09-12":{
+   "hack-squat":[{w:"",r:""},{w:"",r:""},{w:"",r:""}],
+   "triceps-pushdown":[{w:"",r:""},{w:"",r:""}],
+   "incline-barbell-press":[{w:"35",r:"10"},{w:"35",r:"10"},{w:"35",r:"10"}],
+   "flat-dumbbell-press":[{w:"12.5",r:"8"},{w:"12.5",r:"10"},{w:"12.5",r:"10"}],
+   "seated-dumbbell-shoulder-press":[{w:"7.5",r:"10"},{w:"7.5",r:"12"},{w:"7.5",r:"12"}],
+   "flat-bench-cable-fly":[{w:"15",r:"12"},{w:"15",r:"12"},{w:"15",r:"12"}],
+   "cable-lateral-raise":[{w:"5",r:"12"},{w:"5",r:"12"},{w:"5",r:"12"},{w:"0",r:"0"}],
+   "skull-crushers":[{w:"5",r:"15"},{w:"5",r:"11"},{w:"5",r:"8"}],
+   "hanging-knee-raise":[{w:"",r:""},{w:"",r:""},{w:"",r:""}],
+   "cable-crunch":[{w:"",r:""},{w:"",r:""},{w:"",r:""}]
+  },
+  "2026-09-14":{
+   "incline-barbell-press":[{w:"",r:""},{w:"",r:""},{w:"",r:""}]
+  }
+ },
+ bw:{"2026-09-11":81.5,"2026-09-12":81.3},
+ sauna:{"2026-09-11":true},
+ swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],
+ plates:[25,20,15,10,7.5,5,2.5],bar:20,
+ prefs:{haptic:true,sound:true,dark:false},
+ seqIndex:1,
+ dayType:{"2026-09-12":"push","2026-09-13":"rest-sun","2026-09-14":"pull"},
+ lastSeenDate:"2026-09-14",
+ skippedManually:{"2026-09-14":true},
+ preSkipType:{},
+ sessionStart:{},sessionMinutes:{}
+};
 let storeMode='memory';
 function readRaw(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
 function writeRaw(s){try{localStorage.setItem(KEY,s);return true;}catch(e){return false;}}
@@ -842,6 +891,63 @@ function undoSkip(){
   delete state.skippedManually[t]; delete state.preSkipType[t];
   persist(); renderToday();
 }
+// Predicts the type for a date beyond today, assuming every day between now
+// and then completes on schedule. Read-only — never touches saved state.
+function predictType(dateIso){
+  const todayIso=REAL_TODAY_ISO();
+  if(dateIso<=todayIso) return state.dayType[dateIso];
+  let simIndex=state.seqIndex;
+  let lastType=state.dayType[todayIso];
+  if(lastType && lastType!=='rest-sun'){
+    const idx=SEQUENCE.indexOf(lastType); if(idx>=0) simIndex=idx;
+  }
+  let cursor=todayIso;
+  while(cursor<dateIso){
+    if(lastType!=='rest-sun') simIndex=(simIndex+1)%6;
+    cursor=addDaysIso(cursor,1);
+    lastType=isSundayIso(cursor)?'rest-sun':typeAt(simIndex);
+  }
+  return lastType;
+}
+// Marks a real (past or today) date as trained regardless of how much was
+// logged, then re-walks the rotation forward from there through today —
+// so every day after it shifts to correct itself, not just this one.
+function finalizeSession(dateIso){
+  if(state.sessionStart[dateIso]!=null && state.sessionMinutes[dateIso]==null){
+    state.sessionMinutes[dateIso]=Math.max(1,Math.round((Date.now()-state.sessionStart[dateIso])/60000));
+    persist(); renderSessionChart();
+  }
+}
+function checkSessionComplete(dateIso){
+  const type=state.dayType[dateIso];
+  if(!type||type==='rest'||type==='rest-sun'||type==='skipped') return;
+  const items=listForType(type,dateIso); if(!items.length) return;
+  const w=weekNum(new Date(dateIso+'T00:00:00'));
+  const doneN=items.filter(e=>{const lg=(state.logs[dateIso]||{})[slug(e.n)];return lg&&filledSets(lg).length>=setCount(e,w);}).length;
+  if(doneN===items.length) finalizeSession(dateIso);
+}
+function markTrained(dateIso){
+  const t=state.dayType[dateIso];
+  if(!t || t==='rest'||t==='rest-sun'||t==='skipped') return;
+  state.skippedManually[dateIso]=true;
+  finalizeSession(dateIso);
+  const todayIso=REAL_TODAY_ISO();
+  if(dateIso<todayIso){
+    let simIndex=SEQUENCE.indexOf(t);
+    Object.keys(state.dayType).forEach(k=>{ if(k>dateIso) delete state.dayType[k]; });
+    let cursor=dateIso, curType=t;
+    while(cursor<todayIso){
+      const completed = state.skippedManually[cursor] || curType==='rest' || curType==='skipped' || isTypeDayComplete(cursor,curType);
+      if(curType!=='rest-sun' && completed) simIndex=(simIndex+1)%6;
+      cursor=addDaysIso(cursor,1);
+      curType=isSundayIso(cursor)?'rest-sun':typeAt(simIndex);
+      state.dayType[cursor]=curType;
+    }
+    state.seqIndex=simIndex;
+    state.lastSeenDate=todayIso;
+  }
+  persist(); haptic(30); toast('Marked as trained'); renderToday(); renderWeek();
+}
 
 function prescr(e,w){
   if(e.pu){ const b=blockFor(w); return b[e.pu]; }
@@ -850,7 +956,7 @@ function prescr(e,w){
   return sets+' × '+e.lo+'–'+e.hi+(e.each?' each side':'');
 }
 function setCount(e,w){ return isDeload(w)?Math.max(1,Math.round(e.s/2)):e.s; }
-function filledSets(arr){ return (arr||[]).filter(s=>s&&s.r!=null&&s.r!==''); }
+function filledSets(arr){ return (arr||[]).filter(s=>s&&s.r!=null&&s.r!==''&&!s.wu); }
 function lastSession(exKey,beforeKey){
   const keys=Object.keys(state.logs).filter(k=>k<beforeKey).sort().reverse();
   for(const k of keys){ const a=state.logs[k][exKey]; if(a&&filledSets(a).length) return {date:k,sets:filledSets(a)}; }
@@ -875,29 +981,22 @@ function best1RMForDay(sets){
 }
 
 let openRef=null;
+function fmtRest(sec){ sec=sec||90; return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); }
 function renderToday(){
   ensureAssignedThrough(REAL_TODAY_ISO());
   const key=iso(viewDate), w=weekNum(viewDate), blk=blockFor(w), dl=isDeload(w);
   const now=new Date(); now.setHours(0,0,0,0);
   const isToday=sameDay(viewDate,now);
-  const type=state.dayType[key];
+  const isFuture=key>REAL_TODAY_ISO();
+  const type=isFuture?predictType(key):state.dayType[key];
 
-  $('#t-date').innerHTML=DAYS[viewDate.getDay()]+'<span class="sub">'+viewDate.getDate()+' '+MON[viewDate.getMonth()]+(isToday?' · Today':'')+'</span>';
-  $('#t-phase').textContent=dl?'Deload':blk.t;
-  $('#t-phase').className='phasepill'+(dl?' dl':'');
+  $('#t-date').innerHTML=DAYS[viewDate.getDay()]+'<span class="sub">'+viewDate.getDate()+' '+MON[viewDate.getMonth()].slice(0,3)+(isToday?' · Today':'')+'</span>';
+  $('#t-phase').textContent=isFuture?'Predicted':(dl?'Deload':'Just do it.');
+  $('#t-phase').className='phasepill'+(dl&&!isFuture?' dl':'');
   $('#d-today').style.display=isToday?'none':'block';
-  $('#d-next').disabled=(key>=REAL_TODAY_ISO());
-  $('#d-next').style.opacity=(key>=REAL_TODAY_ISO())?'.3':'';
 
   renderQuick(key);
 
-  if(type===undefined){
-    $('#t-title').textContent='Not yet decided';
-    $('#t-focus').textContent='This is beyond today — what lands here depends on what you finish between now and then.';
-    $('#t-prog').style.display='none'; $('#t-primer').innerHTML=''; $('#t-list').innerHTML=''; $('#t-add').innerHTML='';
-    $('#t-finis').innerHTML='';
-    return;
-  }
   if(type==='rest'||type==='rest-sun'||type==='skipped'){
     $('#t-title').textContent=type==='skipped'?'Skipped':'Rest day';
     $('#t-focus').textContent=REST_MSG[type];
@@ -909,9 +1008,19 @@ function renderToday(){
     return;
   }
   const s=SESSIONS_BY_TYPE[type];
-  $('#t-prog').style.display='';
   $('#t-title').textContent=s.t;
-  $('#t-focus').textContent=s.f+(dl?' — deload: sets halved, weights the same.':'');
+  $('#t-focus').textContent=s.f+(dl&&!isFuture?' — deload: sets halved, weights the same.':'');
+
+  if(isFuture){
+    // Read-only preview — nothing here is loggable, since it isn't real yet.
+    $('#t-prog').style.display='none'; $('#t-primer').innerHTML=''; $('#t-add').innerHTML='';
+    $('#t-list').innerHTML='<div class="glass" style="padding:15px 16px;margin-bottom:14px;font-size:12.5px;color:var(--ash);line-height:1.5">Predicted, not final — this assumes every day between now and then finishes on schedule. Skip a day in between and this shifts.</div>'
+      +s.ex.map(e=>'<div class="glass ex" style="cursor:default"><span class="tick" style="visibility:hidden"></span><span class="exb"><span class="nm">'+e.n+'</span><span class="pr"><span>'+prescr(e,w)+'</span><span class="restpill">⏱ '+fmtRest(e.rest)+'</span></span></span></div>').join('');
+    $('#t-finis').innerHTML='';
+    return;
+  }
+
+  $('#t-prog').style.display='';
   $('#t-primer').innerHTML=s.primer?'<div class="glass primer"><div class="ic">i</div><div><div class="h">'+s.primer.h+'</div><div class="b">'+s.primer.b+'</div></div></div>':'';
 
   const items=listForType(type,key);
@@ -928,7 +1037,7 @@ function renderToday(){
     const btnHtml='<button class="glass ex'+(done?' done':'')+'" data-ref="'+e.ref+'">'
       +'<span class="tick"></span><span class="exb">'
       +'<span class="nm">'+(e.key?'<span class="k">'+e.n+'</span>':e.n)+(e.swapped?' <span style="color:var(--dim);font-size:12px;font-weight:500">(swapped)</span>':'')+'</span>'
-      +'<span class="pr"><span>'+prescr(e,w)+'</span>'+(partial?'<span>· '+partial+'</span>':'')+(bump?'<span class="bump">↑ add weight</span>':'')+'</span>'
+      +'<span class="pr"><span>'+prescr(e,w)+'</span><span class="restpill">⏱ '+fmtRest(e.rest)+'</span>'+(partial?'<span>· '+partial+'</span>':'')+(bump?'<span class="bump">↑ add weight</span>':'')+'</span>'
       +'<span class="last">'+lastLine+'</span></span><span class="chev">›</span></button>';
     let sugHtml='';
     if(e.suggestion){
@@ -944,17 +1053,23 @@ function renderToday(){
     el.querySelector('[data-act="no"]').onclick=(ev)=>{ ev.stopPropagation(); dismissSuggestion(el.dataset.dskey); };
   });
 
-  $('#t-add').innerHTML='<button class="addex" id="t-addbtn">+ Add an exercise to this day</button>'
-    +(isToday?'<button class="addex" id="t-skipbtn" style="margin-top:8px">Not training today — skip to next</button>':'');
-  $('#t-addbtn').onclick=()=>openEdit(null,type);
-  if(isToday) $('#t-skipbtn').onclick=skipToday;
-
   const doneN=items.filter(e=>{const lg=(state.logs[key]||{})[slug(e.n)];return lg&&filledSets(lg).length>=setCount(e,w);}).length;
+  const allDone=doneN===items.length&&items.length;
+
+  $('#t-add').innerHTML='<button class="addex" id="t-addbtn">+ Add an exercise to this day</button>'
+    +(isToday&&!allDone?'<button class="addex" id="t-skipbtn" style="margin-top:8px">Not training today — skip to next</button>':'')
+    +(!allDone?'<button class="addex" id="t-trainbtn" style="margin-top:8px">'+(isToday?'Mark today as trained':'Mark as trained')+'</button>':'');
+  $('#t-addbtn').onclick=()=>openEdit(null,type);
+  if(isToday&&!allDone) $('#t-skipbtn').onclick=skipToday;
+  if(!allDone) $('#t-trainbtn').onclick=()=>markTrained(key);
+
   $('#t-fill').style.width=(items.length?Math.round(doneN/items.length*100):0)+'%';
   $('#t-count').textContent=doneN+' of '+items.length+' done';
-  $('#t-finis').innerHTML=(doneN===items.length&&items.length)
+  const durLine=state.sessionMinutes[key]!=null?'<div class="sessdur">Session: '+state.sessionMinutes[key]+' min</div>':'';
+  $('#t-finis').innerHTML=(allDone
     ?'<div class="finis hit">Session closed.</div>'
-    :'<div class="finis">'+(items.length-doneN)+' left.</div>';
+    :'<div class="finis">'+(items.length-doneN)+' left.</div>')+durLine;
+  if(allDone) checkSessionComplete(key);
 }
 function renderQuick(key){
   const bw=state.bw[key]!=null?state.bw[key]:'';
@@ -967,9 +1082,8 @@ function renderQuick(key){
   $('#qk-sauna').onclick=()=>{ state.sauna[key]=!state.sauna[key]; if(!state.sauna[key]) delete state.sauna[key]; persist(); haptic(20); renderQuick(key); renderSauna(); renderSaunaHeat(); };
 }
 function shiftDay(n){
-  const next=new Date(viewDate.getFullYear(),viewDate.getMonth(),viewDate.getDate()+n);
-  if(n>0 && iso(next)>REAL_TODAY_ISO()) return; // can't browse into the undetermined future
-  viewDate=next; renderToday();
+  viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth(),viewDate.getDate()+n);
+  renderToday();
 }
 $('#d-prev').onclick=()=>shiftDay(-1);
 $('#d-next').onclick=()=>shiftDay(1);
@@ -1012,8 +1126,9 @@ function drawSets(e,w,key,ek){
   state.logs[key][ek]=arr;
   const bw=(e.pu||/pull-up|dip|ab wheel|hanging|push up|rollout/i.test(e.n));
   $('#ex-sets').innerHTML=arr.map((st,i)=>
-    '<div class="setrow'+(st.r!==''&&st.r!=null?' filled':'')+'" data-i="'+i+'">'
+    '<div class="setrow'+(st.r!==''&&st.r!=null?' filled':'')+(st.wu?' warmup':'')+'" data-i="'+i+'">'
     +'<span class="sn">'+(i+1)+'</span>'
+    +'<button class="wubtn'+(st.wu?' on':'')+'" data-wu="'+i+'" title="Mark as warm-up">W</button>'
     +'<input class="wi" inputmode="decimal" placeholder="'+(bw?'+kg':'kg')+'" value="'+(st.w??'')+'">'
     +'<span class="xx">×</span>'
     +'<input class="ri" inputmode="numeric" placeholder="reps" value="'+(st.r??'')+'"></div>').join('');
@@ -1021,13 +1136,28 @@ function drawSets(e,w,key,ek){
     const i=+row.dataset.i, wi=row.querySelector('.wi'), ri=row.querySelector('.ri');
     const upd=()=>{ arr[i].w=wi.value.trim(); arr[i].r=ri.value.trim(); row.classList.toggle('filled',arr[i].r!==''); persist(); };
     wi.addEventListener('input',upd); ri.addEventListener('input',upd);
-    ri.addEventListener('blur',()=>{ if(arr[i].r!==''){ haptic(25); startRestTimer(e); toast('Saved'); renderToday(); } });
+    ri.addEventListener('blur',()=>{
+      if(arr[i].r!==''){
+        haptic(25);
+        if(!state.sessionStart[key]) state.sessionStart[key]=Date.now();
+        if(!arr[i].wu) startRestTimer(e);
+        toast('Saved'); persist(); renderToday(); checkSessionComplete(key);
+      }
+    });
     wi.addEventListener('blur',()=>{
       if(!wi.value.trim()) return;
       for(let j=i+1;j<arr.length;j++){ if(!arr[j].w) arr[j].w=wi.value.trim(); }
       persist();
       $('#ex-sets').querySelectorAll('.setrow').forEach((r2,j)=>{ if(j>i){ const w2=r2.querySelector('.wi'); if(!w2.value) w2.value=arr[j].w||''; } });
     });
+  });
+  $('#ex-sets').querySelectorAll('[data-wu]').forEach(btn=>{
+    btn.onclick=(ev)=>{
+      ev.stopPropagation();
+      const i=+btn.dataset.wu;
+      arr[i].wu=!arr[i].wu;
+      persist(); refreshSheet(); renderToday();
+    };
   });
 }
 function refreshSheet(){ const e=findByRef(openRef); if(!e) return; drawSets(e,weekNum(viewDate),iso(viewDate),slug(e.n)); }
@@ -1073,6 +1203,7 @@ function startRestTimer(e){
   $('#rt').classList.remove('paused');
   updateRing();
   $('#rt').classList.add('on');
+  updateTimerMini();
   rtInterval=setInterval(rtTick,1000);
 }
 function updateRing(){
@@ -1088,10 +1219,21 @@ function togglePause(){
   if(rtPaused){ clearInterval(rtInterval); } else { rtInterval=setInterval(rtTick,1000); }
   haptic(15);
 }
+// Full-size only while the exercise logging sheet is open — everywhere else
+// it shrinks to a small bubble so it stops blocking taps on the rest of the app.
+function updateTimerMini(){
+  if(!$('#rt').classList.contains('on')) return;
+  const inLogSheet = stack.length && stack[stack.length-1]==='sh-ex';
+  $('#rt').classList.toggle('mini', !inLogSheet);
+}
 $('#rt-plus').onclick=(ev)=>{ ev.stopPropagation(); rtRemain+=15; rtTotal=Math.max(rtTotal,rtRemain); updateRing(); };
 $('#rt-minus').onclick=(ev)=>{ ev.stopPropagation(); rtRemain=Math.max(0,rtRemain-15); updateRing(); };
-$('#rt-close').onclick=(ev)=>{ ev.stopPropagation(); clearInterval(rtInterval); $('#rt').classList.remove('on','paused'); };
-$('#rt').addEventListener('click',(ev)=>{ if(ev.target.closest('.rt-btns')) return; togglePause(); });
+$('#rt-close').onclick=(ev)=>{ ev.stopPropagation(); clearInterval(rtInterval); $('#rt').classList.remove('on','paused','mini'); };
+$('#rt').addEventListener('click',(ev)=>{
+  if(ev.target.closest('.rt-btns')) return;
+  if($('#rt').classList.contains('mini')){ $('#rt').classList.remove('mini'); return; }
+  togglePause();
+});
 
 let histEx=null, histView='1rm';
 function openHist(e){
@@ -1212,11 +1354,10 @@ function drawCalendar(){
   for(let d=1; d<=daysIn; d++){
     const dIso=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const isFuture=dIso>todayIso, isToday=dIso===todayIso, isSel=dIso===selIso;
-    const hasData=state.dayType[dIso]!==undefined && !isFuture;
-    html+='<button class="calday'+(isFuture?' future':'')+(isToday?' today':'')+(isSel?' sel':'')+'" data-d="'+dIso+'">'+d+(hasData?'<span class="pip"></span>':'')+'</button>';
+    html+='<button class="calday'+(isFuture?' predicted':'')+(isToday?' today':'')+(isSel?' sel':'')+'" data-d="'+dIso+'">'+d+'<span class="pip"></span></button>';
   }
   $('#cal-days').innerHTML=html;
-  $('#cal-days').querySelectorAll('.calday:not(.blank):not(.future)').forEach(el=>{
+  $('#cal-days').querySelectorAll('.calday:not(.blank)').forEach(el=>{
     el.onclick=()=>{
       const [yy,mm,dd]=el.dataset.d.split('-').map(Number);
       viewDate=new Date(yy,mm-1,dd); renderToday(); dismiss();
@@ -1224,11 +1365,7 @@ function drawCalendar(){
   });
 }
 $('#cal-prev').onclick=()=>{ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()-1,1); drawCalendar(); };
-$('#cal-next').onclick=()=>{
-  const next=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,1);
-  if(next.getFullYear()>new Date().getFullYear() || (next.getFullYear()===new Date().getFullYear() && next.getMonth()>new Date().getMonth())) return;
-  calMonth=next; drawCalendar();
-};
+$('#cal-next').onclick=()=>{ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+1,1); drawCalendar(); };
 $('#cal-back').onclick=()=>dismiss();
 
 const stack=[]; let sheetHist=0;
@@ -1238,9 +1375,12 @@ function openSheet(id){
   stack.forEach(s=>document.getElementById(s).classList.remove('on'));
   stack.push(id); el.classList.add('on'); document.body.style.overflow='hidden';
   try{ history.pushState({sheet:id},''); sheetHist++; }catch(e){}
+  updateTimerMini();
 }
 function closeSheet(){ const id=stack.pop(); if(id) document.getElementById(id).classList.remove('on');
-  if(stack.length){ document.getElementById(stack[stack.length-1]).classList.add('on'); } else { document.body.style.overflow=''; } }
+  if(stack.length){ document.getElementById(stack[stack.length-1]).classList.add('on'); } else { document.body.style.overflow=''; }
+  updateTimerMini();
+}
 function dismiss(){ if(sheetHist>0){ try{ history.back(); return; }catch(e){} } closeSheet(); }
 function closeAll(){ const n=sheetHist; sheetHist=0; while(stack.length) closeSheet(); if(n){ try{ history.go(-n); }catch(e){} } }
 window.addEventListener('popstate',()=>{ if(sheetHist>0){ sheetHist--; closeSheet(); } });
@@ -1392,6 +1532,17 @@ function renderBW(){
     +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
     +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
 }
+function renderSessionChart(){
+  const svg=$('#sd-chart'), note=$('#sd-note');
+  const rows=Object.keys(state.sessionMinutes).sort().map(k=>({date:k,v:state.sessionMinutes[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
+  if(rows.length<2){ svg.innerHTML=''; note.style.display='block'; note.textContent=rows.length?'Only one session finished — need at least two to draw a trend.':'Finish a full session to start this chart.'; return; }
+  note.style.display='none';
+  const vals=rows.map(r=>r.v), max=Math.max(...vals)*1.15||1, min=Math.max(0,Math.min(...vals)*0.85);
+  const pts=rows.map((r,i)=>[ (i/(rows.length-1))*290+5, 98-((r.v-min)/(max-min||1))*84 ]);
+  svg.innerHTML='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
+    +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
+}
 function renderSaunaHeat(){
   const today=new Date(); today.setHours(0,0,0,0);
   const cells=[];
@@ -1455,7 +1606,7 @@ $('#n-import').onclick=()=>{
     const f=inp.files&&inp.files[0]; if(!f) return;
     const r=new FileReader();
     r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d||typeof d!=='object') throw 0;
-      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{}},d);
+      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{},sessionStart:{},sessionMinutes:{}},d);
       persist(); applyTheme(); renderAll(); toast('Restored'); }catch(e){ toast('That file could not be read'); } };
     r.readAsText(f);
   };
@@ -1498,7 +1649,7 @@ window.addEventListener('load',positionPill);
 function renderAll(){
   renderToday(); renderWeek(); renderPull(); fuel('bulk');
   renderProgress(); renderHeat(); renderSauna(); renderSettings();
-  renderBW(); renderSaunaHeat();
+  renderBW(); renderSaunaHeat(); renderSessionChart();
   positionPill();
 }
 boot();
