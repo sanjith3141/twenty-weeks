@@ -98,10 +98,13 @@ input,select{font:inherit}
 .hero .title{font-size:clamp(30px,8.6vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.04}
 .hero .sub{font-size:13.5px;color:var(--ash);margin-top:6px;line-height:1.5}
 
-.quickrow{display:flex;gap:9px;margin:14px 0 18px}
-.qchip{flex:1;display:flex;align-items:center;gap:8px;padding:12px 13px;border-radius:16px;font-size:13px;font-weight:600;color:var(--ash);transition:.15s}
+.quickrow{display:flex;gap:9px;margin:14px 0 18px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.quickrow::-webkit-scrollbar{display:none}
+.qchip{flex:none;display:flex;align-items:center;gap:8px;padding:12px 13px;border-radius:16px;font-size:13px;font-weight:600;color:var(--ash);transition:.15s;white-space:nowrap}
 .qchip svg{flex:none;width:17px;height:17px}
 .qchip.on{color:var(--good);background:var(--goodSoft)}
+.qchip.sick.on{color:#C98A1A;background:rgba(201,138,26,.15)}
+.qchip.session-active{color:var(--ember);background:var(--emberSoft)}
 .qchip .bwv{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--ink)}
 .bwinput{width:44px;background:transparent;border:none;text-align:right;font:inherit;font-weight:600;color:var(--ink)}
 .bwinput:focus{outline:none}
@@ -115,16 +118,27 @@ input,select{font:inherit}
 .primer .ic{flex:none;width:26px;height:26px;border-radius:8px;background:var(--emberSoft);display:flex;align-items:center;justify-content:center;color:var(--ember);font-size:13px;font-weight:700}
 .primer .h{font-size:12.5px;font-weight:600;color:var(--ember);margin-bottom:4px}
 .primer .b{font-size:12.5px;color:#57565C;line-height:1.55}
+.primer.stall{border:1.5px solid #C98A1A}
+.primer.stall .ic{background:rgba(201,138,26,.15);color:#C98A1A}
+.primer.stall .h{color:#C98A1A}
+.stallbtns{display:flex;gap:8px;margin-top:10px}
+.stallbtns button{padding:8px 13px;border-radius:100px;font-size:12px;font-weight:700;background:var(--mist2);color:var(--ink)}
+.stallbtns button:first-child{background:#C98A1A;color:#fff}
 
 .exlist{display:flex;flex-direction:column;gap:var(--sp1);margin-bottom:var(--sp2)}
 .ex{display:flex;gap:var(--sp2);align-items:center;padding:var(--sp2) var(--sp2);width:100%;text-align:left;transition:.15s}
 .ex:active{transform:scale(.99)}
-.tick{flex:none;width:25px;height:25px;border-radius:50%;border:1.5px solid var(--dim);position:relative;transition:.2s}
+.tick{flex:none;width:25px;height:25px;border-radius:50%;border:1.5px solid var(--dim);position:relative;transition:.2s;cursor:pointer}
 .tick::after{content:'';position:absolute;left:7.5px;top:4px;width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;
   transform:rotate(45deg) scale(0);transition:transform .22s cubic-bezier(.3,1.5,.5,1)}
+.tick::before{content:'';position:absolute;left:6px;right:6px;top:11px;height:2px;border-radius:2px;background:#fff;transform:scaleX(0);transition:transform .22s cubic-bezier(.3,1.5,.5,1)}
 .ex.done .tick{background:var(--good);border-color:var(--good)}
 .ex.done .tick::after{transform:rotate(45deg) scale(1)}
 .ex.done .nm{color:var(--ash);text-decoration:line-through;text-decoration-color:var(--dim)}
+.ex.exskipped .tick{background:#C98A1A;border-color:#C98A1A}
+.ex.exskipped .tick::before{transform:scaleX(1)}
+.ex.exskipped .nm{color:#C98A1A}
+.noteicon{margin-left:6px;font-size:11px;color:var(--dim)}
 .exb{flex:1;min-width:0}
 .nm{font-size:15px;font-weight:600;letter-spacing:-.008em;display:block;line-height:1.3}
 .nm .k{color:var(--ember)}
@@ -270,6 +284,8 @@ nav button.on svg{transform:scale(1.08)}
 .setrow{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:14px;background:var(--mist1)}
 .setrow.warmup{opacity:.6}
 .setrow.warmup.filled{opacity:.75}
+.setrow.unfinished{background:rgba(230,160,40,.16)}
+.setrow.unfinished .sn{color:#C98A1A}
 .wubtn{flex:none;width:26px;height:26px;border-radius:8px;font-size:11px;font-weight:800;color:var(--dim);background:var(--mist2)}
 .wubtn.on{background:var(--emberSoft);color:var(--ember)}
 .setrow.filled{background:var(--goodSoft)}
@@ -323,6 +339,22 @@ nav button.on svg{transform:scale(1.08)}
 .res b{color:var(--ink);font-weight:700}
 .warn{color:var(--ember)}
 .fieldlbl{font-size:11.5px;font-weight:600;color:var(--ash);margin:16px 0 7px}
+.autolist{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:10;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadowLg);display:none}
+.autolist.on{display:block}
+.autolist button{display:block;width:100%;text-align:left;padding:11px 13px;font-size:13.5px;color:var(--ink);border-bottom:1px solid var(--line)}
+.autolist button:last-child{border-bottom:none}
+.autolist button:active{background:var(--mist1)}
+.libpick{margin-top:18px}
+.libpick .lbl{font-size:11.5px;font-weight:600;color:var(--ash);margin-bottom:8px}
+.libchip{display:inline-block;padding:8px 13px;border-radius:100px;font-size:12.5px;font-weight:600;color:var(--ash);background:var(--mist1);margin:0 6px 6px 0}
+.pbest{margin-top:14px;padding:14px 15px;border-radius:16px;background:var(--emberSoft)}
+.pbest .k{font-size:11.5px;font-weight:600;color:var(--ember)}
+.pbest .v{font-size:22px;font-weight:800;letter-spacing:-.015em;margin-top:3px;color:var(--ink)}
+.pbest .d{font-size:12px;color:var(--ash);margin-top:2px}
+.chartwrap{position:relative;cursor:pointer}
+.chartwrap::after{content:'Tap for details';position:absolute;right:0;bottom:-2px;font-size:10.5px;color:var(--dim);font-weight:600}
+.usernote{width:100%;min-height:60px;margin-top:16px;background:var(--mist1);border:1px solid var(--line);border-radius:14px;padding:11px 13px;font:inherit;font-size:13px;color:var(--ink);resize:vertical}
+.usernote:focus{outline:none;border-color:var(--ember)}
 .wk.future{pointer-events:none}
 .upday{padding:15px 16px;margin-bottom:9px}
 .upday .l{display:flex;align-items:baseline;gap:8px}
@@ -470,14 +502,14 @@ nav button.on svg{transform:scale(1.08)}
   <div class="pnl glass">
     <h3>Bodyweight</h3>
     <p class="h">From the weight field on the Today screen.</p>
-    <svg id="bw-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg>
+    <div class="chartwrap" id="bw-wrap"><svg id="bw-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg></div>
     <p class="snote" id="bw-note">Log your weight on Today to start this chart.</p>
   </div>
 
   <div class="pnl glass">
     <h3>Session length</h3>
-    <p class="h">Minutes from your first logged set to session close, per day.</p>
-    <svg id="sd-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg>
+    <p class="h">Manually timed with the session button on Today.</p>
+    <div class="chartwrap" id="sd-wrap"><svg id="sd-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg></div>
     <p class="snote" id="sd-note">Finish a full session to start this chart.</p>
   </div>
 
@@ -563,6 +595,8 @@ nav button.on svg{transform:scale(1.08)}
       <button class="btn ghost wide" id="ex-addset">Add a set</button>
       <button class="btn ghost wide" id="ex-rmset">Remove last</button>
     </div>
+    <div class="fieldlbl">Note for today (optional)</div>
+    <textarea id="ex-usernote" class="usernote" placeholder="e.g. gym was busy, cut it short"></textarea>
     <div class="tools">
       <button class="btn ghost wide" id="ex-hist">See history & chart</button>
       <button class="btn ghost wide" id="ex-plate">Plate calculator</button>
@@ -572,10 +606,21 @@ nav button.on svg{transform:scale(1.08)}
   </div>
 </div>
 
+<div class="sheet" id="sh-simple">
+  <div class="shead"><button id="sim-back">Back</button><span></span></div>
+  <div class="sbody">
+    <h2 class="stitle" id="sim-name">—</h2>
+    <div class="pbest" id="sim-best" style="display:none"></div>
+    <svg id="sim-chart" viewBox="0 0 300 140" width="100%" style="display:block;margin-top:18px"></svg>
+    <div class="entries" id="sim-entries"></div>
+  </div>
+</div>
+
 <div class="sheet" id="sh-hist">
   <div class="shead"><button id="hi-back">Back</button><span></span></div>
   <div class="sbody">
     <h2 class="stitle" id="hi-name">—</h2>
+    <div class="pbest" id="hi-best" style="display:none"></div>
     <div class="tog" style="margin-top:18px"><button class="on" data-hview="1rm">Est. 1RM</button><button data-hview="raw">Raw weight</button></div>
     <svg id="hi-chart" viewBox="0 0 300 130" width="100%" style="display:block"></svg>
     <div class="entries" id="hi-entries"></div>
@@ -601,15 +646,20 @@ nav button.on svg{transform:scale(1.08)}
     <h2 class="stitle" id="ed-title">Add an exercise</h2>
     <p class="snote" id="ed-help"></p>
     <div class="fieldlbl">Exercise name</div>
-    <div class="row"><input id="ed-name" placeholder="e.g. Machine Chest Press"></div>
+    <div class="row" style="position:relative"><input id="ed-name" placeholder="e.g. Machine Chest Press" autocomplete="off">
+      <div class="autolist" id="ed-autolist"></div>
+    </div>
+    <div class="fieldlbl">Logged as</div>
+    <div class="tog"><button class="on" data-logtype="reps">Reps</button><button data-logtype="time">Time (sec)</button><button data-logtype="distance">Distance (m)</button></div>
     <div class="fieldlbl">Sets</div>
     <div class="row"><input id="ed-sets" inputmode="numeric" placeholder="3"></div>
-    <div class="fieldlbl">Rep range</div>
+    <div class="fieldlbl" id="ed-range-lbl">Rep range</div>
     <div class="row"><input id="ed-lo" inputmode="numeric" placeholder="8"><span class="xx">to</span><input id="ed-hi" inputmode="numeric" placeholder="12"></div>
     <div class="setctl" style="margin-top:24px">
       <button class="btn ember wide" id="ed-save">Save</button>
       <button class="btn ghost wide" id="ed-reset" style="display:none">Undo swap</button>
     </div>
+    <div id="ed-library"></div>
   </div>
 </div>
 
@@ -653,7 +703,7 @@ nav button.on svg{transform:scale(1.08)}
 const START=new Date(2026,8,14);
 function yt(q){ return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' form technique shorts'); }
 
-const SEQUENCE=['push','pull','legs','rest','upper','lower']; // repeating rotation — advances only once a session is done
+const SEQUENCE=['push','pull','legs','rest','upper','lower']; // 6-step rotation (Sunday is the always-separate 7th slot) — advances only once a session is done
 const SESSIONS_BY_TYPE={
  push:{t:'Push',f:'Chest · Shoulders · Triceps · Abs',
     primer:{h:'Pull-up primer — 3 min',b:'Scapular pulls 2×8 · Dead hang 2×max hold. Skill work, not fatigue — you have pressing to do.'},
@@ -701,7 +751,7 @@ const SESSIONS_BY_TYPE={
     ex:[
      {n:'Hack Squat',s:3,lo:8,hi:12,rest:120,note:'Quad-dominant, less spinal load than the Legs day squat.'},
      {n:'Seated Leg Curl',s:3,lo:10,hi:15,rest:75,note:'Second hamstring session. 3-second lowering.'},
-     {n:'Walking Lunge',s:2,lo:10,hi:12,each:true,rest:75,note:'Long stride, loads the glutes.'},
+     {n:'Walking Lunge',s:2,lo:10,hi:12,each:true,rest:75,logType:'distance',note:'Long stride, loads the glutes. Log the distance of the walk-out, not a rep count.'},
      {n:'Seated Calf Raise',s:3,lo:12,hi:20,rest:60,note:'Bent knee — targets the soleus.'},
      {n:'Cable Lateral Raise',s:3,lo:12,hi:20,rest:60,note:'Third side-delt session — 10 sets/week total.'},
      {n:'EZ-Bar Curl',s:3,lo:8,hi:12,rest:75,note:'Main biceps volume lives here and the Pull day.'},
@@ -744,34 +794,17 @@ const FUEL={
 
 const KEY='twentyweeks.v2';
 let state={
- logs:{
-  "2026-09-12":{
-   "hack-squat":[{w:"",r:""},{w:"",r:""},{w:"",r:""}],
-   "triceps-pushdown":[{w:"",r:""},{w:"",r:""}],
-   "incline-barbell-press":[{w:"35",r:"10"},{w:"35",r:"10"},{w:"35",r:"10"}],
-   "flat-dumbbell-press":[{w:"12.5",r:"8"},{w:"12.5",r:"10"},{w:"12.5",r:"10"}],
-   "seated-dumbbell-shoulder-press":[{w:"7.5",r:"10"},{w:"7.5",r:"12"},{w:"7.5",r:"12"}],
-   "flat-bench-cable-fly":[{w:"15",r:"12"},{w:"15",r:"12"},{w:"15",r:"12"}],
-   "cable-lateral-raise":[{w:"5",r:"12"},{w:"5",r:"12"},{w:"5",r:"12"},{w:"0",r:"0"}],
-   "skull-crushers":[{w:"5",r:"15"},{w:"5",r:"11"},{w:"5",r:"8"}],
-   "hanging-knee-raise":[{w:"",r:""},{w:"",r:""},{w:"",r:""}],
-   "cable-crunch":[{w:"",r:""},{w:"",r:""},{w:"",r:""}]
-  },
-  "2026-09-14":{
-   "incline-barbell-press":[{w:"",r:""},{w:"",r:""},{w:"",r:""}]
-  }
- },
- bw:{"2026-09-11":81.5,"2026-09-12":81.3},
- sauna:{"2026-09-11":true},
+ logs:{}, bw:{}, sauna:{},
  swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],
  plates:[25,20,15,10,7.5,5,2.5],bar:20,
  prefs:{haptic:true,sound:true,dark:false},
- seqIndex:1,
- dayType:{"2026-09-12":"push","2026-09-13":"rest-sun","2026-09-14":"pull"},
- lastSeenDate:"2026-09-14",
- skippedManually:{"2026-09-14":true},
+ seqIndex:0,
+ dayType:{},
+ lastSeenDate:null,
+ skippedManually:{},
  preSkipType:{},
- sessionStart:{},sessionMinutes:{}
+ sessionStart:{},sessionMinutes:{},sessionActive:{},
+ manualStatus:{},setOverride:{},notes:{},swapLibrary:[],sickDays:{}
 };
 let storeMode='memory';
 function readRaw(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
@@ -848,7 +881,7 @@ function isTypeDayComplete(dateIso,type){
   if(type==='rest'||type==='rest-sun'||type==='skipped') return true;
   const items=listForType(type,dateIso); if(!items.length) return true;
   const w=weekNum(new Date(dateIso+'T00:00:00'));
-  return items.every(e=>{ const lg=(state.logs[dateIso]||{})[slug(e.n)]; return lg && filledSets(lg).length>=setCount(e,w); });
+  return items.every(e=>isExHandled(e,dateIso,w));
 }
 // Walks forward, one real day at a time, from the last day we ever computed up
 // through `targetIso` (always real "today" in practice). Each day's workout
@@ -875,6 +908,28 @@ function ensureAssignedThrough(targetIso){
     cursor=addDaysIso(cursor,1);
   }
   persist();
+}
+// How many real days in a row the same real workout type has been sitting
+// unfinished, counting backward from dateIso. Rest/Sunday/skipped days break
+// the streak (they're not a "stall").
+function stallStreak(dateIso){
+  const t=state.dayType[dateIso];
+  if(!t||t==='rest'||t==='rest-sun'||t==='skipped') return 0;
+  let n=1, cursor=dateIso;
+  while(true){
+    const prev=addDaysIso(cursor,-1);
+    if(state.dayType[prev]!==t) break;
+    n++; cursor=prev;
+  }
+  return n;
+}
+function insertRestToday(){
+  const t=REAL_TODAY_ISO(), cur=state.dayType[t];
+  if(!cur || cur==='rest'||cur==='rest-sun'||cur==='skipped') return;
+  state.preSkipType[t]=cur;
+  state.skippedManually[t]=true;
+  state.dayType[t]='rest';
+  persist(); haptic(30); toast('Rest day inserted'); renderToday(); renderWeek();
 }
 function skipToday(){
   const t=REAL_TODAY_ISO(), cur=state.dayType[t];
@@ -912,20 +967,23 @@ function predictType(dateIso){
 // Marks a real (past or today) date as trained regardless of how much was
 // logged, then re-walks the rotation forward from there through today —
 // so every day after it shifts to correct itself, not just this one.
-function finalizeSession(dateIso){
-  if(state.sessionStart[dateIso]!=null && state.sessionMinutes[dateIso]==null){
-    state.sessionMinutes[dateIso]=Math.max(1,Math.round((Date.now()-state.sessionStart[dateIso])/60000));
-    persist(); renderSessionChart();
-  }
+// Manual session timer — same interaction as the sauna toggle: one tap to
+// start when you walk in, one tap to stop when you're done. No more guessing
+// from the first logged set, which is what produced the 26-hour "session".
+function startSession(dateIso){
+  if(state.sessionActive[dateIso]) return;
+  state.sessionStart[dateIso]=Date.now();
+  state.sessionActive[dateIso]=true;
+  delete state.sessionMinutes[dateIso];
+  persist(); haptic(20); renderQuick(dateIso);
 }
-function checkSessionComplete(dateIso){
-  const type=state.dayType[dateIso];
-  if(!type||type==='rest'||type==='rest-sun'||type==='skipped') return;
-  const items=listForType(type,dateIso); if(!items.length) return;
-  const w=weekNum(new Date(dateIso+'T00:00:00'));
-  const doneN=items.filter(e=>{const lg=(state.logs[dateIso]||{})[slug(e.n)];return lg&&filledSets(lg).length>=setCount(e,w);}).length;
-  if(doneN===items.length) finalizeSession(dateIso);
+function stopSession(dateIso){
+  if(!state.sessionActive[dateIso]) return;
+  state.sessionMinutes[dateIso]=Math.max(1,Math.round((Date.now()-state.sessionStart[dateIso])/60000));
+  delete state.sessionActive[dateIso];
+  persist(); haptic(20); renderQuick(dateIso); renderSessionChart(); renderToday();
 }
+function finalizeSession(dateIso){ if(state.sessionActive[dateIso]) stopSession(dateIso); }
 function markTrained(dateIso){
   const t=state.dayType[dateIso];
   if(!t || t==='rest'||t==='rest-sun'||t==='skipped') return;
@@ -949,14 +1007,43 @@ function markTrained(dateIso){
   persist(); haptic(30); toast('Marked as trained'); renderToday(); renderWeek();
 }
 
-function prescr(e,w){
+function prescr(e,w,dateIso){
   if(e.pu){ const b=blockFor(w); return b[e.pu]; }
-  const sets=isDeload(w)?Math.max(1,Math.round(e.s/2)):e.s;
+  const sets=setCount(e,w,dateIso);
   if(e.lo==null) return sets+' sets';
   return sets+' × '+e.lo+'–'+e.hi+(e.each?' each side':'');
 }
-function setCount(e,w){ return isDeload(w)?Math.max(1,Math.round(e.s/2)):e.s; }
-function filledSets(arr){ return (arr||[]).filter(s=>s&&s.r!=null&&s.r!==''&&!s.wu); }
+function setCount(e,w,dateIso){
+  if(dateIso!=null && e.ref!=null){
+    const ov=state.setOverride[dateIso+'|'+e.ref];
+    if(ov!=null) return ov;
+  }
+  return isDeload(w)?Math.max(1,Math.round(e.s/2)):e.s;
+}
+// A set only counts once it has an actual positive number of reps — a stray
+// 0 (an accidental extra row) is not a completed set. Time/distance types
+// store their amount in .r too, so the same rule applies to those.
+function filledSets(arr){ return (arr||[]).filter(s=>s&&s.r!=null&&s.r!==''&&!s.wu&&Number(s.r)>0); }
+// A set with a weight typed in but no reps yet — "started, not finished" —
+// distinct from a totally untouched row.
+function unfinishedSets(arr){ return (arr||[]).filter(s=>s&&s.w!=null&&s.w!==''&&(s.r==null||s.r===''||Number(s.r)<=0)&&!s.wu); }
+function manualKey(dateIso,ref){ return dateIso+'|'+ref; }
+function isExDone(e,dateIso,w){
+  const mk=manualKey(dateIso,e.ref), ms=state.manualStatus[mk];
+  if(ms==='done') return true;
+  if(ms==='skipped') return false; // skipped counts as handled, not "done" — see isExHandled
+  const lg=(state.logs[dateIso]||{})[slug(e.n)];
+  return lg && filledSets(lg).length>=setCount(e,w,dateIso);
+}
+function isExSkipped(e,dateIso){ return state.manualStatus[manualKey(dateIso,e.ref)]==='skipped'; }
+function isExHandled(e,dateIso,w){ return isExDone(e,dateIso,w) || isExSkipped(e,dateIso); }
+function cycleManualStatus(e,dateIso){
+  const mk=manualKey(dateIso,e.ref), cur=state.manualStatus[mk];
+  if(cur==null) state.manualStatus[mk]='done';
+  else if(cur==='done') state.manualStatus[mk]='skipped';
+  else delete state.manualStatus[mk];
+  persist();
+}
 function lastSession(exKey,beforeKey){
   const keys=Object.keys(state.logs).filter(k=>k<beforeKey).sort().reverse();
   for(const k of keys){ const a=state.logs[k][exKey]; if(a&&filledSets(a).length) return {date:k,sets:filledSets(a)}; }
@@ -1021,23 +1108,35 @@ function renderToday(){
   }
 
   $('#t-prog').style.display='';
-  $('#t-primer').innerHTML=s.primer?'<div class="glass primer"><div class="ic">i</div><div><div class="h">'+s.primer.h+'</div><div class="b">'+s.primer.b+'</div></div></div>':'';
+  const streak=isToday?stallStreak(key):0;
+  let primerHtml=s.primer?'<div class="glass primer"><div class="ic">i</div><div><div class="h">'+s.primer.h+'</div><div class="b">'+s.primer.b+'</div></div></div>':'';
+  if(streak>=2){
+    primerHtml='<div class="glass primer stall"><div class="ic">!</div><div><div class="h">Still on '+s.t+' — '+streak+' days now</div>'
+      +'<div class="b">Nothing\'s been marked done since. Log it properly, mark it done anyway, or slot in a rest day instead?</div>'
+      +'<div class="stallbtns"><button id="t-stalldone">Mark done</button><button id="t-stallrest">Insert rest instead</button></div></div></div>'+primerHtml;
+  }
+  $('#t-primer').innerHTML=primerHtml;
+  if(streak>=2){
+    $('#t-stalldone').onclick=()=>markTrained(key);
+    $('#t-stallrest').onclick=()=>insertRestToday();
+  }
 
   const items=listForType(type,key);
-  let totalSets=0; items.forEach(e=>totalSets+=setCount(e,w));
+  let totalSets=0; items.forEach(e=>totalSets+=setCount(e,w,key));
   $('#t-sets').textContent=totalSets+' sets';
 
   $('#t-list').innerHTML=items.map(e=>{
-    const ek=slug(e.n), lg=(state.logs[key]||{})[ek], need=setCount(e,w);
-    const done=lg&&filledSets(lg).length>=need;
+    const ek=slug(e.n), lg=(state.logs[key]||{})[ek], need=setCount(e,w,key);
+    const done=isExDone(e,key,w), skipped=isExSkipped(e,key);
     const last=lastSession(ek,key);
     const bump=shouldAddWeight(e,last,w);
     let lastLine=last?niceDate(last.date)+' — '+setsToText(last.sets):'<span style="color:#C4C1BA">No history yet</span>';
-    const partial=lg&&filledSets(lg).length&&!done?filledSets(lg).length+'/'+need+' logged':'';
-    const btnHtml='<button class="glass ex'+(done?' done':'')+'" data-ref="'+e.ref+'">'
-      +'<span class="tick"></span><span class="exb">'
-      +'<span class="nm">'+(e.key?'<span class="k">'+e.n+'</span>':e.n)+(e.swapped?' <span style="color:var(--dim);font-size:12px;font-weight:500">(swapped)</span>':'')+'</span>'
-      +'<span class="pr"><span>'+prescr(e,w)+'</span><span class="restpill">⏱ '+fmtRest(e.rest)+'</span>'+(partial?'<span>· '+partial+'</span>':'')+(bump?'<span class="bump">↑ add weight</span>':'')+'</span>'
+    const partial=lg&&filledSets(lg).length&&!done&&!skipped?filledSets(lg).length+'/'+need+' logged':'';
+    const noteIcon=state.notes[manualKey(key,e.ref)]?'<span class="noteicon" title="Has a note">✎</span>':'';
+    const btnHtml='<button class="glass ex'+(done?' done':'')+(skipped?' exskipped':'')+'" data-ref="'+e.ref+'">'
+      +'<span class="tick" data-tickref="'+e.ref+'" aria-label="Toggle status"></span><span class="exb">'
+      +'<span class="nm">'+(e.key?'<span class="k">'+e.n+'</span>':e.n)+noteIcon+(e.swapped?' <span style="color:var(--dim);font-size:12px;font-weight:500">(swapped)</span>':'')+'</span>'
+      +'<span class="pr"><span>'+prescr(e,w,key)+'</span><span class="restpill">⏱ '+fmtRest(e.rest)+'</span>'+(partial?'<span>· '+partial+'</span>':'')+(bump?'<span class="bump">↑ add weight</span>':'')+'</span>'
       +'<span class="last">'+lastLine+'</span></span><span class="chev">›</span></button>';
     let sugHtml='';
     if(e.suggestion){
@@ -1048,12 +1147,26 @@ function renderToday(){
     return btnHtml+sugHtml;
   }).join('');
   $('#t-list').querySelectorAll('.ex').forEach(el=>{ el.onclick=()=>openEx(el.dataset.ref); });
+  $('#t-list').querySelectorAll('[data-tickref]').forEach(el=>{
+    el.onclick=(ev)=>{
+      ev.stopPropagation();
+      const e=listForType(type,key).find(x=>x.ref===el.dataset.tickref); if(!e) return;
+      cycleManualStatus(e,key);
+      renderToday();
+      if(state.manualStatus[manualKey(key,e.ref)]==='done'){
+        setTimeout(()=>{
+          const next=$('#t-list').querySelector('.ex:not(.done):not(.exskipped)');
+          if(next) next.scrollIntoView({behavior:'smooth',block:'center'});
+        },260);
+      }
+    };
+  });
   $('#t-list').querySelectorAll('.suggest').forEach(el=>{
     el.querySelector('[data-act="yes"]').onclick=(ev)=>{ ev.stopPropagation(); acceptSuggestion(el.dataset.ref,el.dataset.dskey); };
     el.querySelector('[data-act="no"]').onclick=(ev)=>{ ev.stopPropagation(); dismissSuggestion(el.dataset.dskey); };
   });
 
-  const doneN=items.filter(e=>{const lg=(state.logs[key]||{})[slug(e.n)];return lg&&filledSets(lg).length>=setCount(e,w);}).length;
+  const doneN=items.filter(e=>isExHandled(e,key,w)).length;
   const allDone=doneN===items.length&&items.length;
 
   $('#t-add').innerHTML='<button class="addex" id="t-addbtn">+ Add an exercise to this day</button>'
@@ -1061,25 +1174,42 @@ function renderToday(){
     +(!allDone?'<button class="addex" id="t-trainbtn" style="margin-top:8px">'+(isToday?'Mark today as trained':'Mark as trained')+'</button>':'');
   $('#t-addbtn').onclick=()=>openEdit(null,type);
   if(isToday&&!allDone) $('#t-skipbtn').onclick=skipToday;
-  if(!allDone) $('#t-trainbtn').onclick=()=>markTrained(key);
+  if(!allDone) $('#t-trainbtn').onclick=()=>{
+    const untouchedN=items.filter(e=>{
+      const lg=(state.logs[key]||{})[slug(e.n)];
+      return !isExHandled(e,key,w) && !(lg&&filledSets(lg).length);
+    }).length;
+    if(untouchedN>0){
+      if(!confirm(untouchedN+' exercise'+(untouchedN>1?'s':'')+" weren't logged at all — still mark this day done?")) return;
+    }
+    markTrained(key);
+  };
 
   $('#t-fill').style.width=(items.length?Math.round(doneN/items.length*100):0)+'%';
   $('#t-count').textContent=doneN+' of '+items.length+' done';
-  const durLine=state.sessionMinutes[key]!=null?'<div class="sessdur">Session: '+state.sessionMinutes[key]+' min</div>':'';
-  $('#t-finis').innerHTML=(allDone
+  $('#t-finis').innerHTML=allDone
     ?'<div class="finis hit">Session closed.</div>'
-    :'<div class="finis">'+(items.length-doneN)+' left.</div>')+durLine;
-  if(allDone) checkSessionComplete(key);
+    :'<div class="finis">'+(items.length-doneN)+' left.</div>';
 }
 function renderQuick(key){
   const bw=state.bw[key]!=null?state.bw[key]:'';
   const sa=!!state.sauna[key];
+  const sick=!!state.sickDays[key];
+  const active=!!state.sessionActive[key];
+  const mins=state.sessionMinutes[key];
   $('#t-quick').innerHTML=
     '<div class="glass qchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.9 2.9M16.2 16.2l2.9 2.9M2 12h4M18 12h4M4.9 19.1l2.9-2.9M16.2 7.8l2.9-2.9"/><circle cx="12" cy="12" r="3"/></svg>'
     +'Weight<input class="bwinput" id="qk-bw" inputmode="decimal" placeholder="—" value="'+bw+'"><span style="font-size:11.5px;color:var(--ash)">kg</span></div>'
-    +'<button class="glass qchip'+(sa?' on':'')+'" id="qk-sauna"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h16M6 14c0-4 2-5 2-8 0 2 1 3 1 3s1-2 1-4c0 3 2 4 2 7M14 14c0-3 1.5-4 1.5-6 0 1.5.75 2.25.75 2.25S17 9 17 7c0 2.5 2 3.5 2 7"/><path d="M5 18h14a2 2 0 000-4H5a2 2 0 000 4z"/></svg>Sauna</button>';
+    +'<button class="glass qchip'+(sa?' on':'')+'" id="qk-sauna"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h16M6 14c0-4 2-5 2-8 0 2 1 3 1 3s1-2 1-4c0 3 2 4 2 7M14 14c0-3 1.5-4 1.5-6 0 1.5.75 2.25.75 2.25S17 9 17 7c0 2.5 2 3.5 2 7"/><path d="M5 18h14a2 2 0 000-4H5a2 2 0 000 4z"/></svg>Sauna</button>'
+    +'<button class="glass qchip'+(sick?' on sick':'')+'" id="qk-sick" title="Sick or injured — kept out of your consistency stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg>Sick</button>';
+  $('#t-quick').insertAdjacentHTML('beforeend',
+    '<button class="glass qchip'+(active?' on session-active':'')+'" id="qk-session">'
+    +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>'
+    +(active?'End session':(mins!=null?mins+' min':'Start session'))+'</button>');
   $('#qk-bw').addEventListener('change',e=>{ const v=parseFloat(e.target.value); if(isNaN(v)) delete state.bw[key]; else state.bw[key]=v; persist(); toast('Saved'); renderBW(); });
   $('#qk-sauna').onclick=()=>{ state.sauna[key]=!state.sauna[key]; if(!state.sauna[key]) delete state.sauna[key]; persist(); haptic(20); renderQuick(key); renderSauna(); renderSaunaHeat(); };
+  $('#qk-sick').onclick=()=>{ state.sickDays[key]=!state.sickDays[key]; if(!state.sickDays[key]) delete state.sickDays[key]; persist(); haptic(20); renderQuick(key); renderHeat(); };
+  $('#qk-session').onclick=()=>{ if(state.sessionActive[key]) stopSession(key); else startSession(key); };
 }
 function shiftDay(n){
   viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth(),viewDate.getDate()+n);
@@ -1100,7 +1230,7 @@ function openEx(ref){
   openRef=ref;
   const w=weekNum(viewDate), key=iso(viewDate), ek=slug(e.n);
   $('#ex-name').textContent=e.n;
-  $('#ex-pr').textContent=prescr(e,w)+(isDeload(w)?' · deload':'');
+  $('#ex-pr').textContent=prescr(e,w,key)+(isDeload(w)?' · deload':'');
   $('#ex-note').textContent=e.note||'';
   $('#ex-vid').href=yt(e.n);
   $('#ex-remove').style.display=(e.custom||e.swapped)?'':'none';
@@ -1115,33 +1245,51 @@ function openEx(ref){
     :'<span class="lbl">First time</span>Pick a weight you could do a few extra reps with — undershooting session one costs nothing.';
   $('#ex-bump').style.display=push?'block':'none';
 
+  const nk=manualKey(key,e.ref);
+  $('#ex-usernote').value=state.notes[nk]||'';
+  $('#ex-usernote').oninput=()=>{
+    const v=$('#ex-usernote').value;
+    if(v.trim()) state.notes[nk]=v; else delete state.notes[nk];
+    persist();
+  };
+
   drawSets(e,w,key,ek);
   openSheet('sh-ex');
 }
+function repsLabel(e){ return e.logType==='time'?'sec':(e.logType==='distance'?'m':'reps'); }
 function drawSets(e,w,key,ek){
-  const need=setCount(e,w);
+  const need=setCount(e,w,key);
   state.logs[key]=state.logs[key]||{};
   let arr=state.logs[key][ek]||[];
   while(arr.length<need) arr.push({w:'',r:''});
   state.logs[key][ek]=arr;
-  const bw=(e.pu||/pull-up|dip|ab wheel|hanging|push up|rollout/i.test(e.n));
-  $('#ex-sets').innerHTML=arr.map((st,i)=>
-    '<div class="setrow'+(st.r!==''&&st.r!=null?' filled':'')+(st.wu?' warmup':'')+'" data-i="'+i+'">'
+  const bw=(e.pu||/pull-up|dip|ab[ -]wheel|hanging|push[ -]?up|rollout/i.test(e.n));
+  $('#ex-sets').innerHTML=arr.map((st,i)=>{
+    const finished=st.r!=null&&st.r!==''&&Number(st.r)>0;
+    const started=st.w!=null&&st.w!=='';
+    const unfinished=started&&!finished&&!st.wu;
+    return '<div class="setrow'+(finished?' filled':'')+(st.wu?' warmup':'')+(unfinished?' unfinished':'')+'" data-i="'+i+'">'
     +'<span class="sn">'+(i+1)+'</span>'
     +'<button class="wubtn'+(st.wu?' on':'')+'" data-wu="'+i+'" title="Mark as warm-up">W</button>'
     +'<input class="wi" inputmode="decimal" placeholder="'+(bw?'+kg':'kg')+'" value="'+(st.w??'')+'">'
     +'<span class="xx">×</span>'
-    +'<input class="ri" inputmode="numeric" placeholder="reps" value="'+(st.r??'')+'"></div>').join('');
+    +'<input class="ri" inputmode="numeric" placeholder="'+repsLabel(e)+'" value="'+(st.r??'')+'"></div>';
+  }).join('');
   $('#ex-sets').querySelectorAll('.setrow').forEach(row=>{
     const i=+row.dataset.i, wi=row.querySelector('.wi'), ri=row.querySelector('.ri');
-    const upd=()=>{ arr[i].w=wi.value.trim(); arr[i].r=ri.value.trim(); row.classList.toggle('filled',arr[i].r!==''); persist(); };
+    const upd=()=>{
+      arr[i].w=wi.value.trim(); arr[i].r=ri.value.trim();
+      const finished=arr[i].r!==''&&Number(arr[i].r)>0, started=arr[i].w!=='';
+      row.classList.toggle('filled',finished);
+      row.classList.toggle('unfinished',started&&!finished&&!arr[i].wu);
+      persist();
+    };
     wi.addEventListener('input',upd); ri.addEventListener('input',upd);
     ri.addEventListener('blur',()=>{
-      if(arr[i].r!==''){
+      if(arr[i].r!==''&&Number(arr[i].r)>0){
         haptic(25);
-        if(!state.sessionStart[key]) state.sessionStart[key]=Date.now();
         if(!arr[i].wu) startRestTimer(e);
-        toast('Saved'); persist(); renderToday(); checkSessionComplete(key);
+        toast('Saved'); persist(); renderToday();
       }
     });
     wi.addEventListener('blur',()=>{
@@ -1161,8 +1309,22 @@ function drawSets(e,w,key,ek){
   });
 }
 function refreshSheet(){ const e=findByRef(openRef); if(!e) return; drawSets(e,weekNum(viewDate),iso(viewDate),slug(e.n)); }
-$('#ex-addset').onclick=()=>{ const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n); state.logs[key][ek].push({w:'',r:''}); persist(); refreshSheet(); };
-$('#ex-rmset').onclick=()=>{ const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n),arr=state.logs[key][ek]; if(arr.length>1){arr.pop();persist();refreshSheet();renderToday();} };
+// Adding or removing a set here changes what "done" means for this exercise
+// on THIS day only — its next occurrence reverts to the normal default count.
+$('#ex-addset').onclick=()=>{
+  const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n);
+  state.logs[key][ek].push({w:'',r:''});
+  state.setOverride[key+'|'+e.ref]=state.logs[key][ek].length;
+  persist(); refreshSheet(); renderToday();
+};
+$('#ex-rmset').onclick=()=>{
+  const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n),arr=state.logs[key][ek];
+  if(arr.length>1){
+    arr.pop();
+    state.setOverride[key+'|'+e.ref]=arr.length;
+    persist(); refreshSheet(); renderToday();
+  }
+};
 $('#ex-clear').onclick=()=>{ const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n); delete state.logs[key][ek]; persist(); refreshSheet(); renderToday(); toast('Cleared'); };
 $('#ex-remove').onclick=()=>{
   const e=findByRef(openRef); if(!e) return; const type=state.dayType[iso(viewDate)];
@@ -1251,7 +1413,12 @@ function allSessionsFor(ek){
 }
 function drawHist(){
   const ek=slug(histEx.n), rows=allSessionsFor(ek);
-  const svg=$('#hi-chart');
+  const svg=$('#hi-chart'), best=$('#hi-best');
+  if(rows.length){
+    const bestRow=rows.reduce((a,b)=>b.oneRM>a.oneRM?b:a,rows[0]);
+    best.style.display='block';
+    best.innerHTML='<div class="k">Personal best (est. 1RM)</div><div class="v">'+fmt(bestRow.oneRM)+' kg</div><div class="d">'+niceDate(bestRow.date)+'</div>';
+  } else { best.style.display='none'; }
   if(rows.length<2){ svg.innerHTML=''; $('#hi-entries').innerHTML=rows.length
     ?'<div class="entry"><span>'+niceDate(rows[0].date)+'</span><b>'+setsToText(rows[0].sets)+'</b></div>'
     :'<div class="entry" style="border:none">No sessions logged yet.</div>'; return; }
@@ -1281,9 +1448,24 @@ function dismissSuggestion(dsKey){
   state.suggestDismissed[dsKey]=true;
   persist(); renderToday();
 }
-let editTarget=null, editType=null;
+function allKnownExerciseNames(){
+  const names=new Map();
+  Object.values(SESSIONS_BY_TYPE).forEach(s=>s.ex.forEach(e=>names.set(e.n.toLowerCase(),e.n)));
+  Object.values(state.swaps).forEach(e=>names.set(e.n.toLowerCase(),e.n));
+  Object.values(state.extra).forEach(list=>(list||[]).forEach(e=>names.set(e.n.toLowerCase(),e.n)));
+  state.swapLibrary.forEach(e=>names.set(e.n.toLowerCase(),e.n));
+  return [...names.values()].sort((a,b)=>a.localeCompare(b));
+}
+function rememberSwapInLibrary(rec){
+  const key=rec.n.toLowerCase();
+  state.swapLibrary=state.swapLibrary.filter(e=>e.n.toLowerCase()!==key);
+  state.swapLibrary.unshift(rec);
+  if(state.swapLibrary.length>12) state.swapLibrary=state.swapLibrary.slice(0,12);
+}
+let editTarget=null, editType=null, editLogType='reps';
 function openEdit(e,type){
   editTarget=e||null; editType=type||(state.dayType[iso(viewDate)]);
+  editLogType=(e&&e.logType)||'reps';
   $('#ed-title').textContent=e?'Swap this exercise':'Add an exercise';
   $('#ed-help').textContent=e?'Applies to this date only. Next time this workout type comes around in the rotation, you\'ll get a one-tap prompt to use it again.':'Stays on this workout type every time it comes up, until removed.';
   $('#ed-name').value=e&&e.swapped?e.n:'';
@@ -1291,19 +1473,55 @@ function openEdit(e,type){
   $('#ed-lo').value=e&&e.lo!=null?e.lo:'';
   $('#ed-hi').value=e&&e.hi!=null?e.hi:'';
   $('#ed-reset').style.display=(e&&e.swapped)?'':'none';
+  document.querySelectorAll('[data-logtype]').forEach(b=>b.classList.toggle('on',b.dataset.logtype===editLogType));
+  $('#ed-range-lbl').textContent=editLogType==='time'?'Time range (sec)':editLogType==='distance'?'Distance range (m)':'Rep range';
+  $('#ed-autolist').classList.remove('on');
+  const lib=state.swapLibrary.filter(x=>x.n.toLowerCase()!==((e&&e.n)||'').toLowerCase());
+  $('#ed-library').innerHTML=lib.length?'<div class="libpick"><div class="lbl">Your usual substitutes</div>'
+    +lib.map((x,i)=>'<button class="libchip" data-lib="'+i+'">'+x.n+'</button>').join('')+'</div>':'';
+  $('#ed-library').querySelectorAll('[data-lib]').forEach(btn=>{
+    btn.onclick=()=>{
+      const rec=lib[+btn.dataset.lib];
+      $('#ed-name').value=rec.n; $('#ed-sets').value=rec.s; $('#ed-lo').value=rec.lo; $('#ed-hi').value=rec.hi;
+      editLogType=rec.logType||'reps';
+      document.querySelectorAll('[data-logtype]').forEach(b=>b.classList.toggle('on',b.dataset.logtype===editLogType));
+      $('#ed-range-lbl').textContent=editLogType==='time'?'Time range (sec)':editLogType==='distance'?'Distance range (m)':'Rep range';
+    };
+  });
   openSheet('sh-edit');
   setTimeout(()=>$('#ed-name').focus(),260);
 }
+document.querySelectorAll('[data-logtype]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('[data-logtype]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); editLogType=b.dataset.logtype;
+    $('#ed-range-lbl').textContent=editLogType==='time'?'Time range (sec)':editLogType==='distance'?'Distance range (m)':'Rep range';
+  };
+});
+$('#ed-name').addEventListener('input',()=>{
+  const q=$('#ed-name').value.trim().toLowerCase();
+  const list=$('#ed-autolist');
+  if(!q){ list.classList.remove('on'); list.innerHTML=''; return; }
+  const matches=allKnownExerciseNames().filter(n=>n.toLowerCase().includes(q)).slice(0,6);
+  if(!matches.length){ list.classList.remove('on'); list.innerHTML=''; return; }
+  list.innerHTML=matches.map(n=>'<button type="button">'+n+'</button>').join('');
+  list.classList.add('on');
+  list.querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{ $('#ed-name').value=btn.textContent; list.classList.remove('on'); list.innerHTML=''; };
+  });
+});
+$('#ed-name').addEventListener('blur',()=>{ setTimeout(()=>{ $('#ed-autolist').classList.remove('on'); },150); });
 $('#ed-save').onclick=()=>{
   const n=$('#ed-name').value.trim(); if(!n){$('#ed-name').focus();return;}
   const s=Math.max(1,Math.min(10,parseInt($('#ed-sets').value,10)||3));
   const lo=parseInt($('#ed-lo').value,10), hi=parseInt($('#ed-hi').value,10);
-  const rec={n,s,lo:isNaN(lo)?8:lo,hi:isNaN(hi)?(isNaN(lo)?12:lo+4):hi,rest:90};
+  const rec={n,s,lo:isNaN(lo)?8:lo,hi:isNaN(hi)?(isNaN(lo)?12:lo+4):hi,rest:90,logType:editLogType};
   if(editTarget){
     const dateKey=iso(viewDate), dsKey=dateKey+'|'+editTarget.ref;
     state.swaps[dsKey]=rec;
     state.swapSuggest[editTarget.ref]={record:rec,lastDate:dateKey};
     delete state.suggestDismissed[dsKey];
+    rememberSwapInLibrary(rec);
   } else { state.extra[editType]=state.extra[editType]||[]; state.extra[editType].push(rec); }
   persist(); closeAll(); renderToday(); toast(editTarget?'Swapped':'Added');
 };
@@ -1543,6 +1761,45 @@ function renderSessionChart(){
     +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
     +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
 }
+// Generic tap-to-expand detail view for the simple (single-series) charts —
+// bodyweight and session length. Shows real axis numbers and the full log,
+// not just a bare line.
+function openSimpleDetail(title,rows,unit){
+  $('#sim-name').textContent=title;
+  const svg=$('#sim-chart'), best=$('#sim-best');
+  if(!rows.length){
+    svg.innerHTML=''; best.style.display='none';
+    $('#sim-entries').innerHTML='<div class="entry" style="border:none">No entries yet.</div>';
+    openSheet('sh-simple'); return;
+  }
+  best.style.display='none';
+  const vals=rows.map(r=>r.v), max=Math.max(...vals), min=Math.min(...vals);
+  const pad=(max-min)*0.15||Math.max(1,max*0.1);
+  const top=max+pad, bot=Math.max(0,min-pad);
+  const W=290,X0=5,Y0=14,H=100;
+  const pts=rows.map((r,i)=>[ rows.length>1?(i/(rows.length-1))*W+X0:X0+W/2, Y0+(1-(r.v-bot)/((top-bot)||1))*H ]);
+  let svgHtml='<line x1="'+X0+'" y1="'+Y0+'" x2="'+X0+'" y2="'+(Y0+H)+'" stroke="var(--line)" stroke-width="1"/>'
+    +'<text x="'+X0+'" y="'+(Y0-4)+'" font-size="10" fill="var(--dim)">'+fmt(top)+unit+'</text>'
+    +'<text x="'+X0+'" y="'+(Y0+H+12)+'" font-size="10" fill="var(--dim)">'+fmt(bot)+unit+'</text>';
+  if(rows.length>1){
+    svgHtml+='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
+      +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+  svgHtml+=pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#D8452F"/>').join('');
+  svg.innerHTML=svgHtml;
+  $('#sim-entries').innerHTML=rows.slice().reverse().map(r=>
+    '<div class="entry"><span>'+niceDate(r.date)+'</span><b>'+fmt(r.v)+' '+unit+'</b></div>').join('');
+  openSheet('sh-simple');
+}
+$('#sim-back').onclick=()=>dismiss();
+$('#bw-wrap').onclick=()=>{
+  const rows=Object.keys(state.bw).sort().map(k=>({date:k,v:state.bw[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
+  openSimpleDetail('Bodyweight',rows,'kg');
+};
+$('#sd-wrap').onclick=()=>{
+  const rows=Object.keys(state.sessionMinutes).sort().map(k=>({date:k,v:state.sessionMinutes[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
+  openSimpleDetail('Session length',rows,'min');
+};
 function renderSaunaHeat(){
   const today=new Date(); today.setHours(0,0,0,0);
   const cells=[];
@@ -1558,9 +1815,9 @@ function renderHeat(){
   for(let i=69;i>=0;i--){
     const d=new Date(today); d.setDate(today.getDate()-i);
     const k=iso(d), type=state.dayType[k];
-    if(d>today || type===undefined || type==='rest'||type==='rest-sun'||type==='skipped'){ cells.push({lvl:-1}); continue; }
+    if(d>today || type===undefined || type==='rest'||type==='rest-sun'||type==='skipped'||state.sickDays[k]){ cells.push({lvl:-1}); continue; }
     const items=listForType(type,k); const w=weekNum(d);
-    let n=0; items.forEach(e=>{ const lg=(state.logs[k]||{})[slug(e.n)]; if(lg&&filledSets(lg).length>=setCount(e,w)) n++; });
+    let n=0; items.forEach(e=>{ if(isExHandled(e,k,w)) n++; });
     const frac=items.length?n/items.length:0;
     cells.push({lvl: frac===0?0: frac<0.5?1: frac<1?2:3});
   }
@@ -1606,7 +1863,7 @@ $('#n-import').onclick=()=>{
     const f=inp.files&&inp.files[0]; if(!f) return;
     const r=new FileReader();
     r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d||typeof d!=='object') throw 0;
-      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{},sessionStart:{},sessionMinutes:{}},d);
+      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{},sessionStart:{},sessionMinutes:{},sessionActive:{},manualStatus:{},setOverride:{},notes:{},swapLibrary:[],sickDays:{}},d);
       persist(); applyTheme(); renderAll(); toast('Restored'); }catch(e){ toast('That file could not be read'); } };
     r.readAsText(f);
   };
