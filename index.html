@@ -98,15 +98,17 @@ input,select{font:inherit}
 .hero .title{font-size:clamp(30px,8.6vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.04}
 .hero .sub{font-size:13.5px;color:var(--ash);margin-top:6px;line-height:1.5}
 
-.quickrow{display:flex;gap:9px;margin:14px 0 18px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
-.quickrow::-webkit-scrollbar{display:none}
-.qchip{flex:none;display:flex;align-items:center;gap:8px;padding:12px 13px;border-radius:16px;font-size:13px;font-weight:600;color:var(--ash);transition:.15s;white-space:nowrap}
+.quickrow{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0 18px}
+.qchip{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:8px;padding:12px 13px;border-radius:16px;font-size:13px;font-weight:600;color:var(--ash);transition:.15s;white-space:nowrap}
+.sessrow{flex:1 1 100%;display:flex;gap:9px}
+.sessrow .qchip{flex:1 1 auto}
+.sessrow .qchip.pencil{flex:none;justify-content:center;padding:12px 16px}
 .qchip svg{flex:none;width:17px;height:17px}
 .qchip.on{color:var(--good);background:var(--goodSoft)}
 .qchip.sick.on{color:#C98A1A;background:rgba(201,138,26,.15)}
 .qchip.session-active{color:var(--ember);background:var(--emberSoft)}
 .qchip .bwv{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--ink)}
-.bwinput{width:44px;background:transparent;border:none;text-align:right;font:inherit;font-weight:600;color:var(--ink)}
+.bwinput{width:100%;min-width:0;background:transparent;border:none;text-align:right;font:inherit;font-weight:600;color:var(--ink)}
 .bwinput:focus{outline:none}
 
 .progwrap{padding:14px 16px;margin-bottom:16px}
@@ -144,6 +146,70 @@ input,select{font:inherit}
 .nm .k{color:var(--ember)}
 .pr{font-size:12px;color:var(--ash);margin-top:3px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 .restpill{color:var(--dim);font-weight:600}
+.tgt{font-weight:700;color:var(--ink)}
+.tgt.bump{color:var(--ember)}
+.quietbtn{display:block;margin:14px auto 4px;padding:8px 14px;font-size:12px;font-weight:600;color:var(--dim);text-align:center}
+.quietbtn.on{color:#C98A1A}
+.nudge{display:flex;align-items:center;gap:12px;padding:13px 15px;margin-bottom:14px}
+.nudge .nt{flex:1;font-size:12.5px;color:var(--ash);line-height:1.45}
+.nudge .nt b{color:var(--ink);font-weight:700}
+.nudge .nb{display:flex;gap:6px;flex:none}
+.nudge button{padding:8px 13px;border-radius:100px;font-size:12px;font-weight:700;background:var(--emberSoft);color:var(--ember)}
+.nudge button.no{background:var(--mist2);color:var(--ash)}
+.recapbtn{margin-top:0}
+
+/* ── scrubbable chart (stock-app style) ── */
+.sc-head{margin-bottom:6px}
+.sc-val{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.sc-val em{font-style:normal;font-size:14px;color:var(--ash);font-weight:600;margin-left:5px}
+.sc-sub{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-size:12.5px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.sc-chg.good{color:var(--good)} .sc-chg.bad{color:var(--ember)} .sc-chg.flat{color:var(--ash)}
+.sc-date{color:var(--ash);font-weight:500}
+.sc-svg{display:block;width:100%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:crosshair}
+.sc-pills{display:flex;gap:6px;margin-top:10px}
+.sc-pills button{flex:1;padding:7px 4px;border-radius:100px;font-size:11.5px;font-weight:700;color:var(--ash);background:var(--mist1)}
+.sc-pills button.on{background:var(--pillOnBg);color:var(--pillOnText)}
+.sc-mode{display:flex;gap:6px;margin-bottom:8px}
+.sc-mode button{padding:6px 12px;border-radius:100px;font-size:11.5px;font-weight:700;color:var(--ash);background:var(--mist1)}
+.sc-mode button.on{background:var(--emberSoft);color:var(--ember)}
+.sc-empty{padding:26px 4px;text-align:center;font-size:12.5px;color:var(--dim)}
+
+/* ── chip-grid set logging ── */
+.sethead{display:grid;grid-template-columns:52px 1fr 1fr;gap:10px;padding:0 2px;margin:18px 0 8px;font-size:11px;font-weight:700;color:var(--dim);text-align:center;letter-spacing:.04em}
+.secthead{display:flex;justify-content:space-between;align-items:center;margin-top:22px;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.secthead button{font-size:12.5px;font-weight:700;color:var(--ember);padding:4px 2px}
+.chiprow{display:grid;grid-template-columns:52px 1fr 1fr;gap:10px;margin-bottom:10px;position:relative}
+.chiprow .chip-n,.chiprow input{height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+.chiprow .chip-n{background:var(--mist1);color:var(--ash);font-size:16px}
+.chiprow input{width:100%;min-width:0;background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
+.chiprow input::placeholder{color:var(--dim);font-weight:500;font-size:14px}
+.chiprow input:focus{outline:none;border-color:var(--ember)}
+.chiprow.filled input{border-color:var(--good)}
+.chiprow.filled .chip-n{background:var(--goodSoft);color:var(--good)}
+.chiprow.unfinished input{border-color:#C98A1A;background:rgba(201,138,26,.1)}
+.chiprow.unfinished .chip-n{background:rgba(201,138,26,.15);color:#C98A1A}
+.chiprow.warm .chip-n{font-size:13px}
+.chiprow.warm input{opacity:.85}
+.chiprow .rmwu{position:absolute;right:-6px;top:-6px;width:22px;height:22px;border-radius:50%;background:var(--mist4);color:var(--ash);font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center}
+.addwu{width:100%;padding:11px;border:1.5px dashed var(--line);border-radius:16px;font-size:12.5px;font-weight:700;color:var(--ash);margin-top:2px}
+.exchips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.exchip{display:flex;align-items:center;gap:7px;padding:10px 14px;border-radius:100px;background:var(--mist1);font-size:13px;font-weight:700;color:var(--ink)}
+.exchip svg{width:15px;height:15px;color:var(--ash)}
+.prflash{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translate(-50%,-20px) scale(.9);z-index:80;padding:13px 20px;border-radius:100px;background:var(--ember);color:#fff;font-size:14px;font-weight:800;letter-spacing:-.01em;box-shadow:0 12px 30px -8px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .3s,transform .4s cubic-bezier(.2,1.4,.4,1);white-space:nowrap}
+.prflash.on{opacity:1;transform:translate(-50%,0) scale(1)}
+.rc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.rc-stat{padding:15px 16px}
+.rc-stat .k{font-size:11.5px;font-weight:600;color:var(--ash)}
+.rc-stat .v{font-size:24px;font-weight:800;letter-spacing:-.015em;margin-top:2px;font-variant-numeric:tabular-nums}
+.rc-stat .v em{font-style:normal;font-size:12px;color:var(--ash);font-weight:600;margin-left:4px}
+.rc-cmp{margin-top:12px;padding:14px 16px;font-size:13px;color:var(--ash);line-height:1.5}
+.rc-cmp b{color:var(--ink)}
+.rc-pr{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);font-size:13px}
+.rc-pr b{color:var(--ember)}
+.ins-row{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid var(--line);font-size:13.5px}
+.ins-row:first-of-type{border-top:none}
+.ins-row .k{color:var(--ash);font-weight:600}
+.ins-row .v{font-weight:700;text-align:right}
 .sessdur{text-align:center;font-size:12px;color:var(--dim);margin-top:-6px;margin-bottom:16px}
 .pr .bump{color:var(--ember);font-weight:700}
 .last{font-size:11.5px;color:#9C9A94;margin-top:4px;display:block}
@@ -195,7 +261,7 @@ input,select{font:inherit}
 .chartcard .cn{font-size:12px;color:var(--ash);margin-bottom:12px;line-height:1.5}
 .legend{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
 .leg{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ash);font-weight:500}
-.leg .sw{width:10px;height:10px;border-radius:3px}
+.leg .lgsw{width:10px;height:10px;border-radius:3px;display:inline-block}
 
 .heat{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:6px}
 .heat .cell{aspect-ratio:1;border-radius:4px;background:var(--mist2)}
@@ -397,6 +463,7 @@ nav button.on svg{transform:scale(1.08)}
     <span class="phasepill" id="t-phase">—</span>
   </div>
   <button class="todaybtn" id="d-today" style="display:none;margin-bottom:14px">Jump to today</button>
+  <div id="t-nudge"></div>
 
   <div class="hero glass" style="padding:18px 18px 16px">
     <h1 class="title" id="t-title">—</h1>
@@ -449,10 +516,10 @@ nav button.on svg{transform:scale(1.08)}
   <div class="chartcard glass">
     <h3>Progress vs. targets</h3>
     <div class="cn">Your logged max-rep tests against each block's checkpoint.</div>
-    <svg id="p-chart" viewBox="0 0 300 130" width="100%" style="display:block"></svg>
+    <div id="p-chart-box"></div>
     <div class="legend">
-      <div class="leg"><span class="sw" style="background:var(--ember)"></span>Your tests</div>
-      <div class="leg"><span class="sw" style="background:var(--dim)"></span>Block target</div>
+      <div class="leg"><span class="lgsw" style="background:var(--ember)"></span>Your tests</div>
+      <div class="leg"><span class="lgsw" style="background:var(--dim)"></span>Block target</div>
     </div>
   </div>
 
@@ -495,22 +562,22 @@ nav button.on svg{transform:scale(1.08)}
     <p class="h">A single number from your working sets that lets you compare progress across sessions with different weights and reps. Pick a lift.</p>
     <div class="row" style="margin-bottom:12px"><select id="m-exsel"></select></div>
     <div class="tog"><button class="on" data-view="1rm">Est. 1RM</button><button data-view="raw">Raw weight</button></div>
-    <svg id="m-chart" viewBox="0 0 300 120" width="100%" style="display:block"></svg>
+    <div id="m-chart-box"></div>
     <p class="snote" id="m-chartnote">No sessions logged for this lift yet.</p>
   </div>
 
   <div class="pnl glass">
     <h3>Bodyweight</h3>
     <p class="h">From the weight field on the Today screen.</p>
-    <div class="chartwrap" id="bw-wrap"><svg id="bw-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg></div>
-    <p class="snote" id="bw-note">Log your weight on Today to start this chart.</p>
+    <div id="bw-box"></div>
+    <button class="quietbtn" id="bw-all">See all entries</button>
   </div>
 
   <div class="pnl glass">
     <h3>Session length</h3>
     <p class="h">Manually timed with the session button on Today.</p>
-    <div class="chartwrap" id="sd-wrap"><svg id="sd-chart" viewBox="0 0 300 110" width="100%" style="display:block"></svg></div>
-    <p class="snote" id="sd-note">Finish a full session to start this chart.</p>
+    <div id="sd-box"></div>
+    <button class="quietbtn" id="sd-all">See all entries</button>
   </div>
 
   <div class="pnl glass">
@@ -549,6 +616,7 @@ nav button.on svg{transform:scale(1.08)}
 
   <div id="j-settings" class="sechead">Settings</div>
   <div class="pnl glass" style="padding-top:6px">
+    <div class="switchrow"><div><div class="lbl">Training phase</div><div class="d">Decides whether a rising bodyweight shows green or red</div></div><div class="tog" style="margin:0;width:150px"><button data-goal="bulk">Bulking</button><button data-goal="cut">Cutting</button></div></div>
     <div class="switchrow"><div><div class="lbl">Dark mode</div><div class="d">Same glass, inverted for low light</div></div><button class="sw" id="set-dark"></button></div>
     <div class="switchrow"><div><div class="lbl">Haptic feedback</div><div class="d">Vibrate on set logged, timer done, new best</div></div><button class="sw" id="set-haptic"></button></div>
     <div class="switchrow"><div><div class="lbl">Sound</div><div class="d">Chime when the rest timer ends</div></div><button class="sw" id="set-sound"></button></div>
@@ -561,8 +629,9 @@ nav button.on svg{transform:scale(1.08)}
   </div>
   <div class="pnl glass">
     <h3>Backup</h3>
-    <p class="h">Data lives in this browser only. Export monthly — clearing browser data wipes everything otherwise.</p>
-    <div class="setctl"><button class="btn ghost wide" id="n-export">Download backup</button><button class="btn ghost wide" id="n-import">Restore</button></div>
+    <p class="h" id="n-lastbackup">Data lives in this browser only. Clearing browser data wipes everything, so keep a copy somewhere else.</p>
+    <div class="setctl"><button class="btn ember wide" id="n-share">Share backup</button><button class="btn ghost wide" id="n-export">Download</button></div>
+    <div class="setctl"><button class="btn ghost wide" id="n-csv">Export CSV</button><button class="btn ghost wide" id="n-import">Restore</button></div>
     <p class="snote" id="n-storenote"></p>
   </div>
 
@@ -583,6 +652,10 @@ nav button.on svg{transform:scale(1.08)}
   <div class="sbody">
     <h2 class="stitle" id="ex-name">—</h2>
     <div class="spr" id="ex-pr">—</div>
+    <div class="exchips">
+      <button class="exchip" id="ex-restchip" title="Tap to start the rest timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span id="ex-restval">1:30</span></button>
+      <button class="exchip" id="ex-insights"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Insights</button>
+    </div>
     <a class="glass" id="ex-vid" href="#" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:12px;padding:12px 14px;margin-top:14px">
       <span class="vidbtn" style="background:var(--emberSoft);color:var(--ember)"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M8 5v14l11-7z"/></svg></span>
       <span style="font-size:13px;font-weight:600">Watch proper form</span>
@@ -590,7 +663,7 @@ nav button.on svg{transform:scale(1.08)}
     <div class="glass slast" id="ex-last"></div>
     <button class="bumpbtn" id="ex-bump" style="display:none">Apply +2.5 kg to today's sets</button>
     <p class="snote" id="ex-note"></p>
-    <div class="sets" id="ex-sets"></div>
+    <div id="ex-sets"></div>
     <div class="setctl">
       <button class="btn ghost wide" id="ex-addset">Add a set</button>
       <button class="btn ghost wide" id="ex-rmset">Remove last</button>
@@ -611,7 +684,7 @@ nav button.on svg{transform:scale(1.08)}
   <div class="sbody">
     <h2 class="stitle" id="sim-name">—</h2>
     <div class="pbest" id="sim-best" style="display:none"></div>
-    <svg id="sim-chart" viewBox="0 0 300 140" width="100%" style="display:block;margin-top:18px"></svg>
+    <div id="sim-chart-box" style="margin-top:18px"></div>
     <div class="entries" id="sim-entries"></div>
   </div>
 </div>
@@ -622,8 +695,31 @@ nav button.on svg{transform:scale(1.08)}
     <h2 class="stitle" id="hi-name">—</h2>
     <div class="pbest" id="hi-best" style="display:none"></div>
     <div class="tog" style="margin-top:18px"><button class="on" data-hview="1rm">Est. 1RM</button><button data-hview="raw">Raw weight</button></div>
-    <svg id="hi-chart" viewBox="0 0 300 130" width="100%" style="display:block"></svg>
+    <div id="hi-chart-box"></div>
     <div class="entries" id="hi-entries"></div>
+  </div>
+</div>
+
+<div class="sheet" id="sh-insights">
+  <div class="shead"><button id="ins-back">Back</button><span></span></div>
+  <div class="sbody">
+    <h2 class="stitle" id="ins-name">—</h2>
+    <div class="pbest" id="ins-next" style="display:none"></div>
+    <div id="ins-rows" style="margin-top:18px"></div>
+    <div class="fieldlbl" style="margin-top:22px">Recent sessions</div>
+    <div class="entries" id="ins-recent"></div>
+  </div>
+</div>
+
+<div class="sheet" id="sh-recap">
+  <div class="shead"><button id="rc-back">Close</button><span></span></div>
+  <div class="sbody">
+    <div class="eyebrow" id="rc-date" style="font-size:12.5px;color:var(--ash);font-weight:600">—</div>
+    <h2 class="stitle" id="rc-title">Session complete</h2>
+    <div class="rc-grid" id="rc-grid"></div>
+    <div class="glass rc-cmp" id="rc-cmp"></div>
+    <div id="rc-prs" style="margin-top:18px"></div>
+    <button class="btn ember wide" id="rc-done" style="margin-top:24px">Done</button>
   </div>
 </div>
 
@@ -681,6 +777,7 @@ nav button.on svg{transform:scale(1.08)}
 </div>
 
 <div class="toast" id="toast">Saved</div>
+<div class="prflash" id="prflash">New PR</div>
 
 <div class="resttimer glassStrong" id="rt">
   <div class="rt-ring"><svg width="44" height="44" viewBox="0 0 44 44">
@@ -797,13 +894,14 @@ let state={
  logs:{}, bw:{}, sauna:{},
  swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],
  plates:[25,20,15,10,7.5,5,2.5],bar:20,
- prefs:{haptic:true,sound:true,dark:false},
+ prefs:{haptic:true,sound:true,dark:false,goal:'bulk'},
  seqIndex:0,
  dayType:{},
  lastSeenDate:null,
  skippedManually:{},
  preSkipType:{},
- sessionStart:{},sessionMinutes:{},sessionActive:{},
+ sessionStart:{},sessionMinutes:{},sessionActive:{},sessionAccum:{},
+ prs:{},recapShown:{},lastBackup:null,backupSnooze:0,
  manualStatus:{},setOverride:{},notes:{},swapLibrary:[],sickDays:{}
 };
 let storeMode='memory';
@@ -813,7 +911,7 @@ async function boot(){
   try{localStorage.setItem('__t','1');localStorage.removeItem('__t');storeMode='browser';}catch(e){}
   let raw=readRaw();
   if(raw==null&&window.storage){ try{const r=await window.storage.get(KEY); if(r&&r.value){raw=r.value;storeMode='app';}}catch(e){} }
-  if(raw){ try{ const parsed=JSON.parse(raw); state=Object.assign(state,parsed); state.prefs=Object.assign({haptic:true,sound:true,dark:false},parsed.prefs||{}); }catch(e){} }
+  if(raw){ try{ const parsed=JSON.parse(raw); state=Object.assign(state,parsed); state.prefs=Object.assign({haptic:true,sound:true,dark:false,goal:'bulk'},parsed.prefs||{}); }catch(e){} }
   applyTheme();
   renderAll();
 }
@@ -970,20 +1068,57 @@ function predictType(dateIso){
 // Manual session timer — same interaction as the sauna toggle: one tap to
 // start when you walk in, one tap to stop when you're done. No more guessing
 // from the first logged set, which is what produced the 26-hour "session".
+// Each Start/End pair is one segment; the day's total is the sum of its
+// segments (time spent away between them is not counted). Pressing Start
+// again after ending RESUMES the day instead of resetting it.
+function sessionTotalMs(dateIso){
+  let ms=state.sessionAccum[dateIso];
+  if(ms==null) ms=(state.sessionMinutes[dateIso]||0)*60000; // sessions saved before segments existed
+  if(state.sessionActive[dateIso]) ms+=Date.now()-state.sessionStart[dateIso];
+  return ms;
+}
 function startSession(dateIso){
   if(state.sessionActive[dateIso]) return;
+  if(state.sessionAccum[dateIso]==null && state.sessionMinutes[dateIso]!=null)
+    state.sessionAccum[dateIso]=state.sessionMinutes[dateIso]*60000; // carry the earlier visit forward
+  if(state.sessionAccum[dateIso]==null) state.sessionAccum[dateIso]=0;
   state.sessionStart[dateIso]=Date.now();
   state.sessionActive[dateIso]=true;
-  delete state.sessionMinutes[dateIso];
   persist(); haptic(20); renderQuick(dateIso);
 }
-function stopSession(dateIso){
+function stopSession(dateIso,overrideSegMinutes){
   if(!state.sessionActive[dateIso]) return;
-  state.sessionMinutes[dateIso]=Math.max(1,Math.round((Date.now()-state.sessionStart[dateIso])/60000));
+  const seg=overrideSegMinutes!=null?overrideSegMinutes*60000:Date.now()-state.sessionStart[dateIso];
+  state.sessionAccum[dateIso]=(state.sessionAccum[dateIso]||0)+Math.max(0,seg);
+  state.sessionMinutes[dateIso]=Math.max(1,Math.round(state.sessionAccum[dateIso]/60000));
   delete state.sessionActive[dateIso];
   persist(); haptic(20); renderQuick(dateIso); renderSessionChart(); renderToday();
 }
 function finalizeSession(dateIso){ if(state.sessionActive[dateIso]) stopSession(dateIso); }
+function editSessionMinutes(dateIso){
+  const cur=state.sessionMinutes[dateIso];
+  const ans=prompt('Session length in minutes',cur!=null?cur:'');
+  if(ans===null) return;
+  const n=parseFloat(ans);
+  if(isNaN(n)||n<=0){ if(ans.trim()===''){ delete state.sessionMinutes[dateIso]; delete state.sessionAccum[dateIso]; persist(); renderQuick(dateIso); renderSessionChart(); } return; }
+  state.sessionMinutes[dateIso]=Math.round(n);
+  state.sessionAccum[dateIso]=Math.round(n)*60000;
+  persist(); renderQuick(dateIso); renderSessionChart(); toast('Saved');
+}
+// A session left running for hours is almost always a forgotten End tap.
+let _forgotAsked={};
+function checkForgottenSession(){
+  Object.keys(state.sessionActive).forEach(k=>{
+    if(!state.sessionActive[k]) return;
+    const hrs=(Date.now()-state.sessionStart[k])/3600000;
+    if(hrs<3 || _forgotAsked[k]) return;
+    _forgotAsked[k]=true;
+    const ans=prompt('Your session on '+niceDate(k)+' has been running for '+Math.floor(hrs)+'h. Forgot to end it?\n\nHow many minutes did this visit actually last? (Cancel keeps it running.)','');
+    if(ans===null) return;
+    const n=parseFloat(ans);
+    if(!isNaN(n)&&n>0) stopSession(k,n);
+  });
+}
 function markTrained(dateIso){
   const t=state.dayType[dateIso];
   if(!t || t==='rest'||t==='rest-sun'||t==='skipped') return;
@@ -1071,6 +1206,7 @@ let openRef=null;
 function fmtRest(sec){ sec=sec||90; return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); }
 function renderToday(){
   ensureAssignedThrough(REAL_TODAY_ISO());
+  renderNudge();
   const key=iso(viewDate), w=weekNum(viewDate), blk=blockFor(w), dl=isDeload(w);
   const now=new Date(); now.setHours(0,0,0,0);
   const isToday=sameDay(viewDate,now);
@@ -1133,10 +1269,12 @@ function renderToday(){
     let lastLine=last?niceDate(last.date)+' — '+setsToText(last.sets):'<span style="color:#C4C1BA">No history yet</span>';
     const partial=lg&&filledSets(lg).length&&!done&&!skipped?filledSets(lg).length+'/'+need+' logged':'';
     const noteIcon=state.notes[manualKey(key,e.ref)]?'<span class="noteicon" title="Has a note">✎</span>':'';
+    const lw=last&&last.sets.length?(Number(last.sets[last.sets.length-1].w)||0):0;
+    const tgtHtml=(last&&lw>0&&(!e.logType||e.logType==='reps'))?'<span class="tgt'+(bump?' bump':'')+'">'+fmt(lw)+(bump?' → '+fmt(lw+2.5):'')+' kg</span>':'';
     const btnHtml='<button class="glass ex'+(done?' done':'')+(skipped?' exskipped':'')+'" data-ref="'+e.ref+'">'
       +'<span class="tick" data-tickref="'+e.ref+'" aria-label="Toggle status"></span><span class="exb">'
       +'<span class="nm">'+(e.key?'<span class="k">'+e.n+'</span>':e.n)+noteIcon+(e.swapped?' <span style="color:var(--dim);font-size:12px;font-weight:500">(swapped)</span>':'')+'</span>'
-      +'<span class="pr"><span>'+prescr(e,w,key)+'</span><span class="restpill">⏱ '+fmtRest(e.rest)+'</span>'+(partial?'<span>· '+partial+'</span>':'')+(bump?'<span class="bump">↑ add weight</span>':'')+'</span>'
+      +'<span class="pr"><span>'+prescr(e,w,key)+'</span><span class="restpill">⏱ '+fmtRest(e.rest)+'</span>'+(partial?'<span>· '+partial+'</span>':'')+tgtHtml+'</span>'
       +'<span class="last">'+lastLine+'</span></span><span class="chev">›</span></button>';
     let sugHtml='';
     if(e.suggestion){
@@ -1169,11 +1307,17 @@ function renderToday(){
   const doneN=items.filter(e=>isExHandled(e,key,w)).length;
   const allDone=doneN===items.length&&items.length;
 
+  const sick=!!state.sickDays[key];
   $('#t-add').innerHTML='<button class="addex" id="t-addbtn">+ Add an exercise to this day</button>'
     +(isToday&&!allDone?'<button class="addex" id="t-skipbtn" style="margin-top:8px">Not training today — skip to next</button>':'')
-    +(!allDone?'<button class="addex" id="t-trainbtn" style="margin-top:8px">'+(isToday?'Mark today as trained':'Mark as trained')+'</button>':'');
+    +(!allDone?'<button class="addex" id="t-trainbtn" style="margin-top:8px">'+(isToday?'Mark today as trained':'Mark as trained')+'</button>':'')
+    +(!allDone?'<button class="quietbtn'+(sick?' on':'')+'" id="t-sickbtn">'+(sick?'Marked sick / injured — tap to undo':'Feeling sick or injured?')+'</button>':'');
   $('#t-addbtn').onclick=()=>openEdit(null,type);
   if(isToday&&!allDone) $('#t-skipbtn').onclick=skipToday;
+  if(!allDone) $('#t-sickbtn').onclick=()=>{
+    if(state.sickDays[key]) delete state.sickDays[key]; else state.sickDays[key]=true;
+    persist(); haptic(20); renderToday(); renderHeat();
+  };
   if(!allDone) $('#t-trainbtn').onclick=()=>{
     const untouchedN=items.filter(e=>{
       const lg=(state.logs[key]||{})[slug(e.n)];
@@ -1188,29 +1332,39 @@ function renderToday(){
   $('#t-fill').style.width=(items.length?Math.round(doneN/items.length*100):0)+'%';
   $('#t-count').textContent=doneN+' of '+items.length+' done';
   $('#t-finis').innerHTML=allDone
-    ?'<div class="finis hit">Session closed.</div>'
+    ?'<div class="finis hit">Session closed.</div><button class="addex recapbtn" id="t-recapbtn">View session recap</button>'
     :'<div class="finis">'+(items.length-doneN)+' left.</div>';
+  if(allDone){ $('#t-recapbtn').onclick=()=>openRecap(key); maybeShowRecap(key,isToday); }
+}
+function sessionLabel(key){
+  const active=!!state.sessionActive[key], mins=state.sessionMinutes[key];
+  if(active){ const m=Math.floor(sessionTotalMs(key)/60000); return 'End session · '+m+' min'; }
+  if(mins!=null) return 'Resume session ('+mins+' min)';
+  return 'Start session';
 }
 function renderQuick(key){
   const bw=state.bw[key]!=null?state.bw[key]:'';
   const sa=!!state.sauna[key];
-  const sick=!!state.sickDays[key];
   const active=!!state.sessionActive[key];
   const mins=state.sessionMinutes[key];
   $('#t-quick').innerHTML=
     '<div class="glass qchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.9 2.9M16.2 16.2l2.9 2.9M2 12h4M18 12h4M4.9 19.1l2.9-2.9M16.2 7.8l2.9-2.9"/><circle cx="12" cy="12" r="3"/></svg>'
     +'Weight<input class="bwinput" id="qk-bw" inputmode="decimal" placeholder="—" value="'+bw+'"><span style="font-size:11.5px;color:var(--ash)">kg</span></div>'
     +'<button class="glass qchip'+(sa?' on':'')+'" id="qk-sauna"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h16M6 14c0-4 2-5 2-8 0 2 1 3 1 3s1-2 1-4c0 3 2 4 2 7M14 14c0-3 1.5-4 1.5-6 0 1.5.75 2.25.75 2.25S17 9 17 7c0 2.5 2 3.5 2 7"/><path d="M5 18h14a2 2 0 000-4H5a2 2 0 000 4z"/></svg>Sauna</button>'
-    +'<button class="glass qchip'+(sick?' on sick':'')+'" id="qk-sick" title="Sick or injured — kept out of your consistency stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg>Sick</button>';
-  $('#t-quick').insertAdjacentHTML('beforeend',
-    '<button class="glass qchip'+(active?' on session-active':'')+'" id="qk-session">'
+    +'<div class="sessrow"><button class="glass qchip'+(active?' on session-active':'')+'" id="qk-session">'
     +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>'
-    +(active?'End session':(mins!=null?mins+' min':'Start session'))+'</button>');
+    +'<span id="qk-sesslbl">'+sessionLabel(key)+'</span></button>'
+    +((!active&&mins!=null)?'<button class="glass qchip pencil" id="qk-sessedit" title="Edit the session length" aria-label="Edit session length">✎</button>':'')+'</div>';
   $('#qk-bw').addEventListener('change',e=>{ const v=parseFloat(e.target.value); if(isNaN(v)) delete state.bw[key]; else state.bw[key]=v; persist(); toast('Saved'); renderBW(); });
   $('#qk-sauna').onclick=()=>{ state.sauna[key]=!state.sauna[key]; if(!state.sauna[key]) delete state.sauna[key]; persist(); haptic(20); renderQuick(key); renderSauna(); renderSaunaHeat(); };
-  $('#qk-sick').onclick=()=>{ state.sickDays[key]=!state.sickDays[key]; if(!state.sickDays[key]) delete state.sickDays[key]; persist(); haptic(20); renderQuick(key); renderHeat(); };
   $('#qk-session').onclick=()=>{ if(state.sessionActive[key]) stopSession(key); else startSession(key); };
+  if($('#qk-sessedit')) $('#qk-sessedit').onclick=()=>editSessionMinutes(key);
 }
+// keep the running minutes ticking on screen without re-rendering everything
+setInterval(()=>{
+  const k=iso(viewDate), el=document.getElementById('qk-sesslbl');
+  if(el && state.sessionActive[k]) el.textContent=sessionLabel(k);
+},20000);
 function shiftDay(n){
   viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth(),viewDate.getDate()+n);
   renderToday();
@@ -1230,6 +1384,9 @@ function openEx(ref){
   openRef=ref;
   const w=weekNum(viewDate), key=iso(viewDate), ek=slug(e.n);
   $('#ex-name').textContent=e.n;
+  $('#ex-restval').textContent=fmtRest(e.rest);
+  $('#ex-restchip').onclick=()=>{ startRestTimer(e); toast('Rest timer started'); };
+  $('#ex-insights').onclick=()=>openInsights(e);
   $('#ex-pr').textContent=prescr(e,w,key)+(isDeload(w)?' · deload':'');
   $('#ex-note').textContent=e.note||'';
   $('#ex-vid').href=yt(e.n);
@@ -1257,71 +1414,22 @@ function openEx(ref){
   openSheet('sh-ex');
 }
 function repsLabel(e){ return e.logType==='time'?'sec':(e.logType==='distance'?'m':'reps'); }
-function drawSets(e,w,key,ek){
-  const need=setCount(e,w,key);
-  state.logs[key]=state.logs[key]||{};
-  let arr=state.logs[key][ek]||[];
-  while(arr.length<need) arr.push({w:'',r:''});
-  state.logs[key][ek]=arr;
-  const bw=(e.pu||/pull-up|dip|ab[ -]wheel|hanging|push[ -]?up|rollout/i.test(e.n));
-  $('#ex-sets').innerHTML=arr.map((st,i)=>{
-    const finished=st.r!=null&&st.r!==''&&Number(st.r)>0;
-    const started=st.w!=null&&st.w!=='';
-    const unfinished=started&&!finished&&!st.wu;
-    return '<div class="setrow'+(finished?' filled':'')+(st.wu?' warmup':'')+(unfinished?' unfinished':'')+'" data-i="'+i+'">'
-    +'<span class="sn">'+(i+1)+'</span>'
-    +'<button class="wubtn'+(st.wu?' on':'')+'" data-wu="'+i+'" title="Mark as warm-up">W</button>'
-    +'<input class="wi" inputmode="decimal" placeholder="'+(bw?'+kg':'kg')+'" value="'+(st.w??'')+'">'
-    +'<span class="xx">×</span>'
-    +'<input class="ri" inputmode="numeric" placeholder="'+repsLabel(e)+'" value="'+(st.r??'')+'"></div>';
-  }).join('');
-  $('#ex-sets').querySelectorAll('.setrow').forEach(row=>{
-    const i=+row.dataset.i, wi=row.querySelector('.wi'), ri=row.querySelector('.ri');
-    const upd=()=>{
-      arr[i].w=wi.value.trim(); arr[i].r=ri.value.trim();
-      const finished=arr[i].r!==''&&Number(arr[i].r)>0, started=arr[i].w!=='';
-      row.classList.toggle('filled',finished);
-      row.classList.toggle('unfinished',started&&!finished&&!arr[i].wu);
-      persist();
-    };
-    wi.addEventListener('input',upd); ri.addEventListener('input',upd);
-    ri.addEventListener('blur',()=>{
-      if(arr[i].r!==''&&Number(arr[i].r)>0){
-        haptic(25);
-        if(!arr[i].wu) startRestTimer(e);
-        toast('Saved'); persist(); renderToday();
-      }
-    });
-    wi.addEventListener('blur',()=>{
-      if(!wi.value.trim()) return;
-      for(let j=i+1;j<arr.length;j++){ if(!arr[j].w) arr[j].w=wi.value.trim(); }
-      persist();
-      $('#ex-sets').querySelectorAll('.setrow').forEach((r2,j)=>{ if(j>i){ const w2=r2.querySelector('.wi'); if(!w2.value) w2.value=arr[j].w||''; } });
-    });
-  });
-  $('#ex-sets').querySelectorAll('[data-wu]').forEach(btn=>{
-    btn.onclick=(ev)=>{
-      ev.stopPropagation();
-      const i=+btn.dataset.wu;
-      arr[i].wu=!arr[i].wu;
-      persist(); refreshSheet(); renderToday();
-    };
-  });
-}
-function refreshSheet(){ const e=findByRef(openRef); if(!e) return; drawSets(e,weekNum(viewDate),iso(viewDate),slug(e.n)); }
-// Adding or removing a set here changes what "done" means for this exercise
-// on THIS day only — its next occurrence reverts to the normal default count.
+
+
+// Adding or removing a WORKING set changes what "done" means for this exercise
+// on THIS day only — its next occurrence goes back to the normal default.
 $('#ex-addset').onclick=()=>{
-  const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n);
-  state.logs[key][ek].push({w:'',r:''});
-  state.setOverride[key+'|'+e.ref]=state.logs[key][ek].length;
+  const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n), arr=state.logs[key][ek];
+  arr.push({w:'',r:''});
+  state.setOverride[key+'|'+e.ref]=arr.filter(s=>!s.wu).length;
   persist(); refreshSheet(); renderToday();
 };
 $('#ex-rmset').onclick=()=>{
-  const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n),arr=state.logs[key][ek];
-  if(arr.length>1){
-    arr.pop();
-    state.setOverride[key+'|'+e.ref]=arr.length;
+  const e=findByRef(openRef); if(!e) return; const key=iso(viewDate),ek=slug(e.n), arr=state.logs[key][ek];
+  const working=arr.map((s,i)=>s.wu?-1:i).filter(i=>i>=0);
+  if(working.length>1){
+    arr.splice(working[working.length-1],1);
+    state.setOverride[key+'|'+e.ref]=working.length-1;
     persist(); refreshSheet(); renderToday();
   }
 };
@@ -1399,7 +1507,7 @@ $('#rt').addEventListener('click',(ev)=>{
 
 let histEx=null, histView='1rm';
 function openHist(e){
-  histEx=e; histView='1rm';
+  histEx=e; histView='1rm'; $('#hi-chart-box')._sc=null;
   document.querySelectorAll('[data-hview]').forEach(b=>b.classList.toggle('on',b.dataset.hview==='1rm'));
   $('#hi-name').textContent=e.n;
   drawHist();
@@ -1411,26 +1519,7 @@ function allSessionsFor(ek){
     return {date:k, sets:arr, oneRM:best1RMForDay(arr), rawTop:Math.max(...arr.map(s=>Number(s.w)||0))};
   }).filter(Boolean);
 }
-function drawHist(){
-  const ek=slug(histEx.n), rows=allSessionsFor(ek);
-  const svg=$('#hi-chart'), best=$('#hi-best');
-  if(rows.length){
-    const bestRow=rows.reduce((a,b)=>b.oneRM>a.oneRM?b:a,rows[0]);
-    best.style.display='block';
-    best.innerHTML='<div class="k">Personal best (est. 1RM)</div><div class="v">'+fmt(bestRow.oneRM)+' kg</div><div class="d">'+niceDate(bestRow.date)+'</div>';
-  } else { best.style.display='none'; }
-  if(rows.length<2){ svg.innerHTML=''; $('#hi-entries').innerHTML=rows.length
-    ?'<div class="entry"><span>'+niceDate(rows[0].date)+'</span><b>'+setsToText(rows[0].sets)+'</b></div>'
-    :'<div class="entry" style="border:none">No sessions logged yet.</div>'; return; }
-  const vals=rows.map(r=>histView==='1rm'?r.oneRM:r.rawTop);
-  const max=Math.max(...vals)*1.1||1, min=Math.min(...vals)*0.9;
-  const pts=rows.map((r,i)=>[ (i/(rows.length-1))*290+5, 118-((vals[i]-min)/(max-min||1))*100 ]);
-  svg.innerHTML='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
-    +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>'
-    +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
-  $('#hi-entries').innerHTML=rows.slice().reverse().slice(0,10).map(r=>
-    '<div class="entry"><span>'+niceDate(r.date)+'</span><b>'+(histView==='1rm'?fmt(r.oneRM)+' kg est.':setsToText(r.sets))+'</b></div>').join('');
-}
+
 document.querySelectorAll('[data-hview]').forEach(b=>{
   b.onclick=()=>{ document.querySelectorAll('[data-hview]').forEach(x=>x.classList.remove('on')); b.classList.add('on'); histView=b.dataset.hview; drawHist(); };
 });
@@ -1598,6 +1687,7 @@ function openSheet(id){
 function closeSheet(){ const id=stack.pop(); if(id) document.getElementById(id).classList.remove('on');
   if(stack.length){ document.getElementById(stack[stack.length-1]).classList.add('on'); } else { document.body.style.overflow=''; }
   updateTimerMini();
+  if(!stack.length) setTimeout(recapCheck,320);
 }
 function dismiss(){ if(sheetHist>0){ try{ history.back(); return; }catch(e){} } closeSheet(); }
 function closeAll(){ const n=sheetHist; sheetHist=0; while(stack.length) closeSheet(); if(n){ try{ history.go(-n); }catch(e){} } }
@@ -1679,26 +1769,12 @@ function renderPullLog(){
     ?t.slice().reverse().map(e=>'<div class="entry"><span>'+e.d+'</span><b>'+e.r+(e.r===1?' rep':' reps')+'</b></div>').join('')
     :'<div class="entry" style="border:none">No tests logged yet. First one around week 4.</div>';
 }
-function drawPullChart(){
-  const svg=$('#p-chart');
-  const totalDays=20*7, W=290, H=100, X0=5, Y0=10;
-  const stops=[[0,0],[BLOCKS[0].to*7,BLOCKS[0].target],[BLOCKS[1].to*7,BLOCKS[1].target],[BLOCKS[2].to*7,BLOCKS[2].target],[BLOCKS[3].to*7,BLOCKS[3].target]];
-  const maxR=Math.max(12,...state.tests.map(t=>t.r),BLOCKS[3].target);
-  const xd=d=>X0+(d/totalDays)*W, yr=r=>Y0+(1-r/maxR)*95;
-  let tPath=''; stops.forEach((p,i)=>{ const cmd=i===0?'M':'L'; tPath+=cmd+xd(p[0]).toFixed(1)+' '+yr(p[1]).toFixed(1)+' '; if(i<stops.length-1){ tPath+='L'+xd(stops[i+1][0]).toFixed(1)+' '+yr(p[1]).toFixed(1)+' '; } });
-  let testPts='';
-  if(state.tests.length){
-    const pts=state.tests.map((t,i)=>{ const d=(i/(Math.max(1,state.tests.length-1)))*totalDays*0.9; return [xd(d),yr(t.r)]; });
-    testPts='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')+'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round"/>'
-      +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
-  }
-  svg.innerHTML='<path d="'+tPath+'" fill="none" stroke="#B4B0A9" stroke-width="1.5" stroke-dasharray="3,3"/>'+testPts;
-}
+
 $('#p-save').onclick=()=>{
   const el=$('#p-in'), v=parseInt(el.value,10);
   if(isNaN(v)||v<0||v>40){ el.focus(); return; }
   const d=new Date();
-  state.tests.push({d:d.getDate()+' '+MON[d.getMonth()].slice(0,3),r:v});
+  state.tests.push({d:d.getDate()+' '+MON[d.getMonth()].slice(0,3),date:iso(d),r:v});
   if(state.tests.length>40) state.tests=state.tests.slice(-40);
   el.value=''; renderPullLog(); drawPullChart(); persist(); haptic(30); toast('Logged');
 };
@@ -1724,82 +1800,15 @@ $('#m-exsel').addEventListener('change',e=>{ curExSel=e.target.value; drawMChart
 document.querySelectorAll('[data-view]').forEach(b=>{
   b.onclick=()=>{ document.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('on')); b.classList.add('on'); mChartView=b.dataset.view; drawMChart(); };
 });
-function drawMChart(){
-  const svg=$('#m-chart'), note=$('#m-chartnote');
-  if(!curExSel){ svg.innerHTML=''; note.textContent='No sessions logged yet.'; note.style.display='block'; return; }
-  const rows=Object.keys(state.logs).sort().map(k=>{ const arr=filledSets(state.logs[k][curExSel]); if(!arr.length) return null;
-    return {date:k, oneRM:best1RMForDay(arr), raw:Math.max(...arr.map(s=>Number(s.w)||0))}; }).filter(Boolean);
-  if(rows.length<2){ svg.innerHTML=''; note.textContent=rows.length?'Only one session logged — need at least two to draw a trend.':'No sessions logged for this lift yet.'; note.style.display='block'; return; }
-  note.style.display='none';
-  const vals=rows.map(r=>mChartView==='1rm'?r.oneRM:r.raw);
-  const max=Math.max(...vals)*1.1||1, min=Math.min(...vals)*0.9;
-  const pts=rows.map((r,i)=>[ (i/(rows.length-1))*290+5, 108-((vals[i]-min)/(max-min||1))*94 ]);
-  svg.innerHTML='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
-    +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
-}
 
-function renderBW(){
-  const svg=$('#bw-chart'), note=$('#bw-note');
-  const rows=Object.keys(state.bw).sort().map(k=>({date:k,v:state.bw[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
-  if(rows.length<2){ svg.innerHTML=''; note.style.display='block'; note.textContent=rows.length?'Only one entry logged — need at least two to draw a trend.':'Log your weight on Today to start this chart.'; return; }
-  note.style.display='none';
-  const vals=rows.map(r=>r.v), max=Math.max(...vals)+0.6, min=Math.min(...vals)-0.6;
-  const pts=rows.map((r,i)=>[ (i/(rows.length-1))*290+5, 98-((r.v-min)/(max-min||1))*84 ]);
-  svg.innerHTML='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
-    +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
-}
-function renderSessionChart(){
-  const svg=$('#sd-chart'), note=$('#sd-note');
-  const rows=Object.keys(state.sessionMinutes).sort().map(k=>({date:k,v:state.sessionMinutes[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
-  if(rows.length<2){ svg.innerHTML=''; note.style.display='block'; note.textContent=rows.length?'Only one session finished — need at least two to draw a trend.':'Finish a full session to start this chart.'; return; }
-  note.style.display='none';
-  const vals=rows.map(r=>r.v), max=Math.max(...vals)*1.15||1, min=Math.max(0,Math.min(...vals)*0.85);
-  const pts=rows.map((r,i)=>[ (i/(rows.length-1))*290+5, 98-((r.v-min)/(max-min||1))*84 ]);
-  svg.innerHTML='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
-    +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
-    +pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.5" fill="#D8452F"/>').join('');
-}
+
+
+
 // Generic tap-to-expand detail view for the simple (single-series) charts —
 // bodyweight and session length. Shows real axis numbers and the full log,
 // not just a bare line.
-function openSimpleDetail(title,rows,unit){
-  $('#sim-name').textContent=title;
-  const svg=$('#sim-chart'), best=$('#sim-best');
-  if(!rows.length){
-    svg.innerHTML=''; best.style.display='none';
-    $('#sim-entries').innerHTML='<div class="entry" style="border:none">No entries yet.</div>';
-    openSheet('sh-simple'); return;
-  }
-  best.style.display='none';
-  const vals=rows.map(r=>r.v), max=Math.max(...vals), min=Math.min(...vals);
-  const pad=(max-min)*0.15||Math.max(1,max*0.1);
-  const top=max+pad, bot=Math.max(0,min-pad);
-  const W=290,X0=5,Y0=14,H=100;
-  const pts=rows.map((r,i)=>[ rows.length>1?(i/(rows.length-1))*W+X0:X0+W/2, Y0+(1-(r.v-bot)/((top-bot)||1))*H ]);
-  let svgHtml='<line x1="'+X0+'" y1="'+Y0+'" x2="'+X0+'" y2="'+(Y0+H)+'" stroke="var(--line)" stroke-width="1"/>'
-    +'<text x="'+X0+'" y="'+(Y0-4)+'" font-size="10" fill="var(--dim)">'+fmt(top)+unit+'</text>'
-    +'<text x="'+X0+'" y="'+(Y0+H+12)+'" font-size="10" fill="var(--dim)">'+fmt(bot)+unit+'</text>';
-  if(rows.length>1){
-    svgHtml+='<path d="'+pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')
-      +'" fill="none" stroke="#D8452F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
-  }
-  svgHtml+=pts.map(p=>'<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#D8452F"/>').join('');
-  svg.innerHTML=svgHtml;
-  $('#sim-entries').innerHTML=rows.slice().reverse().map(r=>
-    '<div class="entry"><span>'+niceDate(r.date)+'</span><b>'+fmt(r.v)+' '+unit+'</b></div>').join('');
-  openSheet('sh-simple');
-}
+
 $('#sim-back').onclick=()=>dismiss();
-$('#bw-wrap').onclick=()=>{
-  const rows=Object.keys(state.bw).sort().map(k=>({date:k,v:state.bw[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
-  openSimpleDetail('Bodyweight',rows,'kg');
-};
-$('#sd-wrap').onclick=()=>{
-  const rows=Object.keys(state.sessionMinutes).sort().map(k=>({date:k,v:state.sessionMinutes[k]})).filter(r=>r.v!=null&&!isNaN(r.v));
-  openSimpleDetail('Session length',rows,'min');
-};
 function renderSaunaHeat(){
   const today=new Date(); today.setHours(0,0,0,0);
   const cells=[];
@@ -1835,6 +1844,11 @@ document.querySelectorAll('[data-fuel]').forEach(b=>{ b.onclick=()=>{ document.q
 
 function applyTheme(){ document.documentElement.setAttribute('data-theme', state.prefs.dark?'dark':'light'); positionPill(); }
 function renderSettings(){
+  document.querySelectorAll('[data-goal]').forEach(b=>b.classList.toggle('on',b.dataset.goal===state.prefs.goal));
+  const lb=$('#n-lastbackup');
+  if(lb) lb.textContent=state.lastBackup
+    ?'Last backup '+(Math.floor((Date.now()-state.lastBackup)/DAY_MS)||'less than a day')+(Math.floor((Date.now()-state.lastBackup)/DAY_MS)?' days ago':' ago')+'. Clearing browser data wipes everything, so keep a copy somewhere else.'
+    :'No backup yet. Clearing browser data wipes everything, so keep a copy somewhere else.';
   $('#set-dark').classList.toggle('on',!!state.prefs.dark);
   $('#set-haptic').classList.toggle('on',!!state.prefs.haptic);
   $('#set-sound').classList.toggle('on',!!state.prefs.sound);
@@ -1852,18 +1866,14 @@ $('#n-plsave').onclick=()=>{
   if(!v.length){ toast('Enter at least one plate'); return; }
   state.plates=v.sort((a,b)=>b-a); persist(); toast('Saved');
 };
-$('#n-export').onclick=()=>{
-  const blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='twentyweeks-backup-'+iso(new Date())+'.json';
-  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500); toast('Backup downloaded');
-};
 $('#n-import').onclick=()=>{
   const inp=document.createElement('input'); inp.type='file'; inp.accept='.json,application/json';
   inp.onchange=()=>{
     const f=inp.files&&inp.files[0]; if(!f) return;
     const r=new FileReader();
     r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d||typeof d!=='object') throw 0;
-      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false},seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{},sessionStart:{},sessionMinutes:{},sessionActive:{},manualStatus:{},setOverride:{},notes:{},swapLibrary:[],sickDays:{}},d);
+      state=Object.assign({logs:{},bw:{},sauna:{},swaps:{},swapSuggest:{},suggestDismissed:{},extra:{},removed:{},tests:[],plates:[25,20,15,10,5,2.5,1.25],bar:20,prefs:{haptic:true,sound:true,dark:false,goal:'bulk'},sessionAccum:{},prs:{},recapShown:{},lastBackup:null,backupSnooze:0,seqIndex:0,dayType:{},lastSeenDate:null,skippedManually:{},preSkipType:{},sessionStart:{},sessionMinutes:{},sessionActive:{},manualStatus:{},setOverride:{},notes:{},swapLibrary:[],sickDays:{}},d);
+      state.prefs=Object.assign({haptic:true,sound:true,dark:false,goal:'bulk'},d.prefs||{});
       persist(); applyTheme(); renderAll(); toast('Restored'); }catch(e){ toast('That file could not be read'); } };
     r.readAsText(f);
   };
@@ -1873,6 +1883,15 @@ document.querySelectorAll('[data-jump]').forEach(b=>{
   b.onclick=()=>{ document.getElementById(b.dataset.jump).scrollIntoView({behavior:'smooth',block:'start'}); };
 });
 
+$('#bw-all').onclick=()=>openSimpleDetail('Bodyweight',bwRows(),'kg',bwDir(),true);
+$('#sd-all').onclick=()=>openSimpleDetail('Session length',sessionRows(),'min','neutral',false);
+$('#n-share').onclick=shareBackup;
+$('#n-export').onclick=downloadBackup;
+$('#n-csv').onclick=exportCSV;
+document.querySelectorAll('[data-goal]').forEach(b=>{
+  b.onclick=()=>{ state.prefs.goal=b.dataset.goal; persist(); renderSettings(); renderBW(); };
+});
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ checkForgottenSession(); renderNudge(); } });
 function positionPill(){
   const btn=document.querySelector('[data-go].on'); if(!btn) return;
   const navin=document.getElementById('navin'), pill=document.getElementById('navpill');
@@ -1903,11 +1922,461 @@ document.querySelectorAll('[data-go]').forEach(b=>{ b.onclick=()=>goTo(b.dataset
 window.addEventListener('resize',positionPill);
 window.addEventListener('load',positionPill);
 
+/* ═══════════ Scrubbable chart (stock-app style) ═══════════
+   Drag a finger along the line and the headline number, date and change
+   follow it. Range pills (1W / 1M / 3M / All) and an optional Daily /
+   Weekly-average switch sit underneath. */
+let _scSeq=0;
+const DAY_MS=86400000;
+function isoMs(s){ const p=s.split('-').map(Number); return new Date(p[0],p[1]-1,p[2]).getTime(); }
+function weekStartIso(s){ const d=new Date(isoMs(s)); d.setDate(d.getDate()-((d.getDay()+6)%7)); return iso(d); }
+function toWeekly(rows){
+  const m={};
+  rows.forEach(r=>{ const k=weekStartIso(r.date); (m[k]=m[k]||[]).push(r.v); });
+  return Object.keys(m).sort().map(k=>({date:k,v:m[k].reduce((a,b)=>a+b,0)/m[k].length}));
+}
+function signedNum(n,dec){
+  const f=Math.pow(10,dec), r=Math.round(Math.abs(n)*f)/f;
+  return (n>0&&r>0?'+':(n<0&&r>0?'−':''))+fmt(r);
+}
+function mountScrubChart(box,cfg){
+  if(!box) return;
+  const st=box._sc||(box._sc={range:'ALL',mode:'daily'});
+  const unit=cfg.unit||'', dir=cfg.dir||'up', uid='sc'+(++_scSeq);
+  const W=300, H=cfg.h||128, PL=8, PR=8, PT=14, PB=14;
+  let rows=[], pts=[];
+
+  function chgCls(d){
+    if(Math.abs(d)<1e-9||dir==='neutral') return 'flat';
+    return ((dir==='up')===(d>0))?'good':'bad';
+  }
+  function buildRows(){
+    rows=(cfg.rows||[]).filter(r=>r&&r.v!=null&&!isNaN(r.v)).slice().sort((a,b)=>a.date<b.date?-1:1);
+    if(cfg.weeklyToggle&&st.mode==='weekly') rows=toWeekly(rows);
+    if(rows.length&&!cfg.noRanges&&st.range!=='ALL'){
+      const days={'1W':7,'1M':30,'3M':91}[st.range];
+      const end=isoMs(rows[rows.length-1].date);
+      rows=rows.filter(r=>isoMs(r.date)>=end-days*DAY_MS);
+    }
+  }
+  function pillsHtml(){
+    if(cfg.noRanges) return '';
+    return '<div class="sc-pills">'+['1W','1M','3M','ALL'].map(r=>'<button data-r="'+r+'" class="'+(st.range===r?'on':'')+'">'+(r==='ALL'?'All':r)+'</button>').join('')+'</div>';
+  }
+  function wire(){
+    box.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{ st.range=b.dataset.r; draw(); });
+    box.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{ st.mode=b.dataset.m; draw(); });
+  }
+  function draw(){
+    buildRows();
+    const modeHtml=cfg.weeklyToggle?'<div class="sc-mode"><button data-m="daily" class="'+(st.mode==='daily'?'on':'')+'">Daily</button><button data-m="weekly" class="'+(st.mode==='weekly'?'on':'')+'">Weekly avg</button></div>':'';
+    const hasOverlay=cfg.overlay&&cfg.overlay.length>1;
+    if(!rows.length&&!hasOverlay){
+      box.innerHTML=modeHtml+'<div class="sc-empty">'+(cfg.empty||'Nothing logged yet.')+'</div>'+pillsHtml();
+      wire(); return;
+    }
+    let t0,t1;
+    if(cfg.domain){ t0=cfg.domain[0]; t1=cfg.domain[1]; }
+    else if(rows.length){ t0=isoMs(rows[0].date); t1=isoMs(rows[rows.length-1].date); if(rows.length===1){ t0-=3*DAY_MS; t1+=3*DAY_MS; } }
+    else { t0=Date.now()-DAY_MS; t1=Date.now(); }
+    if(t1<=t0) t1=t0+DAY_MS;
+    const vals=rows.map(r=>r.v).concat(hasOverlay?cfg.overlay.map(o=>o.v):[]);
+    let min=Math.min.apply(null,vals), max=Math.max.apply(null,vals);
+    let pad=(max-min)*0.2; if(!pad) pad=Math.max(1,Math.abs(max)*0.05);
+    let lo=min-pad, hi=max+pad; if(min>=0&&lo<0) lo=0;
+    const X=t=>PL+(t-t0)/(t1-t0)*(W-PL-PR);
+    const Y=v=>PT+(1-(v-lo)/(hi-lo))*(H-PT-PB);
+    pts=rows.map(r=>({x:X(isoMs(r.date)),y:Y(r.v),r:r}));
+    const overall=rows.length>1?rows[rows.length-1].v-rows[0].v:0;
+    const cls=chgCls(overall);
+    const stroke=dir==='neutral'?'var(--ember)':(cls==='good'?'var(--good)':(cls==='bad'?'var(--ember)':'var(--ash)'));
+    let svg='<svg class="sc-svg" viewBox="0 0 '+W+' '+H+'">';
+    svg+='<defs><linearGradient id="'+uid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:'+stroke+';stop-opacity:.30"/><stop offset="1" style="stop-color:'+stroke+';stop-opacity:0"/></linearGradient></defs>';
+    if(hasOverlay){
+      svg+='<path d="'+cfg.overlay.map((o,i)=>(i?'L':'M')+X(o.t).toFixed(1)+' '+Y(o.v).toFixed(1)).join(' ')+'" fill="none" style="stroke:var(--dim)" stroke-width="1.6" stroke-dasharray="4 4"/>';
+    }
+    if(pts.length>1){
+      svg+='<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+pts[0].y.toFixed(1)+'" y2="'+pts[0].y.toFixed(1)+'" style="stroke:var(--dim)" stroke-width="1" stroke-dasharray="3 4" opacity=".7"/>';
+      const line=pts.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');
+      const base=H-PB;
+      svg+='<path d="'+line+' L'+pts[pts.length-1].x.toFixed(1)+' '+base+' L'+pts[0].x.toFixed(1)+' '+base+' Z" fill="url(#'+uid+')"/>';
+      svg+='<path d="'+line+'" fill="none" style="stroke:'+stroke+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+    if(pts.length&&pts.length<=40) svg+=pts.map(p=>'<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="2.3" style="fill:'+stroke+'"/>').join('');
+    svg+='<line class="sc-x" x1="0" x2="0" y1="'+PT+'" y2="'+(H-PB)+'" style="stroke:var(--ash)" stroke-width="1" opacity="0"/>';
+    svg+='<circle class="sc-dot" r="5" cx="0" cy="0" style="fill:'+stroke+'" stroke="#fff" stroke-width="2" opacity="0"/>';
+    svg+='</svg>';
+    box.innerHTML=modeHtml
+      +'<div class="sc-head"><div class="sc-val"><span class="sc-v">—</span><em>'+unit+'</em></div><div class="sc-sub"><span class="sc-chg"></span><span class="sc-date"></span></div></div>'
+      +svg+pillsHtml();
+    wire();
+
+    const vEl=box.querySelector('.sc-v'), cEl=box.querySelector('.sc-chg'), dEl=box.querySelector('.sc-date');
+    const xl=box.querySelector('.sc-x'), dot=box.querySelector('.sc-dot'), svgEl=box.querySelector('.sc-svg');
+    function readout(i,scrubbing){
+      const p=pts[i], first=rows[0], wk=(cfg.weeklyToggle&&st.mode==='weekly')?'wk of ':'';
+      vEl.textContent=fmt(Math.round(p.r.v*100)/100);
+      if(rows.length<2){ cEl.textContent=''; dEl.textContent=niceDate(p.r.date); }
+      else {
+        const d=p.r.v-first.v, pct=first.v?d/Math.abs(first.v)*100:0;
+        cEl.className='sc-chg '+chgCls(d);
+        cEl.textContent=signedNum(d,2)+' '+unit+' ('+signedNum(pct,1)+'%)';
+        dEl.textContent=scrubbing?wk+niceDate(p.r.date):'since '+wk+niceDate(first.date);
+      }
+      if(scrubbing){
+        xl.setAttribute('x1',p.x); xl.setAttribute('x2',p.x); xl.setAttribute('opacity','.55');
+        dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y); dot.setAttribute('opacity','1');
+      } else { xl.setAttribute('opacity','0'); dot.setAttribute('opacity','0'); }
+    }
+    if(!pts.length){ vEl.textContent='—'; dEl.textContent=cfg.empty||''; return; }
+    readout(pts.length-1,false);
+    let active=false;
+    function scrub(e){
+      const r=svgEl.getBoundingClientRect(); if(!r.width) return;
+      const vx=(e.clientX-r.left)/r.width*W;
+      let best=0,bd=1e9;
+      pts.forEach((p,i)=>{ const dd=Math.abs(p.x-vx); if(dd<bd){bd=dd;best=i;} });
+      readout(best,true);
+    }
+    function end(){ active=false; readout(pts.length-1,false); }
+    svgEl.addEventListener('pointerdown',e=>{ active=true; try{ svgEl.setPointerCapture(e.pointerId); }catch(_){} scrub(e); });
+    svgEl.addEventListener('pointermove',e=>{ if(active||e.pointerType==='mouse') scrub(e); });
+    svgEl.addEventListener('pointerup',end);
+    svgEl.addEventListener('pointercancel',end);
+    svgEl.addEventListener('pointerleave',()=>{ if(!active) end(); });
+  }
+  draw();
+}
+function testIso(t){
+  if(t.date) return t.date;
+  const m=(t.d||'').split(' '), mi=MON.findIndex(x=>x.slice(0,3)===m[1]);
+  if(mi<0) return iso(new Date());
+  return iso(new Date(new Date().getFullYear(),mi,parseInt(m[0],10)));
+}
+function bwDir(){ return state.prefs.goal==='cut'?'down':'up'; }
+function bwRows(){ return Object.keys(state.bw).sort().map(k=>({date:k,v:state.bw[k]})).filter(r=>r.v!=null&&!isNaN(r.v)); }
+function sessionRows(){ return Object.keys(state.sessionMinutes).sort().map(k=>({date:k,v:state.sessionMinutes[k]})).filter(r=>r.v!=null&&!isNaN(r.v)); }
+function renderBW(){
+  mountScrubChart($('#bw-box'),{rows:bwRows(),unit:'kg',dir:bwDir(),weeklyToggle:true,empty:'Log your weight on the Today screen to start this chart.'});
+}
+function renderSessionChart(){
+  mountScrubChart($('#sd-box'),{rows:sessionRows(),unit:'min',dir:'neutral',empty:'Time a session with the button on Today to start this chart.'});
+}
+function openSimpleDetail(title,rows,unit,dir,weekly){
+  $('#sim-name').textContent=title; $('#sim-best').style.display='none';
+  const box=$('#sim-chart-box'); box._sc=null;
+  mountScrubChart(box,{rows:rows,unit:unit,dir:dir,weeklyToggle:!!weekly,empty:'No entries yet.',h:150});
+  $('#sim-entries').innerHTML=rows.length
+    ?rows.slice().reverse().map(r=>'<div class="entry"><span>'+niceDate(r.date)+'</span><b>'+fmt(r.v)+' '+unit+'</b></div>').join('')
+    :'<div class="entry" style="border:none">No entries yet.</div>';
+  openSheet('sh-simple');
+}
+function drawMChart(){
+  const note=$('#m-chartnote'), box=$('#m-chart-box');
+  note.style.display='none';
+  if(!curExSel){ mountScrubChart(box,{rows:[],unit:'kg',empty:'No sessions logged yet.'}); return; }
+  const rows=Object.keys(state.logs).sort().map(k=>{
+    const arr=filledSets(state.logs[k][curExSel]); if(!arr.length) return null;
+    return {date:k,v:mChartView==='1rm'?best1RMForDay(arr):Math.max.apply(null,arr.map(s=>Number(s.w)||0))};
+  }).filter(Boolean);
+  mountScrubChart(box,{rows:rows,unit:'kg',dir:'up',empty:'No sessions logged for this lift yet.'});
+}
+function drawHist(){
+  const ek=slug(histEx.n), rows=allSessionsFor(ek), best=$('#hi-best');
+  if(rows.length){
+    const bestRow=rows.reduce((a,b)=>b.oneRM>a.oneRM?b:a,rows[0]);
+    best.style.display='block';
+    best.innerHTML='<div class="k">Personal best (est. 1RM)</div><div class="v">'+fmt(bestRow.oneRM)+' kg</div><div class="d">'+niceDate(bestRow.date)+'</div>';
+  } else best.style.display='none';
+  mountScrubChart($('#hi-chart-box'),{rows:rows.map(r=>({date:r.date,v:histView==='1rm'?r.oneRM:r.rawTop})),unit:'kg',dir:'up',empty:'No sessions logged yet.',h:150});
+  $('#hi-entries').innerHTML=rows.length
+    ?rows.slice().reverse().slice(0,10).map(r=>'<div class="entry"><span>'+niceDate(r.date)+'</span><b>'+(histView==='1rm'?fmt(r.oneRM)+' kg est.':setsToText(r.sets))+'</b></div>').join('')
+    :'<div class="entry" style="border:none">No sessions logged yet.</div>';
+}
+function drawPullChart(){
+  const t0=START.getTime();
+  const overlay=[{t:t0,v:0}].concat(BLOCKS.map(b=>({t:t0+b.to*7*DAY_MS,v:b.target})));
+  mountScrubChart($('#p-chart-box'),{rows:state.tests.map(t=>({date:testIso(t),v:t.r})),unit:'reps',dir:'up',noRanges:true,domain:[t0,t0+140*DAY_MS],overlay:overlay,h:140,empty:'Log your first max-rep test below. The dashed line is where each block expects you to be.'});
+}
+
+/* ═══════════ Chip-grid set logger ═══════════ */
+let _wuHidden=false;
+function weightColLabel(e){
+  if(e.pu||/pull-up|dip|ab[ -]wheel|hanging|push[ -]?up|rollout/i.test(e.n)) return '+KG';
+  if(/dumbbell|\bdb\b/i.test(e.n)) return 'KG PER DB';
+  return 'KG';
+}
+function drawSets(e,w,key,ek){
+  const need=setCount(e,w,key);
+  state.logs[key]=state.logs[key]||{};
+  let arr=state.logs[key][ek]||[];
+  while(arr.filter(s=>!s.wu).length<need) arr.push({w:'',r:''});
+  state.logs[key][ek]=arr;
+  const wl=weightColLabel(e), rl=repsLabel(e).toUpperCase();
+  const wuIdx=[], wkIdx=[];
+  arr.forEach((s,i)=>{ (s.wu?wuIdx:wkIdx).push(i); });
+  function rowHtml(i,warm){
+    const st=arr[i];
+    const finished=st.r!=null&&st.r!==''&&Number(st.r)>0, started=st.w!=null&&st.w!=='';
+    const unf=started&&!finished&&!st.wu;
+    return '<div class="chiprow'+(finished?' filled':'')+(unf?' unfinished':'')+(warm?' warm':'')+'" data-i="'+i+'">'
+      +'<div class="chip-n">'+(warm?'W':(wkIdx.indexOf(i)+1))+'</div>'
+      +'<input class="ri" inputmode="decimal" placeholder="'+rl.toLowerCase()+'" value="'+(st.r??'')+'" aria-label="'+rl.toLowerCase()+' for set">'
+      +'<input class="wi" inputmode="decimal" placeholder="'+(wl==='+KG'?'+kg':'kg')+'" value="'+(st.w??'')+'" aria-label="weight for set">'
+      +(warm?'<button class="rmwu" data-rmwu="'+i+'" aria-label="Remove warm-up set">×</button>':'')+'</div>';
+  }
+  const head='<div class="sethead"><span>SET</span><span>'+rl+'</span><span>'+wl+'</span></div>';
+  let html='<div class="secthead"><span>Warm-up sets</span>'+(wuIdx.length?'<button id="ex-wutog">'+(_wuHidden?'Show':'Hide')+'</button>':'')+'</div>';
+  if(wuIdx.length&&!_wuHidden) html+=head+wuIdx.map(i=>rowHtml(i,true)).join('');
+  html+='<button class="addwu" id="ex-addwu">+ Add warm-up set</button>';
+  html+='<div class="secthead"><span>Working sets</span></div>'+head+wkIdx.map(i=>rowHtml(i,false)).join('');
+  $('#ex-sets').innerHTML=html;
+
+  $('#ex-sets').querySelectorAll('.chiprow').forEach(row=>{
+    const i=+row.dataset.i, wi=row.querySelector('.wi'), ri=row.querySelector('.ri');
+    const upd=()=>{
+      arr[i].w=wi.value.trim(); arr[i].r=ri.value.trim();
+      const finished=arr[i].r!==''&&Number(arr[i].r)>0, started=arr[i].w!=='';
+      row.classList.toggle('filled',finished);
+      row.classList.toggle('unfinished',started&&!finished&&!arr[i].wu);
+      persist();
+    };
+    wi.addEventListener('input',upd); ri.addEventListener('input',upd);
+    ri.addEventListener('blur',()=>{
+      if(arr[i].r!==''&&Number(arr[i].r)>0){
+        haptic(25);
+        if(!arr[i].wu){ startRestTimer(e); checkPR(e,key,ek,arr,i); }
+        toast('Saved'); persist(); renderToday();
+      }
+    });
+    wi.addEventListener('blur',()=>{
+      if(!wi.value.trim()||arr[i].wu) return;
+      wkIdx.forEach(j=>{
+        if(j>i&&!arr[j].w){
+          arr[j].w=wi.value.trim();
+          const inp=$('#ex-sets').querySelector('.chiprow[data-i="'+j+'"] .wi');
+          if(inp) inp.value=arr[j].w;
+          const rowEl=inp&&inp.closest('.chiprow'); if(rowEl) rowEl.classList.toggle('unfinished',!(arr[j].r!==''&&Number(arr[j].r)>0));
+        }
+      });
+      persist();
+    });
+  });
+  $('#ex-sets').querySelectorAll('[data-rmwu]').forEach(btn=>{
+    btn.onclick=(ev)=>{ ev.stopPropagation(); arr.splice(+btn.dataset.rmwu,1); persist(); refreshSheet(); renderToday(); };
+  });
+  $('#ex-addwu').onclick=()=>{ arr.push({w:'',r:'',wu:true}); _wuHidden=false; persist(); refreshSheet(); };
+  if($('#ex-wutog')) $('#ex-wutog').onclick=()=>{ _wuHidden=!_wuHidden; refreshSheet(); };
+}
+function refreshSheet(){ const e=findByRef(openRef); if(!e) return; drawSets(e,weekNum(viewDate),iso(viewDate),slug(e.n)); }
+
+/* ═══════════ Personal records ═══════════ */
+function setE1RM(s){ const w=Number(s.w)||0, r=Number(s.r)||0; return (w>0&&r>0)?w*(1+r/30):0; }
+function prevBestE1RM(ek,key){
+  let best=0;
+  Object.keys(state.logs).forEach(k=>{
+    if(k>=key) return;
+    const a=state.logs[k][ek]; if(!a) return;
+    a.forEach(s=>{ if(s.wu) return; const v=setE1RM(s); if(v>best) best=v; });
+  });
+  return best;
+}
+function checkPR(e,key,ek,arr,i){
+  if(e.logType&&e.logType!=='reps') return;
+  const v=setE1RM(arr[i]); if(v<=0) return;
+  const prev=prevBestE1RM(ek,key);
+  if(prev<=0) return; // first time logging this lift — nothing to beat yet
+  let earlier=0;
+  for(let j=0;j<i;j++){ if(!arr[j].wu){ const t=setE1RM(arr[j]); if(t>earlier) earlier=t; } }
+  const rec=(state.prs[key]||{})[ek];
+  const bar=Math.max(prev,earlier,rec?rec.v:0);
+  if(v>bar+0.05){
+    state.prs[key]=state.prs[key]||{};
+    state.prs[key][ek]={n:e.n,v:v};
+    flashPR(e.n,v);
+  }
+}
+let _prTimer=null;
+function flashPR(name,v){
+  const el=$('#prflash');
+  el.textContent='★ New PR · '+name+' · '+fmt(Math.round(v*10)/10)+' kg';
+  el.classList.add('on'); haptic([40,50,90]);
+  clearTimeout(_prTimer); _prTimer=setTimeout(()=>el.classList.remove('on'),3000);
+}
+
+/* ═══════════ Session recap ═══════════ */
+function sessionStats(dateIso){
+  const type=state.dayType[dateIso]; if(!type||!SESSIONS_BY_TYPE[type]) return null;
+  const items=listForType(type,dateIso); let vol=0, sets=0, skipped=0;
+  items.forEach(e=>{
+    if(isExSkipped(e,dateIso)){ skipped++; return; }
+    filledSets((state.logs[dateIso]||{})[slug(e.n)]).forEach(s=>{
+      sets++; if(!e.logType||e.logType==='reps') vol+=(Number(s.w)||0)*Number(s.r);
+    });
+  });
+  return {type:type,vol:vol,sets:sets,skipped:skipped,total:items.length};
+}
+function prevSameType(dateIso){
+  const type=state.dayType[dateIso];
+  const ks=Object.keys(state.dayType).filter(k=>k<dateIso&&state.dayType[k]===type).sort().reverse();
+  for(let i=0;i<ks.length;i++){ const st=sessionStats(ks[i]); if(st&&st.sets>0) return {date:ks[i],st:st}; }
+  return null;
+}
+function rcStat(k,v,u){ return '<div class="glass rc-stat"><div class="k">'+k+'</div><div class="v">'+v+(u?'<em>'+u+'</em>':'')+'</div></div>'; }
+function openRecap(key){
+  const st=sessionStats(key); if(!st) return;
+  const s=SESSIONS_BY_TYPE[st.type];
+  const mins=state.sessionMinutes[key];
+  const prs=state.prs[key]?Object.keys(state.prs[key]).map(k=>state.prs[key][k]):[];
+  $('#rc-date').textContent=DAYS[new Date(isoMs(key)).getDay()]+', '+niceDate(key);
+  $('#rc-title').textContent=s.t+' complete';
+  $('#rc-grid').innerHTML=rcStat('Volume',Math.round(st.vol).toLocaleString('en-IN'),'kg')
+    +rcStat('Working sets',st.sets,'')
+    +rcStat('Duration',mins!=null?mins:'—',mins!=null?'min':'')
+    +rcStat('Personal records',prs.length,'');
+  const prev=prevSameType(key); let cmp;
+  if(prev&&prev.st.vol>0&&st.vol>0){
+    const pct=(st.vol-prev.st.vol)/prev.st.vol*100;
+    cmp='<b>'+signedNum(pct,0)+'%</b> volume vs your last '+s.t+' on '+niceDate(prev.date)+'.';
+  } else if(prev){
+    cmp='Last '+s.t+' was '+niceDate(prev.date)+' with '+prev.st.sets+' working sets; today '+st.sets+'.';
+  } else cmp='First '+s.t+' on record — this is your baseline.';
+  if(st.skipped) cmp+=' '+st.skipped+' exercise'+(st.skipped>1?'s':'')+' skipped.';
+  $('#rc-cmp').innerHTML=cmp;
+  $('#rc-prs').innerHTML=prs.length
+    ?'<div class="fieldlbl">Personal records</div>'+prs.map(p=>'<div class="rc-pr"><span>'+p.n+'</span><b>'+fmt(Math.round(p.v*10)/10)+' kg est. 1RM</b></div>').join('')
+    :'';
+  openSheet('sh-recap');
+}
+function maybeShowRecap(key,isToday){
+  if(!isToday||state.recapShown[key]||stack.length) return;
+  const st=sessionStats(key); if(!st||st.sets<1) return;
+  state.recapShown[key]=true; persist();
+  setTimeout(()=>{ if(!stack.length) openRecap(key); },350);
+}
+function recapCheck(){
+  const key=iso(viewDate); if(key!==REAL_TODAY_ISO()) return;
+  const type=state.dayType[key]; if(!type||!SESSIONS_BY_TYPE[type]) return;
+  const items=listForType(type,key), w=weekNum(viewDate);
+  if(items.length&&items.every(e=>isExHandled(e,key,w))) maybeShowRecap(key,true);
+}
+$('#rc-back').onclick=()=>dismiss();
+$('#rc-done').onclick=()=>dismiss();
+
+/* ═══════════ Insights ═══════════ */
+function openInsights(e){
+  const key=iso(viewDate), ek=slug(e.n), w=weekNum(viewDate);
+  const rows=allSessionsFor(ek), last=lastSession(ek,key), reps=!e.logType||e.logType==='reps';
+  $('#ins-name').textContent=e.n;
+  const nb=$('#ins-next');
+  if(last&&reps){
+    const lw=Number(last.sets[last.sets.length-1].w)||0;
+    if(shouldAddWeight(e,last,w)){
+      nb.style.display='block';
+      nb.innerHTML='<div class="k">Your next jump</div><div class="v">'+fmt(lw)+' → '+fmt(lw+2.5)+' kg</div><div class="d">Every set hit '+e.hi+' reps last time.</div>';
+    } else if(e.hi!=null&&lw>0){
+      const below=last.sets.filter(s=>Number(s.r)<e.hi).length;
+      nb.style.display='block';
+      nb.innerHTML='<div class="k">Next target</div><div class="v">'+fmt(lw)+' kg × '+e.hi+' on every set</div><div class="d">'+below+' of '+last.sets.length+' sets fell short of '+e.hi+' last time. Hit it on all of them and the weight goes up.</div>';
+    } else nb.style.display='none';
+  } else if(!last){
+    nb.style.display='block';
+    nb.innerHTML='<div class="k">First time</div><div class="v">Set your baseline</div><div class="d">Log it once and this fills in.</div>';
+  } else nb.style.display='none';
+
+  let html='';
+  if(rows.length&&reps){
+    const bestRow=rows.reduce((a,b)=>b.oneRM>a.oneRM?b:a,rows[0]);
+    html+='<div class="ins-row"><span class="k">Personal best (est. 1RM)</span><span class="v">'+fmt(Math.round(bestRow.oneRM*10)/10)+' kg · '+niceDate(bestRow.date)+'</span></div>';
+    html+='<div class="ins-row"><span class="k">Heaviest weight</span><span class="v">'+fmt(Math.max.apply(null,rows.map(r=>r.rawTop)))+' kg</span></div>';
+    if(rows.length>1){
+      const d=rows[rows.length-1].oneRM-rows[rows.length-2].oneRM;
+      html+='<div class="ins-row"><span class="k">Est. 1RM vs previous</span><span class="v">'+signedNum(d,1)+' kg</span></div>';
+    }
+  }
+  html+='<div class="ins-row"><span class="k">Sessions logged</span><span class="v">'+rows.length+'</span></div>';
+  if(last) html+='<div class="ins-row"><span class="k">Last time · '+niceDate(last.date)+'</span><span class="v">'+setsToText(last.sets)+'</span></div>';
+  $('#ins-rows').innerHTML=html;
+  $('#ins-recent').innerHTML=rows.length
+    ?rows.slice(-5).reverse().map(r=>'<div class="entry"><span>'+niceDate(r.date)+'</span><b>'+setsToText(r.sets)+'</b></div>').join('')
+    :'<div class="entry" style="border:none">Nothing logged yet.</div>';
+  openSheet('sh-insights');
+}
+$('#ins-back').onclick=()=>dismiss();
+
+/* ═══════════ Backups ═══════════ */
+function backupFileName(){ return 'twentyweeks-backup-'+iso(new Date())+'.json'; }
+function markBackedUp(){ state.lastBackup=Date.now(); persist(); renderSettings(); renderNudge(); }
+function downloadBackup(){
+  const blob=new Blob([JSON.stringify(state,null,1)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=backupFileName();
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+  markBackedUp(); toast('Backup downloaded');
+}
+async function shareBackup(){
+  const text=JSON.stringify(state,null,1);
+  try{
+    const types=['application/json','text/plain'];
+    for(let i=0;i<types.length;i++){
+      const file=new File([text],backupFileName(),{type:types[i]});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:'Twenty Weeks backup'});
+        markBackedUp(); toast('Backup shared'); return;
+      }
+    }
+  }catch(err){ if(err&&err.name==='AbortError') return; }
+  downloadBackup(); // this browser can't share files — fall back to a download
+}
+function exerciseNameMap(){
+  const m={};
+  const put=e=>{ m[slug(e.n)]={n:e.n,t:e.logType||'reps'}; };
+  Object.keys(SESSIONS_BY_TYPE).forEach(k=>SESSIONS_BY_TYPE[k].ex.forEach(put));
+  Object.keys(state.swaps).forEach(k=>put(state.swaps[k]));
+  Object.keys(state.extra).forEach(k=>(state.extra[k]||[]).forEach(put));
+  state.swapLibrary.forEach(e=>{ if(!m[slug(e.n)]) put(e); });
+  return m;
+}
+function csvCell(v){ v=(v==null?'':String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function exportCSV(){
+  const names=exerciseNameMap();
+  const lines=[['Date','Day','Exercise','Row','Warm-up','Weight (kg)','Reps / sec / m','Logged as','Est. 1RM (kg)']];
+  Object.keys(state.logs).sort().forEach(k=>{
+    const dt=state.dayType[k];
+    Object.keys(state.logs[k]).forEach(ek=>{
+      const info=names[ek]||{n:ek.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()),t:'reps'};
+      (state.logs[k][ek]||[]).forEach((s,i)=>{
+        if(!(Number(s.r)>0)&&!(Number(s.w)>0)) return;
+        const e1=(info.t==='reps'&&!s.wu)?setE1RM(s):0;
+        lines.push([k,dt?typeLabel(dt):'',info.n,i+1,s.wu?'Yes':'No',s.w||'',s.r||'',info.t,e1?Math.round(e1*10)/10:'']);
+      });
+    });
+  });
+  const csv='\ufeff'+lines.map(r=>r.map(csvCell).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='twentyweeks-sets-'+iso(new Date())+'.csv';
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+  toast('CSV exported');
+}
+function renderNudge(){
+  const box=$('#t-nudge'); if(!box) return;
+  box.innerHTML='';
+  if(Date.now()<(state.backupSnooze||0)) return;
+  const days=Object.keys(state.logs).sort(); if(days.length<3) return;
+  const ref=state.lastBackup||isoMs(days[0]);
+  const age=Math.floor((Date.now()-ref)/DAY_MS);
+  if(age<14) return;
+  box.innerHTML='<div class="glass nudge"><div class="nt"><b>'+(state.lastBackup?'Last backup '+age+' days ago':'No backup yet')+'</b><br>Your logs only live in this browser.</div>'
+    +'<div class="nb"><button id="nu-share">Back up</button><button class="no" id="nu-later">Later</button></div></div>';
+  $('#nu-share').onclick=shareBackup;
+  $('#nu-later').onclick=()=>{ state.backupSnooze=Date.now()+3*DAY_MS; persist(); renderNudge(); };
+}
+
 function renderAll(){
   renderToday(); renderWeek(); renderPull(); fuel('bulk');
   renderProgress(); renderHeat(); renderSauna(); renderSettings();
   renderBW(); renderSaunaHeat(); renderSessionChart();
   positionPill();
+  setTimeout(checkForgottenSession,600);
 }
 boot();
 
